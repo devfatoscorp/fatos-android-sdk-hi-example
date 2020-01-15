@@ -2,7 +2,9 @@ package kr.fatos.tnavi.tnavifragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -45,6 +47,7 @@ import biz.fatossdk.fminterface.FMInterface;
 import biz.fatossdk.newanavi.ANaviApplication;
 import biz.fatossdk.newanavi.manager.AMapLog;
 import biz.fatossdk.newanavi.manager.AMapPositionManager;
+import kr.fatos.tnavi.Activity.TNaviPickerActivity;
 import kr.fatos.tnavi.Code.TNaviActionCode;
 import kr.fatos.tnavi.Interface.FragmentCommunicator;
 import kr.fatos.tnavi.Lib.GoLib;
@@ -361,6 +364,19 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
         switch(v.getId()) {
             case R.id.imageButton_MainMenu :
             case R.id.imageButton_MainMenuOnemap :
+                ActivityManager activityManager = (ActivityManager) m_Context.getSystemService(Context.ACTIVITY_SERVICE);
+                List<ActivityManager.RunningTaskInfo> info = activityManager.getRunningTasks(1);
+
+                ActivityManager.RunningTaskInfo running = info.get(0);
+                ComponentName componentName = running.topActivity;
+
+                if (TNaviPickerActivity.class.getName().equals(componentName.getClassName()))
+                {
+                    Intent intent = new Intent();
+                    intent.setAction("CLOSE_POPUP");
+                    m_Context.sendBroadcast(intent);
+                }
+
                 //DEFAULT일때는 팝업메뉴 안띄움
                 goPopupMenu();
 
@@ -510,120 +526,100 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
     //==============================================================================================
     public void setRemainTime(String i_strRemainTime, boolean bArrTime)
     {
-        String strDay = "";
-        String strTime = "";
-        String strEta = "";
+        if(isAdded()) {
+            String strDay = "";
+            String strTime = "";
+            String strEta = "";
 
-        if(bArrTime)
-        {
-            if (i_strRemainTime.contains(" ")) {
-                strTime = i_strRemainTime.substring(0, i_strRemainTime.indexOf(" "));
+            if (bArrTime) {
+                if (i_strRemainTime.contains(" ")) {
+                    strTime = i_strRemainTime.substring(0, i_strRemainTime.indexOf(" "));
 
-                strEta = i_strRemainTime.substring(i_strRemainTime.length() - 2);
+                    strEta = i_strRemainTime.substring(i_strRemainTime.length() - 2);
 
-                String strTimeEta = strTime + " " +  strEta;
+                    String strTimeEta = strTime + " " + strEta;
 
-                textView_GoalTimeOnemap.setText(strTimeEta);
-            }
-        }
-        else
-        {
-            if(i_strRemainTime.contains(","))
-            {
-                strDay = i_strRemainTime.substring(0, i_strRemainTime.indexOf(","));
-                strTime = i_strRemainTime.substring(i_strRemainTime.indexOf(",") + 1);
-            }
-            else
-            {
-                strTime = i_strRemainTime;
-            }
-
-            String strTimeH = strTime.substring(0, strTime.indexOf(":"));
-            String strTimeM = strTime.substring(strTime.indexOf(":") + 1);
-
-            if(!strDay.equals(""))
-            {
-                textView_DayEtaOnemap.setVisibility(View.VISIBLE);
-                textView_DayOnemap.setVisibility(View.VISIBLE);
-
-                textView_DayEtaOnemap.setText(strDay);
-
-                if(Integer.valueOf(strDay) > 1)
-                {
-                    textView_DayOnemap.setText(getResources().getString(R.string.days_small) + " ");
+                    textView_GoalTimeOnemap.setText(strTimeEta);
                 }
-                else {
-                    textView_DayOnemap.setText(getResources().getString(R.string.day_small) + " ");
+            } else {
+                if (i_strRemainTime.contains(",")) {
+                    strDay = i_strRemainTime.substring(0, i_strRemainTime.indexOf(","));
+                    strTime = i_strRemainTime.substring(i_strRemainTime.indexOf(",") + 1);
+                } else {
+                    strTime = i_strRemainTime;
                 }
 
-                if(strTimeH.equals("00"))
-                {
-                    textView_TimeEtaOnemap.setVisibility(View.GONE);
-                    textView_TimehOnemap.setVisibility(View.GONE);
-                }
-                else
-                {
+                String strTimeH = strTime.substring(0, strTime.indexOf(":"));
+                String strTimeM = strTime.substring(strTime.indexOf(":") + 1);
+
+                if (!strDay.equals("")) {
+                    textView_DayEtaOnemap.setVisibility(View.VISIBLE);
+                    textView_DayOnemap.setVisibility(View.VISIBLE);
+
+                    textView_DayEtaOnemap.setText(strDay);
+
+                    if (Integer.valueOf(strDay) > 1) {
+                        textView_DayOnemap.setText(getResources().getString(R.string.days_small) + " ");
+                    } else {
+                        textView_DayOnemap.setText(getResources().getString(R.string.day_small) + " ");
+                    }
+
+                    if (strTimeH.equals("00")) {
+                        textView_TimeEtaOnemap.setVisibility(View.GONE);
+                        textView_TimehOnemap.setVisibility(View.GONE);
+                    } else {
+                        textView_TimeEtaOnemap.setVisibility(View.VISIBLE);
+                        textView_TimehOnemap.setVisibility(View.VISIBLE);
+
+                        textView_TimeEtaOnemap.setText(strTimeH);
+                        textView_TimehOnemap.setText(" " + getString(R.string.h) + " ");
+                    }
+
+                    if (strTimeM.equals("00")) {
+                        textView_TimeEtaMinOnemap.setVisibility(View.GONE);
+                        textView_EtaOnemap.setVisibility(View.GONE);
+                    } else {
+                        textView_TimeEtaMinOnemap.setVisibility(View.VISIBLE);
+                        textView_EtaOnemap.setVisibility(View.VISIBLE);
+
+                        textView_TimeEtaMinOnemap.setText(strTimeM);
+                        textView_EtaOnemap.setText(" " + getString(R.string.min));
+                    }
+                } else if (!strTimeH.equals("00")) {
+                    textView_DayEtaOnemap.setVisibility(View.GONE);
+                    textView_DayOnemap.setVisibility(View.GONE);
+
                     textView_TimeEtaOnemap.setVisibility(View.VISIBLE);
                     textView_TimehOnemap.setVisibility(View.VISIBLE);
 
                     textView_TimeEtaOnemap.setText(strTimeH);
-                    textView_TimehOnemap.setText(" " +getString(R.string.h) + " ");
-                }
+                    textView_TimehOnemap.setText(" " + getString(R.string.h) + " ");
 
-                if(strTimeM.equals("00"))
-                {
-                    textView_TimeEtaMinOnemap.setVisibility(View.GONE);
-                    textView_EtaOnemap.setVisibility(View.GONE);
-                }
-                else
-                {
+                    if (strTimeM.equals("00")) {
+                        textView_TimeEtaMinOnemap.setVisibility(View.GONE);
+                        textView_EtaOnemap.setVisibility(View.GONE);
+                    } else {
+                        textView_TimeEtaMinOnemap.setVisibility(View.VISIBLE);
+                        textView_EtaOnemap.setVisibility(View.VISIBLE);
+
+                        textView_TimeEtaMinOnemap.setText(strTimeM);
+                        textView_EtaOnemap.setText(" " + getString(R.string.min));
+                    }
+                } else {
+                    textView_DayEtaOnemap.setVisibility(View.GONE);
+                    textView_DayOnemap.setVisibility(View.GONE);
+
+                    textView_TimeEtaOnemap.setVisibility(View.GONE);
+                    textView_TimehOnemap.setVisibility(View.GONE);
+
                     textView_TimeEtaMinOnemap.setVisibility(View.VISIBLE);
                     textView_EtaOnemap.setVisibility(View.VISIBLE);
 
                     textView_TimeEtaMinOnemap.setText(strTimeM);
-                    textView_EtaOnemap.setText(" " + getString(R.string.min));
-                }
-            }
-            else if(!strTimeH.equals("00"))
-            {
-                textView_DayEtaOnemap.setVisibility(View.GONE);
-                textView_DayOnemap.setVisibility(View.GONE);
 
-                textView_TimeEtaOnemap.setVisibility(View.VISIBLE);
-                textView_TimehOnemap.setVisibility(View.VISIBLE);
-
-                textView_TimeEtaOnemap.setText(strTimeH);
-                textView_TimehOnemap.setText(" " +getString(R.string.h) + " ");
-
-                if(strTimeM.equals("00"))
-                {
-                    textView_TimeEtaMinOnemap.setVisibility(View.GONE);
-                    textView_EtaOnemap.setVisibility(View.GONE);
-                }
-                else
-                {
-                    textView_TimeEtaMinOnemap.setVisibility(View.VISIBLE);
-                    textView_EtaOnemap.setVisibility(View.VISIBLE);
-
-                    textView_TimeEtaMinOnemap.setText(strTimeM);
-                    textView_EtaOnemap.setText(" " + getString(R.string.min));
-                }
-            }
-            else
-            {
-                textView_DayEtaOnemap.setVisibility(View.GONE);
-                textView_DayOnemap.setVisibility(View.GONE);
-
-                textView_TimeEtaOnemap.setVisibility(View.GONE);
-                textView_TimehOnemap.setVisibility(View.GONE);
-
-                textView_TimeEtaMinOnemap.setVisibility(View.VISIBLE);
-                textView_EtaOnemap.setVisibility(View.VISIBLE);
-
-                textView_TimeEtaMinOnemap.setText(strTimeM);
-
-                if(isAdded()) {
-                    textView_EtaOnemap.setText(" " + getResources().getString(R.string.min));
+                    if (isAdded()) {
+                        textView_EtaOnemap.setText(" " + getResources().getString(R.string.min));
+                    }
                 }
             }
         }

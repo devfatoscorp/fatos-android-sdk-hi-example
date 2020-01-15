@@ -71,6 +71,7 @@
     <string name="string_weterm_of_use">이용 약관</string>
     <string name="string_weversion_info">버전 정보</string>
     <string name="string_wecopyright">저작권</string>
+    <string name="string_weuuid">UUID</string>
 
     <!-- NaviSetting Menu -->
     <string name="string_hiroutelinecolor">경로 색상</string>
@@ -150,18 +151,21 @@
         <item>English</item>
         <item>中國語</item>
         <item>ไทย</item>
+        <item>한국어</item>
     </string-array>
 
     <string-array name="onemap_country_codes">
         <item>EN</item>
         <item>CN</item>
         <item>TH</item>
+        <item>KO</item>
     </string-array>
 
     <string-array name="onemap_language">
         <item>English</item>
         <item>中國語</item>
         <item>ไทย</item>
+        <item>한국어</item>
     </string-array>
 
     <string name="onemap_route_type1">추천 경로</string>

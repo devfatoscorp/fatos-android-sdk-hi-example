@@ -60,7 +60,7 @@
     <string name="string_weterm_of_use">Term of Use</string>
     <string name="string_weversion_info">Version Info</string>
     <string name="string_wecopyright">Copyright</string>
-
+    <string name="string_weuuid">UUID</string>
 
     <string name="string_welanguage_change">Do you want to change the language setting?\nSome screens may not be displayed\nin the set language</string>
     <string name="string_wecountry_change">Do you want to change the language setting?</string>
@@ -153,18 +153,21 @@
         <item>English</item>
         <item>中國語</item>
         <item>ไทย</item>
+        <item>한국어</item>
     </string-array>
 
     <string-array name="onemap_country_codes">
         <item>EN</item>
         <item>CN</item>
         <item>TH</item>
+        <item>KO</item>
     </string-array>
 
     <string-array name="onemap_language">
         <item>English</item>
         <item>中國語</item>
         <item>ไทย</item>
+        <item>한국어</item>
     </string-array>
 
     <string name="onemap_route_type1">Recommend</string>

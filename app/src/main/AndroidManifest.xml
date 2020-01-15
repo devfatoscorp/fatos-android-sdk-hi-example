@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.REORDER_TASKS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <uses-feature
         android:name="android.software.leanback"
@@ -117,6 +118,10 @@
             android:name=".Activity.RouteOptionPopupActivity"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.weDialog" />
+        <activity
+            android:name=".Activity.HiddenSettingActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="ece031ed142692dd390a3c04088f127a7d88d3cd"

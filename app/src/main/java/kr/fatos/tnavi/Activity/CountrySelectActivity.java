@@ -67,6 +67,7 @@ public class CountrySelectActivity extends FMBaseActivity {
         {
             versionAdapter = new CountryItemListAdapter(m_Context,countryList);
         }
+
         m_languageListView = (ListView)findViewById(R.id.list_languageinfo);
         m_languageListView.setAdapter(versionAdapter);
         m_languageListView.setItemsCanFocus(false);
@@ -77,7 +78,6 @@ public class CountrySelectActivity extends FMBaseActivity {
         m_languageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-
                 if(prefs.getInt(SettingsCode.getKeyIndex(),0) != position)
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(m_Context);
@@ -107,6 +107,7 @@ public class CountrySelectActivity extends FMBaseActivity {
 
                         }
                     });
+
                     builder.setNegativeButton("NO",new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -132,7 +133,6 @@ public class CountrySelectActivity extends FMBaseActivity {
         m_btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent();
                 intent.setAction("RESULT_FINISH"); // Action name
                 sendBroadcast(intent);
@@ -140,8 +140,6 @@ public class CountrySelectActivity extends FMBaseActivity {
                 finish();
             }
         });
-
-
     }
 
     private  boolean bFinish = false;
@@ -214,20 +212,22 @@ public class CountrySelectActivity extends FMBaseActivity {
         {
             index = 5;
         }
-        else
+        else if(index == 2)
         {
             index = 8;
+        }
+        else
+        {
+            index = 0;
         }
 
         m_gApp.getAppSettingInfo().m_nDefaultLanguage = index;
         m_gApp.getRoutePathInfo().m_nDefaultLanguage = index;
         m_gApp.saveSettingInfo(m_Context,m_gApp.getAppSettingInfo());
 
-
         m_gApp.updateLanguage();
 
         updateMenuLanguage();
-
     }
 
     public void updateMenuLanguage() {
@@ -238,8 +238,10 @@ public class CountrySelectActivity extends FMBaseActivity {
         countrynames = getResources().getStringArray(R.array.onemap_country_names);
         countrycodes = getResources().getStringArray(R.array.onemap_country_codes);
 
-        if(countryList.size() > 0)
+        if(countryList.size() > 0) {
             countryList.clear();
+        }
+
         for(int i = 0; i < countrycodes.length; i++){
             countryList.add(new CountryItemList(countrynames[i], countrycodes[i]));
         }

@@ -7,8 +7,12 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,11 +24,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
+import biz.fatossdk.config.FatosBuildConfig;
 import biz.fatossdk.newanavi.ANaviApplication;
+import biz.fatossdk.newanavi.manager.AMapDataTransferCode;
 import kr.fatos.tnavi.Activity.CategoryActivity;
 import kr.fatos.tnavi.Activity.CopyrightActivity;
 import kr.fatos.tnavi.Activity.CountrySelectActivity;
+import kr.fatos.tnavi.Activity.HiddenSettingActivity;
 import kr.fatos.tnavi.Activity.TermOfUseActivity;
 import kr.fatos.tnavi.Activity.VersionInfoActivity;
 import kr.fatos.tnavi.Code.SettingsCode;
@@ -47,6 +55,7 @@ public class NostraSettingFragment  extends Fragment {
     public static final int SETTING_TERMOFUSE = 2;
     public static final int SETTING_VERSIONINFO = 3;
     public static final int SETTING_COPYRIGHT = 4;
+    public static final int SETTING_UUID = 5;
 
     private int default_language = 0;
     private static SharedPreferences prefs;
@@ -61,11 +70,13 @@ public class NostraSettingFragment  extends Fragment {
 //            R.string.string_wedistance_unit, //거리단위 주석
             R.string.string_weterm_of_use,
             R.string.string_weversion_info,
-            R.string.string_wecopyright};
+            R.string.string_wecopyright,
+            R.string.string_weuuid
+    };
 
     static boolean[] SETTING_MENU_NAME_ENABLE = new boolean[]{true, true,
 //            false, false,
-            true, true, true};
+            true, true, true, false};
 
     static int[] SETTING_MENU_NAME_TYPE = new int[]{
             settingItemDetailList.SETTING_TYPE_TEXT,
@@ -74,7 +85,8 @@ public class NostraSettingFragment  extends Fragment {
 //            settingItemDetailList.SETTING_TYPE_NEXTPAGE, //거리단위 주석
             settingItemDetailList.SETTING_TYPE_NEXTPAGE,
             settingItemDetailList.SETTING_TYPE_NEXTPAGE,
-            settingItemDetailList.SETTING_TYPE_NEXTPAGE
+            settingItemDetailList.SETTING_TYPE_NEXTPAGE,
+            settingItemDetailList.SETTING_TYPE_TEXT
     };
 
     static final int[] SETTING_SPEED_UNIT_NAME = new int[]{biz.fatossdk.anavi.R.string.string_speed_km, biz.fatossdk.anavi.R.string.string_speed_mi};
@@ -85,6 +97,10 @@ public class NostraSettingFragment  extends Fragment {
     private Context m_Context = null;
     private ANaviApplication m_gApp;
     private boolean m_bPortrait = false;
+
+    private boolean m_bIsLongPress = false;
+    final Handler someHandler = new Handler();
+    final int duration = 2000;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -154,6 +170,15 @@ public class NostraSettingFragment  extends Fragment {
                     settingList.m_strSettingDataName = " >";
                 }
                 break;
+
+                case SETTING_UUID :
+                {
+                    if(!TextUtils.isEmpty(m_gApp.m_strUUID)) {
+                        settingList.m_strSettingDataName = m_gApp.m_strUUID;
+                    }
+
+                    break;
+                }
             }
 
             arSettingDessert.add(nIndex, settingList);
@@ -204,8 +229,36 @@ public class NostraSettingFragment  extends Fragment {
             }
         });
 
+        m_SettingListView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int eventAction = event.getAction();
+
+                if(eventAction == MotionEvent.ACTION_DOWN){
+                    m_bIsLongPress = true;
+                    someHandler.postDelayed(someCall, duration);
+                }
+                else if (eventAction == MotionEvent.ACTION_UP) {
+                    m_bIsLongPress = false;
+                    someHandler.removeCallbacks(someCall);
+                }
+
+                return false;
+            }
+        });
+
         return v;
     }
+
+    final Runnable someCall = new Runnable() {
+        @Override
+        public void run() {
+            if(m_bIsLongPress) {
+                Intent intentSearchkeyword = new Intent(getActivity(), HiddenSettingActivity.class);
+                startActivity(intentSearchkeyword);
+            }
+        }
+    };
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

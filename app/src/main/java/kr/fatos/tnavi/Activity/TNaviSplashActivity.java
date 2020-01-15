@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
+import java.util.UUID;
 
 import biz.fatossdk.newanavi.ANaviApplication;
 import kr.fatos.tnavi.Code.TNaviActionCode;
@@ -73,6 +76,17 @@ public class TNaviSplashActivity extends Activity {
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE}, 1000);
             }
             else {
+                final TelephonyManager tm = (TelephonyManager) m_Context.getSystemService(Context.TELEPHONY_SERVICE);
+                final String tmDevice, tmSerial, androidId;
+
+                tmDevice = "" + tm.getDeviceId();
+                tmSerial = "" + tm.getSimSerialNumber();
+                androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+                UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
+                String deviceId = deviceUuid.toString();
+
+                m_gApp.m_strUUID = deviceId;
+
                 m_Handler.postDelayed(startMainActivity, 10);
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                         WindowManager.LayoutParams.FLAG_FULLSCREEN);

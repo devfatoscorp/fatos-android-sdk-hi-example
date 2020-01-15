@@ -1,7 +1,9 @@
 package kr.fatos.tnavi;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -187,6 +189,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             if(m_FMInterface.FM_GetDriveInfo().isM_bIsRoute()){
                 routeCancel();
             }
+
             this.RouteFlag = false;
         }
 
@@ -214,6 +217,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         //지도보기 모드
         if(APP_MODE.equals(TNaviActionCode.APP_MODE_SHOW_MAP))
         {
+            setUIMode(TNaviActionCode.UI_SHOW_MAP_MODE);
             setGpsAppMode(TNaviActionCode.GPS_APP_MODE_SHOW_MAP);
         }
 
@@ -235,6 +239,19 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         switch (v.getId()) {
             case R.id.title_text_view :
             case R.id.imageButton_SearchOnemap :
+                ActivityManager activityManager = (ActivityManager) m_Context.getSystemService(Context.ACTIVITY_SERVICE);
+                List<ActivityManager.RunningTaskInfo> info = activityManager.getRunningTasks(1);
+
+                ActivityManager.RunningTaskInfo running = info.get(0);
+                ComponentName componentName = running.topActivity;
+
+                if (TNaviPickerActivity.class.getName().equals(componentName.getClassName()))
+                {
+                    Intent intent = new Intent();
+                    intent.setAction("CLOSE_POPUP");
+                    sendBroadcast(intent);
+                }
+
                 setDriveInfoThreadFlag(false);
 
                 Bundle args = new Bundle();
@@ -243,6 +260,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                 args.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH);
                 GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchFragment.newInstance(),tag_search_fragment, args);
                 setAPP_MODE(TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH);
+
                 break;
 
             case R.id.linearLayout_Time :
@@ -283,9 +301,17 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         {
             m_gApp.getAppSettingInfo().m_nDefaultLanguage = 5;
         }
-        else
+        else if(DefaultCountry.equals(res.getString(R.string.string_welanguage_th)))
         {
             m_gApp.getAppSettingInfo().m_nDefaultLanguage = 8;
+        }
+        else
+        {
+            m_gApp.getAppSettingInfo().m_nDefaultLanguage = 0;
+        }
+
+        if(m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.FATOS_SITE_IS_OceanEnergy){
+            m_gApp.getAppSettingInfo().m_nDefaultLanguage = 0;
         }
 
         m_gApp.saveSettingInfo(m_Context,m_gApp.getAppSettingInfo());
@@ -401,7 +427,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         String strCountry = SettingsCode.getValueCountry();
 
         if(!strCountry.equals(getString(R.string.string_welanguage_english)) && !strCountry.equals(getString(R.string.string_welanguage_zh)) &&
-                !strCountry.equals(getString(R.string.string_welanguage_th)))
+                !strCountry.equals(getString(R.string.string_welanguage_th)) && !strCountry.equals(R.string.string_welanguage_korean))
         {
             SettingsCode.setValueCountry(getString(R.string.string_welanguage_english));
             SettingsCode.setValueIndex(0);
@@ -773,6 +799,9 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                      * wgs84 좌표 기준 행정동명 가져오기
                      * Thread 처리
                      */
+
+                    final FMDriveInfo fmDriveInfo = GetDriveInfo();
+
                     String strAddr;
                     strAddr = m_FMInterface.FM_GetAddressVol2(m_dMapTouchScreenWGS84[0], m_dMapTouchScreenWGS84[1]);
 
@@ -789,7 +818,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                     bundle.putString(TNaviActionCode.APP_MODE, APP_MODE);
                     bundle.putDouble("XCoord", m_dMapTouchScreenWGS84[0]);
                     bundle.putDouble("YCoord", m_dMapTouchScreenWGS84[1]);
-                    bundle.putString("Address", strAddr);
+                    bundle.putString("Address", fmDriveInfo.getM_strCurPosName());
                     intentSearchkeyword.putExtras(bundle);
 
                     if(m_POIItem == null)
@@ -872,7 +901,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         m_gApp.ArriveGoalVol2(m_Context);
 
         m_FMInterface.FM_CancelRoute();
-        m_FMInterface.FM_StartRGService(FMBaseActivity.onFatosMapListener);
+//        m_FMInterface.FM_StartRGService(FMBaseActivity.onFatosMapListener);
         updateCancelRoute();
 
         if(!APP_MODE.equals(TNaviActionCode.APP_MODE_DEFAULT))
@@ -1795,6 +1824,43 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                     {
                         searchMainFragment.setAddrText(dCoords);
                     }
+
+                    if(imageView_marker.getVisibility() == View.VISIBLE)
+                    {
+                        ActivityManager activityManager = (ActivityManager) m_Context.getSystemService(Context.ACTIVITY_SERVICE);
+                        List<ActivityManager.RunningTaskInfo> info = activityManager.getRunningTasks(1);
+
+                        ActivityManager.RunningTaskInfo running = info.get(0);
+                        ComponentName componentName = running.topActivity;
+
+                        if (TNaviPickerActivity.class.getName().equals(componentName.getClassName()))
+                        {
+                            if(m_dMapTouchScreenWGS84 != null)
+                            {
+                                m_dMapTouchScreenWGS84[0] = dCoords[0];
+                                m_dMapTouchScreenWGS84[1] = dCoords[1];
+                            }
+
+                            if(m_POIItem == null)
+                            {
+                                m_POIItem = new NPoiItem();
+                            }
+
+                            m_POIItem.init();
+                            m_POIItem.setLocationPointX(dCoords[0]);
+                            m_POIItem.setLocationPointY(dCoords[1]);
+                            m_POIItem.setEnglishName(strAddr);
+                            m_POIItem.setStrName(strAddr);
+
+                            Intent intent = new Intent();
+                            intent.setAction("SET_TEXT");
+                            intent.putExtra("strX", String.format("%.4f", dCoords[0]));
+                            intent.putExtra("strY", String.format("%.4f", dCoords[1]));
+                            intent.putExtra("strAddress", strAddr);
+                            sendBroadcast(intent);
+                        }
+                    }
+
                     break;
 
                 case TNaviActionCode.HANDLER_MAP_MOVE_SHOW_MAP :
@@ -2068,8 +2134,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                         .setNegativeButton(resources.getString(R.string.string_btn_popup_negative), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                m_gApp.ArriveGoalVol2(m_Context);
                                 bLastRouteFlag = false;
+                                m_gApp.ArriveGoalVol2(m_Context);
                             }
                         })
                         .setOnKeyListener(new DialogInterface.OnKeyListener() {
@@ -2077,8 +2143,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                             public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
                                 if(i == KeyEvent.KEYCODE_BACK)
                                 {
-                                    m_gApp.ArriveGoalVol2(m_Context);
                                     bLastRouteFlag = false;
+                                    m_gApp.ArriveGoalVol2(m_Context);
                                 }
 
                                 return false;

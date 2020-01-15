@@ -42,6 +42,7 @@ public class TNaviActionCode {
     public final static int UI_SUMMARY_MODE = 1;
     public final static int UI_SIMUL_MODE = 2;
     public final static int UI_NORMAL_DRIVE_MODE = 3;
+    public final static int UI_SHOW_MAP_MODE = 4;
 
     //GpsAppMode
     public final static int GPS_APP_MODE_DEFAULT = 0;
