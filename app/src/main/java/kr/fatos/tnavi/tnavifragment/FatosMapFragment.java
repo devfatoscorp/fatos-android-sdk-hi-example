@@ -49,7 +49,8 @@ public class FatosMapFragment extends AMapBaseFragment
 
     @Override
     public void mapMoveDirectCurPos() {
-
+        if(mView != null)
+            mView.mapMoveDirectCurPos();
     }
 
     @Override

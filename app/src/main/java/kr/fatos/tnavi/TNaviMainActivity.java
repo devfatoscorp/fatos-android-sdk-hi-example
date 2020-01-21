@@ -191,6 +191,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             }
 
             this.RouteFlag = false;
+
+            mapMoveDirectCurPos();
         }
 
         //시뮬레이션 모드
@@ -470,11 +472,13 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             {
                 m_strMapViewRouteViaOrGoal = bundle.getString(TNaviActionCode.ROUTE_VIA_OR_GOAL);
             }
+
             if(bundle.getString(TNaviActionCode.APP_MODE) != null)
             {
                 setAPP_MODE(bundle.getString(TNaviActionCode.APP_MODE));
             }
         }
+
         modeProcess(intent);
     }
     //==============================================================================================
@@ -541,10 +545,10 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
     //지도보기에서 좌표이동
     public void MovePoint(double dX, double dY, String i_strAddr)
     {
-        m_FMInterface.FM_SetMapPosition(0, dX, dY, 16.f);
-
         fragmentManager = getSupportFragmentManager();
         searchShowMapFragment = (SearchShowMapFragment)fragmentManager.findFragmentById(R.id.container);
+
+        m_FMInterface.FM_SetMapPosition(0, dX, dY, 16.f);
     }
     //==============================================================================================
     public void onUpdateMapMode(final int nStatus) {
@@ -898,6 +902,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
     //==============================================================================================
     public void routeCancel(){
         bLastRouteFlag = false;
+        showTbtLayout(false);
         m_gApp.ArriveGoalVol2(m_Context);
 
         m_FMInterface.FM_CancelRoute();
@@ -1481,7 +1486,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             }
 
         }
-        else if(result.equals(FMError.FME_MESSAGE_SEARCH_ERROR) || result.equals(ErrorMessage.TIMEOUT_RESULT))
+        else if(result.equals(FMError.FME_MESSAGE_SEARCH_ERROR) || result.equals(ErrorMessage.TIMEOUT_RESULT) || result.equals(ErrorMessage.ERROR_NOSTRA_RESULT))
         {
             String btn_text = getResources().getString(R.string.string_popupTitle_btn_Ok);
             String title = getResources().getString(R.string.string_popupTitle_error);
@@ -1933,7 +1938,13 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                 builder.setPositiveButton(getString(R.string.string_btn_popup_positive), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        routeCancel();
+                        if(m_gApp.m_bNaviCallbackFlag) {
+                            routeCancel();
+                        }
+                        else
+                        {
+                            FatosToast.ShowFatosYellow(getResources().getString(R.string.route_cancel_msg));
+                        }
                     }
                 });
 

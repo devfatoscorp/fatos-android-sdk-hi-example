@@ -756,7 +756,8 @@ public class SearchFragment extends Fragment {
             if(i_strResult == ErrorMessage.SUCCESS_NAVER_RESULT || i_strResult == FMError.FME_SUCCESS_SEARCH_SUCCESS) {
                 setSearchVisible(true);
             }
-            else if(i_strResult == ErrorMessage.ERROR_NAVER_RESULT || i_strResult == FMError.FME_MESSAGE_SEARCH_ERROR || i_strResult == ErrorMessage.TIMEOUT_RESULT)
+            else if(i_strResult == ErrorMessage.ERROR_NAVER_RESULT || i_strResult == FMError.FME_MESSAGE_SEARCH_ERROR ||
+                    i_strResult == ErrorMessage.TIMEOUT_RESULT || i_strResult.equals(ErrorMessage.ERROR_NOSTRA_RESULT))
             {
                 setSearchVisible(false);
             }

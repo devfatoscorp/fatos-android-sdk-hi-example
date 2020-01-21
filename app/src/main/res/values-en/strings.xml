@@ -175,4 +175,6 @@
     <string name="onemap_route_type3">Short</string>
     <string name="onemap_route_type4">Express</string>
     <string name="onemap_route_type5">Free</string>
+
+    <string name="route_cancel_msg">Cant cancel path search while rescanning.</string>
 </resources>
