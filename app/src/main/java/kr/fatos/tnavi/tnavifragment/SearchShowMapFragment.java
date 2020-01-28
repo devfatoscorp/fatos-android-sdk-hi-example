@@ -7,6 +7,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +75,9 @@ public class SearchShowMapFragment extends Fragment implements View.OnClickListe
         items = Parcels.unwrap(getArguments().getParcelable(TNaviActionCode.POI_ITEM));
         mContext = view.getContext();
         mActivity = (TNaviMainActivity)getActivity();
-
+        if(mActivity!=null) {
+            ((TNaviMainActivity) mActivity).showTbtLayout(false);
+        }
         ANaviApplication mApplication = (ANaviApplication)mContext.getApplicationContext();
         currentLocale = mApplication.getFatosLocale();
 
@@ -175,19 +178,28 @@ public class SearchShowMapFragment extends Fragment implements View.OnClickListe
 
                 if(args.equals(TNaviActionCode.CHANGE_VIA_GO_ROUTE))
                 {
+//                    Log.e(TAG,"CHANGE_VIA_GO_ROUTE");
                     ((TNaviMainActivity) getActivity()).set_strAddr(addrText,0);
                     ((TNaviMainActivity) getActivity()).setStartCoord(items.getLocationPointX(), items.getLocationPointY());
                 }
                 else if(args.equals(TNaviActionCode.CHANGE_GOAL_GO_ROUTE))
                 {
+//                    Log.e(TAG,"CHANGE_GOAL_GO_ROUTE");
                     ((TNaviMainActivity)getActivity()).set_strAddr(addrText,1);
                 }
                 else if(args.equals(TNaviActionCode.JUST_GOAL)){
+//                    Log.e(TAG,"JUST_GOAL : " + m_nSearchKind);
+
                     if(m_nSearchKind == 0) {
                         ((TNaviMainActivity) getActivity()).set_strAddr(addrText, 0);
                         ((TNaviMainActivity) getActivity()).setStartCoord(items.getLocationPointX(), items.getLocationPointY());
                     }
                     else {
+
+                        if(((TNaviMainActivity) getActivity()).get_strAddr()[0].equals("")){
+                            ((TNaviMainActivity) getActivity()).set_strAddr(getResources().getString(R.string.string_via_hint),0);
+                        }
+
                         ((TNaviMainActivity) getActivity()).set_strAddr(addrText, 1);
                     }
                 }

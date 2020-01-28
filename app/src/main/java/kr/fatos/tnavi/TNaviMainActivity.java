@@ -19,6 +19,7 @@ import android.os.Message;
 import android.os.Process;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -213,7 +214,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             setUIMode(TNaviActionCode.UI_SUMMARY_MODE);
             changeMapAerialMode(saveSettingInfoList.MAPMODE_AIR_OFF_BUILDING_ON);
 
-            m_gApp.ChangeMapViewMode(1, false);
+            m_gApp.ChangeMapViewMode(1, false); //지도보기, 경로요약 모드일때는 맵모드 고정(2D)
         }
 
         //지도보기 모드
@@ -221,9 +222,11 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         {
             setUIMode(TNaviActionCode.UI_SHOW_MAP_MODE);
             setGpsAppMode(TNaviActionCode.GPS_APP_MODE_SHOW_MAP);
+            m_gApp.ChangeMapViewMode(1, false); //지도보기, 경로요약 모드일때는 맵모드 고정(2D)
         }
 
-        if(!APP_MODE.equals(TNaviActionCode.APP_MODE_SHOWING_SUMMARY))
+        if(!APP_MODE.equals(TNaviActionCode.APP_MODE_SHOWING_SUMMARY) &&
+            !APP_MODE.equals(TNaviActionCode.APP_MODE_SHOW_MAP))            //지도보기, 경로요약 모드일때는 맵모드 고정(2D)
         {
             m_gApp.ChangeMapViewMode(m_gApp.m_nCurMapMode, true);
         }
@@ -239,8 +242,12 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
     @Override
     public void fragmentContactActivity(View v) {
         switch (v.getId()) {
+            //검색 프래그먼트 진입점
             case R.id.title_text_view :
             case R.id.imageButton_SearchOnemap :
+                if(m_gApp.m_bNaviCallbackFlag  && RouteFlag){
+                    routeCancel();
+                }
                 ActivityManager activityManager = (ActivityManager) m_Context.getSystemService(Context.ACTIVITY_SERVICE);
                 List<ActivityManager.RunningTaskInfo> info = activityManager.getRunningTasks(1);
 
@@ -257,6 +264,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                 setDriveInfoThreadFlag(false);
 
                 Bundle args = new Bundle();
+
 
                 args.putString(TNaviActionCode.ROUTE_VIA_OR_GOAL, TNaviActionCode.JUST_GOAL);
                 args.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH);
@@ -507,6 +515,10 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
 
                 if(resultCode == RESULT_OK)
                 {
+                    //터치 초기화(오토스케일링 off)
+                    onUpdateMapMode(0);
+
+
                     if(data.getExtras() != null )
                     {
                         addr = data.getExtras().getString("strAddr");
@@ -520,8 +532,16 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                 }
                 else
                 {
+                    //Log.e(TAG,"RESULT_CANCELED");
+                    if(RouteFlag) { //현재 주행중일 때
+                        showTbtLayout(true);
+                        m_FMInterface.FM_StartRGService(FMBaseActivity.onFatosMapListener);
+                    }
                     m_POIItem = null;
                 }
+
+                mapMoveCurrnetPostion();
+
         }
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -565,6 +585,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         String EnglishName = "";
         String AddrFull = "";
 
+        Log.e(TAG,"modeProcess : " + APP_MODE);
         if (Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_SEARCH_TO_ROUTE)) {
             NPoiItem poiItem = Parcels.unwrap(i_intent.getParcelableExtra(TNaviActionCode.POI_ITEM));
 
@@ -625,6 +646,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
+
         } else if(Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_DEFAULT)) {
             //현재 좌표로 지도 이동
             mapMoveCurrnetPostion();
@@ -633,8 +655,17 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), null);
 
         } else if(Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_SEARCH)) {
+            //터치 초기화(오토스케일링 방지)
+            onUpdateMapMode(0);
+            mapMoveCurrnetPostion();
+
             GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchFragment.newInstance(), tag_search_fragment, null);
         } else if (Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH)) {
+
+            //터치 초기화(오토스케일링 방지)
+            onUpdateMapMode(0);
+            mapMoveCurrnetPostion();
+
             NPoiItem poiItem = Parcels.unwrap(i_intent.getParcelableExtra(TNaviActionCode.POI_ITEM));
 
             if(poiItem.getEnglishName() != null){
@@ -788,6 +819,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
 
             @Override
             public void updateMapLongTouch(float fX, float fY) {
+
                 if(APP_MODE.equals(TNaviActionCode.APP_MODE_SHOWING_SUMMARY)){
                     return;
                 }
@@ -1200,6 +1232,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
     //==============================================================================================
     //목적지로 경로 탐색
     public void routeTovia(double x, double y, String flag, @Nullable NPoiItem i_PoiItem){
+        clearTouchInfo();
         show_ProgressDialog(R.string.string_higetting_search_direction , false);
 
         if(i_PoiItem != null) {
@@ -2194,4 +2227,14 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         m_FMInterface.setAutoReRouteforOnemap(nServerType);
     }
     //==============================================================================================
+
+    //==============================================================================================
+    //오토스케일 방지
+    public void clearTouchInfo()
+    {
+        onUpdateMapMode(0);
+        mapMoveCurrnetPostion();
+    }
+    //==============================================================================================
+
 }
