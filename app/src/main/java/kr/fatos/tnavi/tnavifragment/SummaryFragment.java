@@ -8,6 +8,9 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +26,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +45,7 @@ import biz.fatossdk.navi.RouteParam;
 import biz.fatossdk.navi.rgdata.RouteData;
 import biz.fatossdk.navi.rgdata.SERVICE_LINK;
 import biz.fatossdk.navi.rgdata.SERVICE_LINK_INFO;
+import biz.fatossdk.newanavi.AMapMainActivity;
 import biz.fatossdk.newanavi.ANaviApplication;
 import kr.fatos.tnavi.Adapter.RouteDetailListAdapter;
 import kr.fatos.tnavi.Adapter.RouteListAdapter;
@@ -139,7 +145,7 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
     private FragmentCommunicator fComm;
     private RouteListAdapter routeListAdapter;
     private static ArrayList<RouteCardData> routeList;
-    private static final String TAG = "FATOSMapHI::" + SummaryFragment.class.getSimpleName();
+    private static final String TAG = SummaryFragment.class.getSimpleName();
     private Button.OnClickListener btn_onClickListener;
     private Context mContext ;
     private static int current_item = 1;
@@ -177,14 +183,15 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
     }
     //==============================================================================================
     @Override
-    public void onRouteListItemStartBtnClick(int position, boolean simul_or_go, int nRouteType) {
-        if(simul_or_go){
+    public void onRouteListItemStartBtnClick(int position, boolean bIsGoDrive, int nRouteType) {
+        if(bIsGoDrive){
+
             m_gApp.setM_nSelRouteOption(nRouteType);
 
             ((TNaviMainActivity)getActivity()).m_FMInterface.FM_StartRGService(FMBaseActivity.onFatosMapListener);  //경로 안내 시작
             ((TNaviMainActivity)getActivity()).SaveLastRouteData(); //주행중인 정보 저장
             ((TNaviMainActivity)getActivity()).showTbtLayout(true);
-
+            ((ANaviApplication) m_gApp).setMapSummaryOption(false);
             if(m_gApp.getAppSettingInfo().m_nRPType == 2)
             {
                 ((TNaviMainActivity)getActivity()).setAutoReRouteforOnemap(RouteParam.SS_FATOS_SERVER);
@@ -199,6 +206,7 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
             ((TNaviMainActivity)getActivity()).m_FMInterface.FM_StartSimulation(FMBaseActivity.onFatosMapListener); //모의 주행 시작
             ((TNaviMainActivity)getActivity()).showTbtLayout(true);
+            ((ANaviApplication) m_gApp).setMapSummaryOption(false);
             Bundle bundle = new Bundle();
             bundle.putString(TNaviActionCode.APP_MODE,TNaviActionCode.APP_MODE_SIMULATE);
             GoLib.getInstance().goTNaviMainActivity(this.mContext, bundle);
@@ -221,6 +229,7 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
         if(!((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.SEARCH_MODE) && !((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.APP_MODE_SIMULATE) &&
                 !((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.APP_MODE_ROUTE) && !((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.APP_MODE_SHOWING_SUMMARY)) {
+
             ((TNaviMainActivity) mContext).set_strAddr("", 0);
             ((TNaviMainActivity) mContext).setStartCoord(0, 0);
         }
@@ -241,11 +250,15 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
         super.onCreate(savedInstanceState);
 
         m_MapAnimation = new MapAnimation();
+        m_MapAnimation.Reset();
+        FMBaseActivity.onFatosMapListener.onMapAnimation(m_MapAnimation);
     }
     //==============================================================================================
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+//        Log.e(TAG,"OnCreateView");
+
         scaleScreen[0] = 0.5f;
         scaleScreen[1] = 0.5f;
 
@@ -261,11 +274,13 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
             view = inflater.inflate(R.layout.fragment_summary_land, container, false);
         }
 
-
         mView = view;
         mContext = view.getContext();
 
         m_gApp = (ANaviApplication) mContext.getApplicationContext();
+
+        m_gApp.ChangeMapViewMode(1, false);
+
 
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("openRouteDetail");
@@ -491,10 +506,53 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
         ((TNaviMainActivity)getActivity()).showTbtLayout(false);
 
-        RouteDetailClose();
+//        RouteDetailClose();
 
         return view;
     }
+
+    private final Runnable StartSummaryMapAnimation = new Runnable() {
+        @Override
+        public void run() {
+            float fCenterX = 0, fCenterY = 0;
+            fCenterX = 0.45f;
+            fCenterY = 0.5f;
+
+            float viatmp = 0;
+
+//                    m_MapAnimation.Reset();
+
+            viatmp = m_fLevel[0] * (float) 1.5;
+
+            if (viatmp - m_fLevel[0] > 1) {
+                viatmp = m_fLevel[0] + 1;
+            }
+
+            if (viatmp > FMPMapConst.MAPVIEW_MAX_LEVEL) {
+                viatmp = FMPMapConst.MAPVIEW_MAX_LEVEL;
+            }
+            m_MapAnimation.setTilt(0,MAP_ANI_TYPE_DCCEL);
+            m_MapAnimation.setAngle(0, MAP_ANI_TYPE_DIRECT);
+            m_MapAnimation.setCenter(scaleScreen[0], scaleScreen[1]);
+            m_MapAnimation.setLevel(viatmp, m_fLevel[0] + 0.5f, MAP_ANI_TYPE_DCCEL);
+            m_MapAnimation.setMapWGS84(m_dCenterXY[0], m_dCenterXY[1], MAP_ANI_TYPE_DIRECT);
+
+            ((FMBaseActivity) getActivity()).onMapLevelInOut(m_fLevel[0] + 0.5f);
+            ((FMBaseActivity) getActivity()).onUpdateMapMode(3);
+
+            FMBaseActivity.onFatosMapListener.onMapAnimation(m_MapAnimation);
+        }
+    };
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        new Handler(Looper.getMainLooper()).postDelayed(StartSummaryMapAnimation,10);
+
+    }
+
     //==============================================================================================
     private void select_buttonResource(int index) {
         LinearLayout ll_summary_btn = mView.findViewById(R.id.btn_layout);
@@ -1061,6 +1119,7 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
             mContext.unregisterReceiver(broadcastReceiver);
             broadcastReceiver = null;
         }
+
     }
     //==============================================================================================
     private void RouteDetailOpen()

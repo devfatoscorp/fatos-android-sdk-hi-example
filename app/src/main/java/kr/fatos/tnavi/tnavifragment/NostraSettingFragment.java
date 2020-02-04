@@ -42,7 +42,8 @@ import kr.fatos.tnavi.Unit.settingItemListAdapter;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class NostraSettingFragment  extends Fragment {
+public class NostraSettingFragment extends Fragment
+{
     public static final String TAG = "FATOSMapHI" + NostraSettingFragment.class.getSimpleName();
 
     private PopupWindow m_PopupWindow;
@@ -50,8 +51,8 @@ public class NostraSettingFragment  extends Fragment {
     // 리스트 종류
     public static final int SETTING_COUNTRY = 0;
     public static final int SETTING_CATEGORY = 1;
-//    public static final int SETTING_SPEEDUNIT = 2; //스피드단위 주석
-//    public static final int SETTING_DISTANCEUNIT = 3; //거리단위 주석
+    //    public static final int SETTING_SPEEDUNIT = 2; //스피드단위 주석
+    //    public static final int SETTING_DISTANCEUNIT = 3; //거리단위 주석
     public static final int SETTING_TERMOFUSE = 2;
     public static final int SETTING_VERSIONINFO = 3;
     public static final int SETTING_COPYRIGHT = 4;
@@ -65,32 +66,42 @@ public class NostraSettingFragment  extends Fragment {
 
     static int[] SETTING_MENU_NAME = new int[]{
             R.string.string_nostrasetting_country,
-            R.string.string_nostrasetting_category, //카테고리
-//            R.string.string_wespeed_unit, //스피드단위 주석
-//            R.string.string_wedistance_unit, //거리단위 주석
+            R.string.string_nostrasetting_category,
+            //카테고리
+            //            R.string.string_wespeed_unit, //스피드단위 주석
+            //            R.string.string_wedistance_unit, //거리단위 주석
             R.string.string_weterm_of_use,
             R.string.string_weversion_info,
             R.string.string_wecopyright,
             R.string.string_weuuid
     };
 
-    static boolean[] SETTING_MENU_NAME_ENABLE = new boolean[]{true, true,
-//            false, false,
-            true, true, true, false};
+    static boolean[] SETTING_MENU_NAME_ENABLE = new boolean[]{
+            true, true,
+            //            false, false,
+            true, true, true, false
+    };
 
     static int[] SETTING_MENU_NAME_TYPE = new int[]{
             settingItemDetailList.SETTING_TYPE_TEXT,
-            settingItemDetailList.SETTING_TYPE_TEXT, //카테고리
-//            settingItemDetailList.SETTING_TYPE_TEXT, //스피드단위 주석
-//            settingItemDetailList.SETTING_TYPE_NEXTPAGE, //거리단위 주석
+            settingItemDetailList.SETTING_TYPE_TEXT,
+            //카테고리
+            //            settingItemDetailList.SETTING_TYPE_TEXT, //스피드단위 주석
+            //            settingItemDetailList.SETTING_TYPE_NEXTPAGE, //거리단위 주석
             settingItemDetailList.SETTING_TYPE_NEXTPAGE,
             settingItemDetailList.SETTING_TYPE_NEXTPAGE,
             settingItemDetailList.SETTING_TYPE_NEXTPAGE,
             settingItemDetailList.SETTING_TYPE_TEXT
     };
 
-    static final int[] SETTING_SPEED_UNIT_NAME = new int[]{biz.fatossdk.anavi.R.string.string_speed_km, biz.fatossdk.anavi.R.string.string_speed_mi};
-    static final int[] SETTING_DISTANCE_UNIT_NAME = new int[]{biz.fatossdk.anavi.R.string.string_km, biz.fatossdk.anavi.R.string.string_mi};
+    static final int[] SETTING_SPEED_UNIT_NAME = new int[]{
+            biz.fatossdk.anavi.R.string.string_speed_km,
+            biz.fatossdk.anavi.R.string.string_speed_mi
+    };
+    static final int[] SETTING_DISTANCE_UNIT_NAME = new int[]{
+            biz.fatossdk.anavi.R.string.string_km,
+            biz.fatossdk.anavi.R.string.string_mi
+    };
 
     public String[] countrynames;
 
@@ -103,8 +114,8 @@ public class NostraSettingFragment  extends Fragment {
     final int duration = 2000;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
         View v = inflater.inflate(R.layout.fragment_nostra_setting, container, false);
 
         m_Context = getActivity();
@@ -113,13 +124,14 @@ public class NostraSettingFragment  extends Fragment {
         filter.addAction("RELOAD_ACTIVITY");
         m_Context.registerReceiver(quickMenuFinishReceiver, filter);
 
-        m_gApp = (ANaviApplication) m_Context.getApplicationContext();
+        m_gApp = (ANaviApplication)m_Context.getApplicationContext();
 
         SETTING_MENU_NAME[0] = R.string.string_nostrasetting_language;
         countrynames = getResources().getStringArray(R.array.onemap_country_names);
 
         int ot = getResources().getConfiguration().orientation;
-        switch (ot) {
+        switch(ot)
+        {
             case Configuration.ORIENTATION_LANDSCAPE:
                 m_bPortrait = false;
                 break;
@@ -132,7 +144,8 @@ public class NostraSettingFragment  extends Fragment {
 
         int nIndex = 0;
 
-        for (int i = 0; i < SETTING_MENU_NAME.length; i++) {
+        for(int i = 0; i < SETTING_MENU_NAME.length; i++)
+        {
             if(i == 1)
             {
                 continue;
@@ -143,37 +156,44 @@ public class NostraSettingFragment  extends Fragment {
             settingList.m_bEnable = SETTING_MENU_NAME_ENABLE[i];
             settingList.m_nType = SETTING_MENU_NAME_TYPE[i];
 
-            switch (i) {
-                case SETTING_COUNTRY: {
-                    String country = countrynames[prefs.getInt(SettingsCode.getKeyIndex(),0)];
+            switch(i)
+            {
+                case SETTING_COUNTRY:
+                {
+                    String country = countrynames[SettingsCode.getValueIndex()];
                     settingList.m_strSettingDataName = country + " >";
                 }
                 break;
 
-                case SETTING_CATEGORY: {
+                case SETTING_CATEGORY:
+                {
                     String category = SettingsCode.getValueCategory();
                     settingList.m_strSettingDataName = category;
                 }
                 break;
 
-                case SETTING_TERMOFUSE: {
-                    settingList.m_strSettingDataName = " >";
-                }
-                break;
-
-                case SETTING_VERSIONINFO: {
-                    settingList.m_strSettingDataName = " >";
-                }
-                break;
-
-                case SETTING_COPYRIGHT: {
-                    settingList.m_strSettingDataName = " >";
-                }
-                break;
-
-                case SETTING_UUID :
+                case SETTING_TERMOFUSE:
                 {
-                    if(!TextUtils.isEmpty(m_gApp.m_strUUID)) {
+                    settingList.m_strSettingDataName = " >";
+                }
+                break;
+
+                case SETTING_VERSIONINFO:
+                {
+                    settingList.m_strSettingDataName = " >";
+                }
+                break;
+
+                case SETTING_COPYRIGHT:
+                {
+                    settingList.m_strSettingDataName = " >";
+                }
+                break;
+
+                case SETTING_UUID:
+                {
+                    if(!TextUtils.isEmpty(m_gApp.m_strUUID))
+                    {
                         settingList.m_strSettingDataName = m_gApp.m_strUUID;
                     }
 
@@ -190,16 +210,20 @@ public class NostraSettingFragment  extends Fragment {
         {
             settingAdapter = new settingItemListAdapter(getActivity(), arSettingDessert);
         }
+
         m_SettingListView = v.findViewById(R.id.list_common_setting);
         m_SettingListView.setAdapter(settingAdapter);
         m_SettingListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-        m_SettingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        m_SettingListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 ANaviApplication.MultiClickPreventer.preventMultiClick(view);
 
-                if(!arSettingDessert.get(position).m_bEnable) {
+                if(!arSettingDessert.get(position).m_bEnable)
+                {
                     return;
                 }
 
@@ -207,38 +231,50 @@ public class NostraSettingFragment  extends Fragment {
 
                 bSettingName = arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_nostrasetting_language));
 
-                if (bSettingName) {
+                if(bSettingName)
+                {
                     Intent intent = new Intent(getActivity(), CountrySelectActivity.class);
                     startActivity(intent);
                     settingAdapter.notifyDataSetChanged();
-                } else if (arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_nostrasetting_category))) {
+                }
+                else if(arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_nostrasetting_category)))
+                {
                     Intent intentSearchkeyword = new Intent(getActivity(), CategoryActivity.class);
                     startActivity(intentSearchkeyword);
                     settingAdapter.notifyDataSetChanged();
-
-                } else if (arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_weterm_of_use))) {
+                }
+                else if(arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_weterm_of_use)))
+                {
                     Intent intentSearchkeyword = new Intent(getActivity(), TermOfUseActivity.class);
                     startActivity(intentSearchkeyword);
-                } else if (arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_weversion_info))) {
+                }
+                else if(arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_weversion_info)))
+                {
                     Intent intentSearchkeyword = new Intent(getActivity(), VersionInfoActivity.class);
                     startActivity(intentSearchkeyword);
-                } else if (arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_wecopyright))) {
+                }
+                else if(arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_wecopyright)))
+                {
                     Intent intentSearchkeyword = new Intent(getActivity(), CopyrightActivity.class);
                     startActivity(intentSearchkeyword);
                 }
             }
         });
 
-        m_SettingListView.setOnTouchListener(new View.OnTouchListener() {
+        m_SettingListView.setOnTouchListener(new View.OnTouchListener()
+        {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View v, MotionEvent event)
+            {
                 int eventAction = event.getAction();
 
-                if(eventAction == MotionEvent.ACTION_DOWN){
+                if(eventAction == MotionEvent.ACTION_DOWN)
+                {
                     m_bIsLongPress = true;
                     someHandler.postDelayed(someCall, duration);
                 }
-                else if (eventAction == MotionEvent.ACTION_UP) {
+                else if(eventAction == MotionEvent.ACTION_UP)
+                {
                     m_bIsLongPress = false;
                     someHandler.removeCallbacks(someCall);
                 }
@@ -250,10 +286,13 @@ public class NostraSettingFragment  extends Fragment {
         return v;
     }
 
-    final Runnable someCall = new Runnable() {
+    final Runnable someCall = new Runnable()
+    {
         @Override
-        public void run() {
-            if(m_bIsLongPress) {
+        public void run()
+        {
+            if(m_bIsLongPress)
+            {
                 Intent intentSearchkeyword = new Intent(getActivity(), HiddenSettingActivity.class);
                 startActivity(intentSearchkeyword);
             }
@@ -261,28 +300,33 @@ public class NostraSettingFragment  extends Fragment {
     };
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
 
     }
+
     private Button[] m_btnCarInfo;
     private Button[] m_btnOilInfo;
     private Button m_btnClose;
 
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         //updateViewPage();
         updateMenuLanguage();
     }
 
-    public void updateMenuLanguage() {
+    public void updateMenuLanguage()
+    {
         m_gApp.updateLanguage();
         arSettingDessert.get(SETTING_COUNTRY).m_strSettingDataName = countrynames[SettingsCode.getValueIndex()] + " >";
         settingAdapter.notifyDataSetChanged();
 
-        for (int i = 0; i < arSettingDessert.size(); i++) {
+        for(int i = 0; i < arSettingDessert.size(); i++)
+        {
             settingItemDetailList settingList = arSettingDessert.get(i);
             settingList.m_strSettingName = arSettingDessert.get(i).m_strSettingName;
             settingList.m_bEnable = arSettingDessert.get(i).m_bEnable;
@@ -291,10 +335,12 @@ public class NostraSettingFragment  extends Fragment {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(Configuration newConfig)
+    {
         super.onConfigurationChanged(newConfig);
 
-        switch (newConfig.orientation) {
+        switch(newConfig.orientation)
+        {
             case Configuration.ORIENTATION_PORTRAIT:
                 Log.d(TAG, "세로");
                 m_bPortrait = true;
@@ -311,19 +357,23 @@ public class NostraSettingFragment  extends Fragment {
         updateMenuLanguage();
     }
 
-    private  boolean bFinish = false;
-    BroadcastReceiver quickMenuFinishReceiver = new BroadcastReceiver(){
-        public void onReceive(Context context, Intent intent){
+    private boolean bFinish = false;
+    BroadcastReceiver quickMenuFinishReceiver = new BroadcastReceiver()
+    {
+        public void onReceive(Context context, Intent intent)
+        {
             String action = intent.getAction();
 
-            if (action.equals("RELOAD_ACTIVITY")) {
+            if(action.equals("RELOAD_ACTIVITY"))
+            {
                 reloadActivity();
             }
         }
     };
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
         m_Context.unregisterReceiver(quickMenuFinishReceiver);
     }

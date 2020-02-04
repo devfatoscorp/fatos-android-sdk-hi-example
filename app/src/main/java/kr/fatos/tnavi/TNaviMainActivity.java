@@ -101,6 +101,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
 
     private FragmentManager fragmentManager;
 
+    private final String TAG = TNaviMainActivity.class.getSimpleName();
+
     private final static String tag_summary_fragment = "tag_summary_fragment";
     private final static String tag_search_fragment = "tag_search_fragment";
     private final static String tag_showmap_fragment = "tag_showmap_fragment";
@@ -175,6 +177,10 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
     }
     //==============================================================================================
     public void setAPP_MODE(String APP_MODE){
+
+        Log.e(TAG,"setApp_Mode : " + APP_MODE);
+//        clearTouchInfo();
+
         if(APP_MODE != null && !APP_MODE.equals("")) {
             this.APP_MODE = APP_MODE;
             changeMapAerialMode(m_gApp.getAppSettingInfo().m_nAirLocalBuild);
@@ -193,7 +199,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
 
             this.RouteFlag = false;
 
-            mapMoveDirectCurPos();
+//            mapMoveDirectCurPos();
         }
 
         //시뮬레이션 모드
@@ -213,8 +219,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         if(APP_MODE.equals(TNaviActionCode.APP_MODE_SHOWING_SUMMARY)){
             setUIMode(TNaviActionCode.UI_SUMMARY_MODE);
             changeMapAerialMode(saveSettingInfoList.MAPMODE_AIR_OFF_BUILDING_ON);
-
-            m_gApp.ChangeMapViewMode(1, false); //지도보기, 경로요약 모드일때는 맵모드 고정(2D)
+//            m_gApp.ChangeMapViewMode(1, false); //지도보기, 경로요약 모드일때는 맵모드 고정(2D)
         }
 
         //지도보기 모드
@@ -222,14 +227,22 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         {
             setUIMode(TNaviActionCode.UI_SHOW_MAP_MODE);
             setGpsAppMode(TNaviActionCode.GPS_APP_MODE_SHOW_MAP);
-            m_gApp.ChangeMapViewMode(1, false); //지도보기, 경로요약 모드일때는 맵모드 고정(2D)
+//            m_gApp.ChangeMapViewMode(1, false); //지도보기, 경로요약 모드일때는 맵모드 고정(2D)
         }
 
-        if(!APP_MODE.equals(TNaviActionCode.APP_MODE_SHOWING_SUMMARY) &&
-            !APP_MODE.equals(TNaviActionCode.APP_MODE_SHOW_MAP))            //지도보기, 경로요약 모드일때는 맵모드 고정(2D)
-        {
+        if(APP_MODE.equals(TNaviActionCode.APP_MODE_DEFAULT) ||
+                APP_MODE.equals(TNaviActionCode.APP_MODE_ROUTE) ||
+                APP_MODE.equals(TNaviActionCode.APP_MODE_SIMULATE) ||
+                APP_MODE.equals(TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH)
+            )
+        {               //메인지도 보여질떄는 기존모드 적용되도록
             m_gApp.ChangeMapViewMode(m_gApp.m_nCurMapMode, true);
+//            mapMoveDirectCurPos();
+
+        }else{          //그 외 모드일때는 맵모드 2D로 고정
+            m_gApp.ChangeMapViewMode(1, false);
         }
+
     }
     //==============================================================================================
     @Override
@@ -437,7 +450,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         String strCountry = SettingsCode.getValueCountry();
 
         if(!strCountry.equals(getString(R.string.string_welanguage_english)) && !strCountry.equals(getString(R.string.string_welanguage_zh)) &&
-                !strCountry.equals(getString(R.string.string_welanguage_th)) && !strCountry.equals(R.string.string_welanguage_korean))
+                !strCountry.equals(getString(R.string.string_welanguage_th)) && !strCountry.equals(getString(R.string.string_welanguage_korean)))
         {
             SettingsCode.setValueCountry(getString(R.string.string_welanguage_english));
             SettingsCode.setValueIndex(0);
@@ -516,7 +529,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                 if(resultCode == RESULT_OK)
                 {
                     //터치 초기화(오토스케일링 off)
-                    onUpdateMapMode(0);
+                    onUpdateMapMode(3);
 
 
                     if(data.getExtras() != null )
@@ -585,7 +598,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         String EnglishName = "";
         String AddrFull = "";
 
-        Log.e(TAG,"modeProcess : " + APP_MODE);
+//        Log.e(TAG,"modeProcess : " + APP_MODE);
         if (Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_SEARCH_TO_ROUTE)) {
             NPoiItem poiItem = Parcels.unwrap(i_intent.getParcelableExtra(TNaviActionCode.POI_ITEM));
 
@@ -656,14 +669,14 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
 
         } else if(Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_SEARCH)) {
             //터치 초기화(오토스케일링 방지)
-            onUpdateMapMode(0);
+            onUpdateMapMode(3);
             mapMoveCurrnetPostion();
 
             GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchFragment.newInstance(), tag_search_fragment, null);
         } else if (Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH)) {
 
             //터치 초기화(오토스케일링 방지)
-            onUpdateMapMode(0);
+            onUpdateMapMode(3);
             mapMoveCurrnetPostion();
 
             NPoiItem poiItem = Parcels.unwrap(i_intent.getParcelableExtra(TNaviActionCode.POI_ITEM));
@@ -986,8 +999,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
     //==============================================================================================
     public void simulCancel(){
         if(saved_summaryCardData!=null) {
-            m_FMInterface.FM_StopSimulation(); //모의 주행 중지
 
+            m_FMInterface.FM_StopSimulation(); //모의 주행 중지
             fragmentManager = getSupportFragmentManager();
 
             Bundle args = new Bundle();
@@ -996,7 +1009,6 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             SummaryFragment summaryFragment = new SummaryFragment();
             summaryFragment.setArguments(args);
             m_FMInterface.FM_RE_RouteSummary(FMBaseActivity.onFatosMapListener);
-
             //모의주행 종료시에는 요약화면으로 가야 함.
             setAPP_MODE(TNaviActionCode.APP_MODE_SHOWING_SUMMARY);
             GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, summaryFragment, tag_summary_fragment, args);
@@ -1043,11 +1055,13 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             }
             else
             {
+
                 setDriveInfoThreadFlag(true);
 
                 setSearchWord("");
                 GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), null);
                 setAPP_MODE(TNaviActionCode.APP_MODE_DEFAULT);
+                mapMoveDirectCurPos();
             }
         }
         else if(fragmentManager.findFragmentByTag(tag_showmap_fragment) != null)
@@ -1232,6 +1246,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
     //==============================================================================================
     //목적지로 경로 탐색
     public void routeTovia(double x, double y, String flag, @Nullable NPoiItem i_PoiItem){
+//        Log.e(TAG,"routeToVia!");
         clearTouchInfo();
         show_ProgressDialog(R.string.string_higetting_search_direction , false);
 
@@ -1537,7 +1552,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         }
         else if(result.equals(FMError.FME_SUCCESS_ROUTE_SUCCESS))
         {
-            mapMoveCurrnetPostion();
+//            mapMoveCurrnetPostion();
             mapMoveAniReset();
 
             hide_ProgressDialog();
@@ -2232,7 +2247,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
     //오토스케일 방지
     public void clearTouchInfo()
     {
-        onUpdateMapMode(0);
+        onUpdateMapMode(3);
         mapMoveCurrnetPostion();
     }
     //==============================================================================================
