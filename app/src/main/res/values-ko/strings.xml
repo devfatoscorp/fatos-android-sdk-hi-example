@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">FATOS map Hi</string>
-    <!-- SharedPrefrences -->
     <string name="app_registerId">kr.fatos.fatosmapHi</string>
-    <!-- SharedPrefrences END -->
 
     <string name="string_wesearch">검색어를 입력해주세요</string>
     <string name="string_weroutegoal">검색어를 입력해주세요</string>
@@ -34,7 +32,6 @@
     <string name="km">km</string>
     <string name="m">m</string>
 
-    <!-- Summary bottom text -->
     <string name="string_summary_recomm">추천</string>
     <string name="string_summary_exp">고속도로</string>
     <string name="string_summary_short">최단거리</string>
@@ -44,18 +41,22 @@
     <string name="string_summary_simul">모의주행</string>
     <string name="string_summary_go">안내시작</string>
 
-    <!-- PopupDialog -->
     <string name="string_popupTitle_error">오류</string>
     <string name="string_popupTitle_btn_Ok">확인</string>
     <string name="string_higetting_search_direction">경로 탐색중...</string>
 
-    <!-- NostaSetting Menu -->
     <string name="string_nostrasetting_country">언어 설정</string>
     <string name="string_nostrasetting_language">언어</string>
     <string name="string_nostrasetting_category">카테고리</string>
     <string name="string_wegeneral">일반</string>
     <string name="string_wesettings">환경설정</string>
     <string name="string_wenavigation">내비게이션</string>
+    <string name="string_wespeed_unit">속도 단위</string>
+    <string name="string_wedistance_unit">거리 단위</string>
+    <string name="string_weterm_of_use">이용 약관</string>
+    <string name="string_weversion_info">버전 정보</string>
+    <string name="string_wecopyright">저작권</string>
+    <string name="string_weuuid">UUID</string>
 
     <string name="string_welanguage_change">언어를 변경하시겠습니까?\n일부화면은 선택된 언어로\n표시되지 않을 수 있습니다.</string>
     <string name="string_wecountry_change">언어를 변경하시겠습니까?</string>
@@ -65,15 +66,6 @@
     <string name="string_welanguage_th">ไทย</string>
     <string name="string_welanguage_zh">中國語</string>
 
-
-    <string name="string_wespeed_unit">속도 단위</string>
-    <string name="string_wedistance_unit">거리 단위</string>
-    <string name="string_weterm_of_use">이용 약관</string>
-    <string name="string_weversion_info">버전 정보</string>
-    <string name="string_wecopyright">저작권</string>
-    <string name="string_weuuid">UUID</string>
-
-    <!-- NaviSetting Menu -->
     <string name="string_hiroutelinecolor">경로 색상</string>
     <string name="string_hirouteoptions">경로탐색 옵션</string>
     <string name="string_hinightmode">야간 모드</string>
@@ -82,8 +74,7 @@
     <string name="string_rpserver">RP 서버</string>
     <string name="string_hihighwaymode">고속도로 주행모드</string>
     <string name="string_himapdownload">지도 다운로드</string>
-    <string name="string_korea">Republic of Korea</string>
-
+    <string name="string_hioption_optimal">Optimal</string>
 
     <string name="string_route_option">기본 경로탐색 옵션</string>
     <string name="string_route_option_recomm">추천</string>
@@ -97,6 +88,8 @@
     <string name="warning_opt_route_least">최소 %1$d개 이상의 경로가 제공됩니다.</string>
     <string name="warning_opt_route_upto">최대 %1$d개의 경로가 제공됩니다.</string>
 
+    <string name="string_korea">Republic of Korea</string>
+
     <string name="string_hi_close">FATOS map Hi를 정말 종료 하시겠습니까?</string>
 
     <string name="string_hi_routerecovery">FATOS map Hi 경로 이어보기</string>
@@ -109,12 +102,12 @@
 
     <string name="string_network_error">네트워크 연결이 끊어졌습니다.\n휴대폰 네트워크 상태를 확인해주세요.</string>
 
+    <string name="string_setting_mapupdate_non_info">버전 정보 없음</string>
     <string name="histring_buildnumber">빌드 넘버</string>
     <string name="histring_basemapdb">배경 데이터</string>
     <string name="histring_searchdb">검색 데이터</string>
-    <string name="histring_sdi">안전운전데이터</string>
     <string name="histring_road">도로 데이터</string>
-    <string name="string_setting_mapupdate_non_info">버전 정보 없음</string>
+    <string name="histring_sdi">안전운전데이터</string>
 
     <string-array name="wecountry_names">
         <item>Thailand</item>

@@ -1,8 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">FATOS map Hi</string>
-    <!-- SharedPrefrences -->
     <string name="app_registerId">kr.fatos.fatosmapHi</string>
-    <!-- SharedPrefrences END -->
 
     <string name="string_wesearch">输入搜索条件</string>
     <string name="string_weroutegoal">输入搜索条件</string>
@@ -33,7 +32,6 @@
     <string name="km">公里</string>
     <string name="m">米</string>
 
-    <!-- Summary bottom text -->
     <string name="string_summary_recomm">推荐</string>
     <string name="string_summary_exp">高速公路</string>
     <string name="string_summary_short">最短距离</string>
@@ -43,12 +41,10 @@
     <string name="string_summary_simul">模拟</string>
     <string name="string_summary_go">走</string>
 
-    <!-- PopupDialog -->
     <string name="string_popupTitle_error">错误!</string>
     <string name="string_popupTitle_btn_Ok">好</string>
     <string name="string_higetting_search_direction">取得路线</string>
 
-    <!-- NostaSetting Menu -->
     <string name="string_nostrasetting_country">语言</string>
     <string name="string_nostrasetting_language">语言</string>
     <string name="string_nostrasetting_category">类别</string>
@@ -69,9 +65,6 @@
     <string name="string_welanguage_english">English</string>
     <string name="string_welanguage_th">ไทย</string>
     <string name="string_welanguage_zh">中國語</string>
-
-    <!-- NaviSetting Menu -->
-
 
     <string name="string_hiroutelinecolor">路线线颜色</string>
     <string name="string_hirouteoptions">路线选项</string>
@@ -94,7 +87,6 @@
 
     <string name="warning_opt_route_least">至少提供 %1$d 条路线.</string>
     <string name="warning_opt_route_upto">最多提供 %1$d 条路线.</string>
-
 
     <string name="string_korea">大韩民国</string>
 

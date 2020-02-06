@@ -1,8 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">FATOS map Hi</string>
-    <!-- SharedPrefrences -->
     <string name="app_registerId">kr.fatos.fatosmapHi</string>
-    <!-- SharedPrefrences END -->
 
     <string name="string_wesearch">Enter your search terms</string>
     <string name="string_weroutegoal">Enter your search terms</string>
@@ -33,7 +32,6 @@
     <string name="km">km</string>
     <string name="m">m</string>
 
-    <!-- Summary bottom text -->
     <string name="string_summary_recomm">Recommend</string>
     <string name="string_summary_exp">Exp.way</string>
     <string name="string_summary_short">Short</string>
@@ -43,12 +41,10 @@
     <string name="string_summary_simul">Simulation</string>
     <string name="string_summary_go">Go</string>
 
-    <!-- PopupDialog -->
     <string name="string_popupTitle_error">Error!</string>
     <string name="string_popupTitle_btn_Ok">OK</string>
     <string name="string_higetting_search_direction">Getting directions</string>
 
-    <!-- NostaSetting Menu -->
     <string name="string_nostrasetting_country">Language</string>
     <string name="string_nostrasetting_language">Language</string>
     <string name="string_nostrasetting_category">Category</string>
@@ -70,9 +66,6 @@
     <string name="string_welanguage_th">ไทย</string>
     <string name="string_welanguage_zh">中國語</string>
 
-    <!-- NaviSetting Menu -->
-
-
     <string name="string_hiroutelinecolor">Route line color</string>
     <string name="string_hirouteoptions">Route options</string>
     <string name="string_hinightmode">Night mode</string>
@@ -82,9 +75,6 @@
     <string name="string_hihighwaymode">Highway mode</string>
     <string name="string_himapdownload">Map download</string>
     <string name="string_hioption_optimal">Optimal</string>
-    <string name="string_korea">Republic of Korea</string>
-
-
 
     <string name="string_route_option">Basic route option</string>
     <string name="string_route_option_recomm">Recommendation</string>
@@ -97,6 +87,8 @@
 
     <string name="warning_opt_route_least">At least %1$d routes are provided.</string>
     <string name="warning_opt_route_upto">Up to %1$d routes are provided.</string>
+
+    <string name="string_korea">Republic of Korea</string>
 
     <string name="string_hi_close">Exit FATOS map Hi?</string>
 
@@ -111,7 +103,6 @@
     <string name="string_network_error">The network connection is lost.\nPlease check your cell phone network status.</string>
 
     <string name="string_setting_mapupdate_non_info">There is no version info.</string>
-
     <string name="histring_buildnumber">Build number</string>
     <string name="histring_basemapdb">Base map data</string>
     <string name="histring_searchdb">POI search data</string>

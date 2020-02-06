@@ -63,47 +63,50 @@ import static biz.fatossdk.nativeMap.MapAnimation.MAP_ANI_TYPE_DCCEL;
 import static biz.fatossdk.nativeMap.MapAnimation.MAP_ANI_TYPE_DIRECT;
 import static biz.fatossdk.newanavi.ANaviApplication.m_MapHandle;
 
-public class SummaryFragment extends Fragment implements RouteListAdapter.OnItemClicked, View.OnClickListener {
+public class SummaryFragment extends Fragment implements RouteListAdapter.OnItemClicked, View.OnClickListener
+{
     //==============================================================================================
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         int index = 0;
         Bundle args;
 
-        switch (v.getId()) {
-            case R.id.btn_recomm :
-                index = lm.indexOfChild(v) +1;
-                break ;
-
-            case R.id.btn_exp :
-                index = lm.indexOfChild(v) +1;
+        switch(v.getId())
+        {
+            case R.id.btn_recomm:
+                index = lm.indexOfChild(v) + 1;
                 break;
 
-            case R.id.btn_general :
-                index = lm.indexOfChild(v) +1;
+            case R.id.btn_exp:
+                index = lm.indexOfChild(v) + 1;
                 break;
 
-            case(R.id.btn_short) :
-                index = lm.indexOfChild(v) +1;
+            case R.id.btn_general:
+                index = lm.indexOfChild(v) + 1;
                 break;
 
-            case(R.id.btn_free) :
-                index = lm.indexOfChild(v) +1;
+            case (R.id.btn_short):
+                index = lm.indexOfChild(v) + 1;
                 break;
 
-            case(R.id.ll_btn_start):
+            case (R.id.btn_free):
+                index = lm.indexOfChild(v) + 1;
+                break;
+
+            case (R.id.ll_btn_start):
                 args = new Bundle();
-                args.putString(TNaviActionCode.ROUTE_VIA_OR_GOAL,TNaviActionCode.CHANGE_VIA_GO_ROUTE);
+                args.putString(TNaviActionCode.ROUTE_VIA_OR_GOAL, TNaviActionCode.CHANGE_VIA_GO_ROUTE);
                 fComm.rerouteFromSummary(args);
                 break;
 
-            case(R.id.ll_btn_goal):
+            case (R.id.ll_btn_goal):
                 args = new Bundle();
-                args.putString(TNaviActionCode.ROUTE_VIA_OR_GOAL,TNaviActionCode.CHANGE_GOAL_GO_ROUTE);
+                args.putString(TNaviActionCode.ROUTE_VIA_OR_GOAL, TNaviActionCode.CHANGE_GOAL_GO_ROUTE);
                 fComm.rerouteFromSummary(args);
                 break;
 
-            case(R.id.btn_route_cancel):
+            case (R.id.btn_route_cancel):
                 ((TNaviMainActivity)getActivity()).m_FMInterface.FM_CancelRoute();
                 ((TNaviMainActivity)getActivity()).onBackPressed();
 
@@ -112,22 +115,28 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                 GoLib.getInstance().goTNaviMainActivity(mContext, bundle);
                 break;
 
-            case(R.id.btn_change_via_and_goal):
+            case (R.id.btn_change_via_and_goal):
                 String temp;
 
-                if(tv_start.getText() == ""){
-                    ((TNaviMainActivity)getActivity()).set_strAddr(getString(R.string.string_via_hint),1);
-                }else{
-                    ((TNaviMainActivity)getActivity()).set_strAddr((String)tv_start.getText(),1);
+                if(tv_start.getText() == "")
+                {
+                    ((TNaviMainActivity)getActivity()).set_strAddr(getString(R.string.string_via_hint), 1);
+                }
+                else
+                {
+                    ((TNaviMainActivity)getActivity()).set_strAddr((String)tv_start.getText(), 1);
                 }
 
-                if(tv_goal.getText() == ""){
-                    ((TNaviMainActivity)getActivity()).set_strAddr(getString(R.string.string_via_hint),0);
-                }else{
-                    ((TNaviMainActivity)getActivity()).set_strAddr((String)tv_goal.getText(),0);
+                if(tv_goal.getText() == "")
+                {
+                    ((TNaviMainActivity)getActivity()).set_strAddr(getString(R.string.string_via_hint), 0);
+                }
+                else
+                {
+                    ((TNaviMainActivity)getActivity()).set_strAddr((String)tv_goal.getText(), 0);
                 }
 
-                ((TNaviMainActivity)getActivity()).routeTovia(0.0,0.0,TNaviActionCode.CHANGE_VIA_AND_GOAL, null);
+                ((TNaviMainActivity)getActivity()).routeTovia(0.0, 0.0, TNaviActionCode.CHANGE_VIA_AND_GOAL, null);
                 break;
 
             default:
@@ -135,19 +144,21 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
         }
 
         //최대값, 최소값이 아닐때만 경로 선택 update
-        if(index > 0 && index < routeItemMaxValue){
+        if(index > 0 && index < routeItemMaxValue)
+        {
             select_buttonResource(index);
             updateRouteListPageIndicator(index);
-            routeListAdapter.setSelected(index-1);
+            routeListAdapter.setSelected(index - 1);
         }
     }
+
     //==============================================================================================
     private FragmentCommunicator fComm;
     private RouteListAdapter routeListAdapter;
     private static ArrayList<RouteCardData> routeList;
     private static final String TAG = SummaryFragment.class.getSimpleName();
     private Button.OnClickListener btn_onClickListener;
-    private Context mContext ;
+    private Context mContext;
     private static int current_item = 1;
     private LinearLayout lm;
     private int routeItemMaxValue = 4;
@@ -177,87 +188,108 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
     private float[] scaleScreen = new float[2];
 
     private final int MAP_OBJ_FLAG_PIN = 7;
+
     //==============================================================================================
     @Override
-    public void onRouteListItemClick(int position) {
+    public void onRouteListItemClick(int position)
+    {
     }
+
     //==============================================================================================
     @Override
-    public void onRouteListItemStartBtnClick(int position, boolean bIsGoDrive, int nRouteType) {
-        if(bIsGoDrive){
+    public void onRouteListItemStartBtnClick(int position, boolean bIsGoDrive, int nRouteType)
+    {
+        if(bIsGoDrive)
+        {
 
             m_gApp.setM_nSelRouteOption(nRouteType);
 
             ((TNaviMainActivity)getActivity()).m_FMInterface.FM_StartRGService(FMBaseActivity.onFatosMapListener);  //경로 안내 시작
             ((TNaviMainActivity)getActivity()).SaveLastRouteData(); //주행중인 정보 저장
             ((TNaviMainActivity)getActivity()).showTbtLayout(true);
-            ((ANaviApplication) m_gApp).setMapSummaryOption(false);
+            ((ANaviApplication)m_gApp).setMapSummaryOption(false);
+
             if(m_gApp.getAppSettingInfo().m_nRPType == 2)
             {
                 ((TNaviMainActivity)getActivity()).setAutoReRouteforOnemap(RouteParam.SS_FATOS_SERVER);
             }
 
             Bundle bundle = new Bundle();
-            bundle.putString(TNaviActionCode.APP_MODE,TNaviActionCode.APP_MODE_ROUTE);
+            bundle.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_ROUTE);
             GoLib.getInstance().goTNaviMainActivity(this.mContext, bundle);
-        }else{
+        }
+        else
+        {
             //FM_StartSimulation
             m_gApp.setM_nSelRouteOption(nRouteType);
 
             ((TNaviMainActivity)getActivity()).m_FMInterface.FM_StartSimulation(FMBaseActivity.onFatosMapListener); //모의 주행 시작
             ((TNaviMainActivity)getActivity()).showTbtLayout(true);
-            ((ANaviApplication) m_gApp).setMapSummaryOption(false);
+            ((ANaviApplication)m_gApp).setMapSummaryOption(false);
             Bundle bundle = new Bundle();
-            bundle.putString(TNaviActionCode.APP_MODE,TNaviActionCode.APP_MODE_SIMULATE);
+            bundle.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_SIMULATE);
             GoLib.getInstance().goTNaviMainActivity(this.mContext, bundle);
         }
     }
+
     //==============================================================================================
-    public static SummaryFragment newInstance() {
+    public static SummaryFragment newInstance()
+    {
         SummaryFragment fragment = new SummaryFragment();
         return fragment;
     }
+
     //==============================================================================================
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
     }
+
     //==============================================================================================
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
 
-        if(!((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.SEARCH_MODE) && !((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.APP_MODE_SIMULATE) &&
-                !((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.APP_MODE_ROUTE) && !((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.APP_MODE_SHOWING_SUMMARY)) {
+        if(!((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.SEARCH_MODE) && !((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.APP_MODE_SIMULATE) && !((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.APP_MODE_ROUTE) && !((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.APP_MODE_SHOWING_SUMMARY))
+        {
 
-            ((TNaviMainActivity) mContext).set_strAddr("", 0);
-            ((TNaviMainActivity) mContext).setStartCoord(0, 0);
+            ((TNaviMainActivity)mContext).set_strAddr("", 0);
+            ((TNaviMainActivity)mContext).setStartCoord(0, 0);
         }
     }
+
     //==============================================================================================
     @Override
-    public void onDetach() {
+    public void onDetach()
+    {
         super.onDetach();
     }
+
     //==============================================================================================
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
     }
+
     //==============================================================================================
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         m_MapAnimation = new MapAnimation();
         m_MapAnimation.Reset();
         FMBaseActivity.onFatosMapListener.onMapAnimation(m_MapAnimation);
     }
+
     //==============================================================================================
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-//        Log.e(TAG,"OnCreateView");
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        //        Log.e(TAG,"OnCreateView");
 
         scaleScreen[0] = 0.5f;
         scaleScreen[1] = 0.5f;
@@ -266,7 +298,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
         View view = null;
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
             view = inflater.inflate(R.layout.fragment_summary, container, false);
         }
         else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
@@ -277,7 +310,7 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
         mView = view;
         mContext = view.getContext();
 
-        m_gApp = (ANaviApplication) mContext.getApplicationContext();
+        m_gApp = (ANaviApplication)mContext.getApplicationContext();
 
         m_gApp.ChangeMapViewMode(1, false);
 
@@ -302,7 +335,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)linearLayout_Head.getLayoutParams();
         layoutParams.topMargin = 0;
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
             layoutParams.leftMargin = 0;
             layoutParams.rightMargin = 0;
         }
@@ -326,7 +360,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
         m_NextTbtList.clear();
         m_NextListAdapter = new RouteDetailListAdapter(getActivity(), m_NextTbtList);
 
-        if (m_NextTbtList != null) {
+        if(m_NextTbtList != null)
+        {
             listView_RouteDetail.setAdapter(m_NextListAdapter);
 
             ArrayList<RouteDetailList> m_updateTBTList;
@@ -335,10 +370,13 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
             m_NextListAdapter.notifyDataSetChanged();
         }
 
-        listView_RouteDetail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView_RouteDetail.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (m_NextTbtList == null) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                if(m_NextTbtList == null)
+                {
                     return;
                 }
 
@@ -347,17 +385,21 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
             }
         });
 
-        listView_RouteDetail.setOnScrollListener(new AbsListView.OnScrollListener() {
+        listView_RouteDetail.setOnScrollListener(new AbsListView.OnScrollListener()
+        {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            public void onScrollStateChanged(AbsListView view, int scrollState)
+            {
 
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+            {
                 View firstCell = listView_RouteDetail.getChildAt(0);
 
-                if (firstCell == null) {
+                if(firstCell == null)
+                {
                     return;
                 }
 
@@ -366,18 +408,22 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                 previousDistanceFromFirstCellToTop = distanceFromFirstCellToTop;
             }
         });
-        imageView_RouteDetailClose.setOnClickListener(new View.OnClickListener() {
+        imageView_RouteDetailClose.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 linearLayout_RouteDetail.setVisibility(View.GONE);
 
                 RouteDetailClose();
             }
         });
 
-        linearLayout_RouteDetailClose.setOnTouchListener(new View.OnTouchListener() {
+        linearLayout_RouteDetailClose.setOnTouchListener(new View.OnTouchListener()
+        {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View v, MotionEvent event)
+            {
                 return true;
             }
         });
@@ -387,39 +433,50 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
         tv_start = view.findViewById(R.id.tv_start);
         tv_goal = view.findViewById(R.id.tv_goal);
 
-        if(text[0] == null){
+        if(text[0] == null)
+        {
             text[0] = "";
-        }else if(text[1] == null){
+        }
+        else if(text[1] == null)
+        {
             text[1] = "";
         }
 
-        if(text[0].equals(getResources().getString(R.string.string_via_hint))){
+        if(text[0].equals(getResources().getString(R.string.string_via_hint)))
+        {
             tv_start.setText("");
             tv_start.setHint(R.string.string_via_hint);
-        }else{
+        }
+        else
+        {
             tv_start.setText(text[0]);
         }
 
-        if(text[1].equals(getResources().getString(R.string.string_via_hint))){
+        if(text[1].equals(getResources().getString(R.string.string_via_hint)))
+        {
             tv_goal.setText("");
             tv_goal.setHint(R.string.string_via_hint);
-        }else{
+        }
+        else
+        {
             tv_goal.setText(text[1]);
         }
 
         //주소,이름 둘다 없는 경우 좌표를 뿌려준다.
-        if(text[0].equals("")){
-            String x = String.format("%.5f",TNaviMainActivity.saved_data.viaX);
-            String y = String.format("%.5f",TNaviMainActivity.saved_data.viaY);
+        if(text[0].equals(""))
+        {
+            String x = String.format("%.5f", TNaviMainActivity.saved_data.viaX);
+            String y = String.format("%.5f", TNaviMainActivity.saved_data.viaY);
 
-            String XYStr = ""+ x + "\n" +y;
+            String XYStr = "" + x + "\n" + y;
             tv_start.setText(XYStr);
         }
 
-        if(text[1].equals("")){
-            String x = String.format("%.5f",TNaviMainActivity.saved_data.goalX);
-            String y = String.format("%.5f",TNaviMainActivity.saved_data.goalY);
-            String XYStr = ""+ x + "\n" +y;
+        if(text[1].equals(""))
+        {
+            String x = String.format("%.5f", TNaviMainActivity.saved_data.goalX);
+            String y = String.format("%.5f", TNaviMainActivity.saved_data.goalY);
+            String XYStr = "" + x + "\n" + y;
             tv_goal.setText(XYStr);
         }
 
@@ -432,12 +489,11 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
         btn_routeChange = view.findViewById(R.id.btn_change_via_and_goal);
         btn_routeChange.setOnClickListener(this);
 
-        RecyclerView routeListRecyclerView = view.findViewById (R.id.list_routelist);
+        RecyclerView routeListRecyclerView = view.findViewById(R.id.list_routelist);
 
         routeListRecyclerView.setHasFixedSize(true);
 
-        routeListRecyclerView.setLayoutManager(
-                new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        routeListRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         //DATA를 감쌀 List 초기화 및 어댑터에 등록
         routeList = new ArrayList<>();
@@ -447,22 +503,29 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
         routeListRecyclerView.setAdapter(routeListAdapter);
 
-        if(getArguments() != null){
+        if(getArguments() != null)
+        {
             ArrayList<RouteCardData> routeData = getArguments().getParcelableArrayList(TNaviActionCode.LONGTOUCH_ROUTESUMMARY);
 
             //경탐 결과가 넘어옴
-            if(routeData != null) {
-                for (int i = 0; i < routeData.size(); i++) {
+            if(routeData != null)
+            {
+                for(int i = 0; i < routeData.size(); i++)
+                {
                     RouteCardData data = routeData.get(i);
                     routeList.add(data);
                     //// TODO: 2019. 2. 28. 경탐->요약 2번 반복하면 nType이 1(추천)으로 넘어옴, 확인필요
                     routeOptionList.add(data.nType);
                 }
 
-                routeItemMaxValue = routeData.size()+1;
-            }else{
+                routeItemMaxValue = routeData.size() + 1;
             }
-        }else{
+            else
+            {
+            }
+        }
+        else
+        {
             RouteCardData routeCardData = new RouteCardData();
 
             routeList.add(routeCardData);
@@ -472,22 +535,29 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
         BlockSnapHelper snapHelper = new BlockSnapHelper(4);
         snapHelper.attachToRecyclerView(routeListRecyclerView);
-        snapHelper.setSnapBlockCallback(new BlockSnapHelper.SnapBlockCallback() {
+        snapHelper.setSnapBlockCallback(new BlockSnapHelper.SnapBlockCallback()
+        {
             @Override
-            public void onBlockSnap(int snapPosition) { }
+            public void onBlockSnap(int snapPosition)
+            {
+            }
 
             @Override
-            public void onBlockSnapped(int snapPosition) {
+            public void onBlockSnapped(int snapPosition)
+            {
                 routeListAdapter.setSelected(snapPosition);
                 routeListAdapter.notifyDataSetChanged();
-                select_buttonResource(snapPosition+1);
-                updateRouteListPageIndicator(snapPosition+1);
+                select_buttonResource(snapPosition + 1);
+                updateRouteListPageIndicator(snapPosition + 1);
             }
         });
 
         int selectIndex = getArguments().getInt(TNaviActionCode.SELECT_ROUTE_INDEX, 0);
 
-        if(routeList.size() == 1) selectIndex = 0;
+        if(routeList.size() == 1)
+        {
+            selectIndex = 0;
+        }
 
         //arg에 넘어온 값(m_gApp.getM_nSelRouteIdx)이 있으면 넣어주고 없으면 디폴트값 0
         routeListAdapter.setSelected(selectIndex);
@@ -497,48 +567,52 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
         routeListAdapter.notifyDataSetChanged();
 
         //버튼 동적 생성(추천,일반,무료 등등)
-        create_buttonResource(routeList.size(),routeOptionList);
+        create_buttonResource(routeList.size(), routeOptionList);
 
         //카드뷰 내부 아이템 선택/비선택 여부를 위해 인덱스 전달
-        select_buttonResource(selectIndex+1);
+        select_buttonResource(selectIndex + 1);
 
         ((TNaviMainActivity)getActivity()).setSearchWord("");
 
         ((TNaviMainActivity)getActivity()).showTbtLayout(false);
 
-//        RouteDetailClose();
+        //        RouteDetailClose();
 
         return view;
     }
 
-    private final Runnable StartSummaryMapAnimation = new Runnable() {
+    private final Runnable StartSummaryMapAnimation = new Runnable()
+    {
         @Override
-        public void run() {
+        public void run()
+        {
             float fCenterX = 0, fCenterY = 0;
             fCenterX = 0.45f;
             fCenterY = 0.5f;
 
             float viatmp = 0;
 
-//                    m_MapAnimation.Reset();
+            //                    m_MapAnimation.Reset();
 
-            viatmp = m_fLevel[0] * (float) 1.5;
+            viatmp = m_fLevel[0] * (float)1.5;
 
-            if (viatmp - m_fLevel[0] > 1) {
+            if(viatmp - m_fLevel[0] > 1)
+            {
                 viatmp = m_fLevel[0] + 1;
             }
 
-            if (viatmp > FMPMapConst.MAPVIEW_MAX_LEVEL) {
+            if(viatmp > FMPMapConst.MAPVIEW_MAX_LEVEL)
+            {
                 viatmp = FMPMapConst.MAPVIEW_MAX_LEVEL;
             }
-            m_MapAnimation.setTilt(0,MAP_ANI_TYPE_DCCEL);
+            m_MapAnimation.setTilt(0, MAP_ANI_TYPE_DCCEL);
             m_MapAnimation.setAngle(0, MAP_ANI_TYPE_DIRECT);
             m_MapAnimation.setCenter(scaleScreen[0], scaleScreen[1]);
             m_MapAnimation.setLevel(viatmp, m_fLevel[0] + 0.5f, MAP_ANI_TYPE_DCCEL);
             m_MapAnimation.setMapWGS84(m_dCenterXY[0], m_dCenterXY[1], MAP_ANI_TYPE_DIRECT);
 
-            ((FMBaseActivity) getActivity()).onMapLevelInOut(m_fLevel[0] + 0.5f);
-            ((FMBaseActivity) getActivity()).onUpdateMapMode(3);
+            ((FMBaseActivity)getActivity()).onMapLevelInOut(m_fLevel[0] + 0.5f);
+            ((FMBaseActivity)getActivity()).onUpdateMapMode(3);
 
             FMBaseActivity.onFatosMapListener.onMapAnimation(m_MapAnimation);
         }
@@ -546,37 +620,44 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
 
-        new Handler(Looper.getMainLooper()).postDelayed(StartSummaryMapAnimation,10);
+        new Handler(Looper.getMainLooper()).postDelayed(StartSummaryMapAnimation, 10);
 
     }
 
     //==============================================================================================
-    private void select_buttonResource(int index) {
+    private void select_buttonResource(int index)
+    {
         LinearLayout ll_summary_btn = mView.findViewById(R.id.btn_layout);
         ArrayList<ImageView> imageList_select = new ArrayList<ImageView>();
         ArrayList<ImageView> imageList_deselect = new ArrayList<ImageView>();
         ArrayList<ImageView> imageList_bar = new ArrayList<ImageView>();
         ArrayList<TextView> tvList_text = new ArrayList<TextView>();
 
-        for (int i = 0; i < routeItemMaxValue-1; i++) {
-            LinearLayout ll_summary_btn2 = (LinearLayout) ll_summary_btn.getChildAt(i);
-            RelativeLayout rl_summary_btn = (RelativeLayout) ll_summary_btn2.getChildAt(0);
+        for(int i = 0; i < routeItemMaxValue - 1; i++)
+        {
+            LinearLayout ll_summary_btn2 = (LinearLayout)ll_summary_btn.getChildAt(i);
+            RelativeLayout rl_summary_btn = (RelativeLayout)ll_summary_btn2.getChildAt(0);
             imageList_bar.add((ImageView)rl_summary_btn.getChildAt(0));
             imageList_select.add((ImageView)rl_summary_btn.getChildAt(1));
             imageList_deselect.add((ImageView)rl_summary_btn.getChildAt(2));
             tvList_text.add((TextView)rl_summary_btn.getChildAt(3));
         }
 
-        for (int i = 0; i < routeItemMaxValue-1; i++) {
-            if(i == index -1 ){
+        for(int i = 0; i < routeItemMaxValue - 1; i++)
+        {
+            if(i == index - 1)
+            {
                 imageList_bar.get(i).setVisibility(View.VISIBLE);
                 imageList_select.get(i).setVisibility(View.VISIBLE);
                 imageList_deselect.get(i).setVisibility(View.GONE);
                 tvList_text.get(i).setTextColor(itemColor[i]);
-            }else{
+            }
+            else
+            {
                 imageList_bar.get(i).setVisibility(View.GONE);
                 imageList_select.get(i).setVisibility(View.GONE);
                 imageList_deselect.get(i).setVisibility(View.VISIBLE);
@@ -585,18 +666,19 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
             }
         }
 
-        ((TNaviMainActivity)getActivity()).m_FMInterface.FM_SelectRouteVol2(index-1);
+        ((TNaviMainActivity)getActivity()).m_FMInterface.FM_SelectRouteVol2(index - 1);
     }
+
     //==============================================================================================
-    private void create_buttonResource(int itemSize, ArrayList<Integer> RouteTypeList) {
+    private void create_buttonResource(int itemSize, ArrayList<Integer> RouteTypeList)
+    {
         //최종 레이아웃 영역 정의
         LinearLayout.LayoutParams area_params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 0.3f);
         //감쌀 레이아웃 정의
-        RelativeLayout.LayoutParams Rl_params = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        RelativeLayout.LayoutParams Rl_params = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
         //이미지와 텍스트뷰 크기 정의
-        RelativeLayout.LayoutParams Imageview_params_2 = new RelativeLayout.LayoutParams((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()),
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()));
+        RelativeLayout.LayoutParams Imageview_params_2 = new RelativeLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()));
 
         Imageview_params_2.addRule(RelativeLayout.CENTER_IN_PARENT);
 
@@ -605,8 +687,10 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
         Tv_params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         Tv_params.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
-        for (int i = 0; i < itemSize; i++) {
-            switch (RouteTypeList.get(i)) {
+        for(int i = 0; i < itemSize; i++)
+        {
+            switch(RouteTypeList.get(i))
+            {
                 case (RouteType.ROUTE_RECOMM):
                     ImageView imageView = new ImageView(mView.getContext());
                     ImageView imageView2 = new ImageView(mView.getContext());
@@ -647,8 +731,7 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     imageView2.setId(R.id.btn_recomm_icon);
 
                     //상단바 크기 정의r
-                    RelativeLayout.LayoutParams Imageview_params_i1 = new RelativeLayout.LayoutParams(
-                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int) getResources().getDimension(R.dimen.bottom_iv_1_height));
+                    RelativeLayout.LayoutParams Imageview_params_i1 = new RelativeLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
 
                     Imageview_params_i1.addRule(RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
                     imageView.setLayoutParams(Imageview_params_i1);
@@ -706,10 +789,9 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     imageView2_2.setId(R.id.btn_exp_icon);
 
                     //상단바 크기 정의
-                    RelativeLayout.LayoutParams Imageview_params_i2 = new RelativeLayout.LayoutParams(
-                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int) getResources().getDimension(R.dimen.bottom_iv_1_height));
+                    RelativeLayout.LayoutParams Imageview_params_i2 = new RelativeLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
 
-                    Imageview_params_i2.addRule(RelativeLayout.ALIGN_PARENT_TOP|RelativeLayout.CENTER_HORIZONTAL);
+                    Imageview_params_i2.addRule(RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
                     imageView_2.setLayoutParams(Imageview_params_i2);
 
                     area2_2.addView(imageView_2);
@@ -764,8 +846,7 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     imageView2_3.setId(R.id.btn_short_bar);
 
                     //상단바 크기 정의
-                    RelativeLayout.LayoutParams Imageview_params_i3 = new RelativeLayout.LayoutParams(
-                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int) getResources().getDimension(R.dimen.bottom_iv_1_height));
+                    RelativeLayout.LayoutParams Imageview_params_i3 = new RelativeLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
 
                     Imageview_params_i3.addRule(RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
                     imageView_3.setLayoutParams(Imageview_params_i3);
@@ -818,10 +899,9 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     imageView2_4_1.setTag(Integer.valueOf(R.drawable.tab_btn_icon_recom_2_one_n));
 
                     //상단바 크기 정의
-                    RelativeLayout.LayoutParams Imageview_params_i4 = new RelativeLayout.LayoutParams(
-                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int) getResources().getDimension(R.dimen.bottom_iv_1_height));
+                    RelativeLayout.LayoutParams Imageview_params_i4 = new RelativeLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
 
-                    Imageview_params_i4.addRule(RelativeLayout.ALIGN_PARENT_TOP|RelativeLayout.CENTER_HORIZONTAL);
+                    Imageview_params_i4.addRule(RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
                     imageView_4.setLayoutParams(Imageview_params_i4);
 
                     area2_4.addView(imageView_4);
@@ -872,10 +952,9 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     imageView2_5_1.setTag(Integer.valueOf(R.drawable.tab_btn_icon_free_n));
 
                     //상단바 크기 정의
-                    RelativeLayout.LayoutParams Imageview_params_i5 = new RelativeLayout.LayoutParams(
-                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int) getResources().getDimension(R.dimen.bottom_iv_1_height));
+                    RelativeLayout.LayoutParams Imageview_params_i5 = new RelativeLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
 
-                    Imageview_params_i5.addRule(RelativeLayout.ALIGN_PARENT_TOP|RelativeLayout.CENTER_HORIZONTAL);
+                    Imageview_params_i5.addRule(RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
                     imageView_5.setLayoutParams(Imageview_params_i5);
 
                     area2_5.addView(imageView_5);
@@ -891,56 +970,70 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
             }
         }
 
-        for (int i = 0; i < routeItemMaxValue; i++) {
+        for(int i = 0; i < routeItemMaxValue; i++)
+        {
             m_gApp.setMapRouteLineColor(i, itemColor[i]);
         }
     }
+
     //==============================================================================================
     //snap에 따라서 item position을 전달받는다.
-    private void updateRouteListPageIndicator(int itemPosition) {
-        switch (itemPosition){
-            case 1 :
+    private void updateRouteListPageIndicator(int itemPosition)
+    {
+        switch(itemPosition)
+        {
+            case 1:
                 current_item = 1;
                 break;
 
-            case 2 :
+            case 2:
                 current_item = 2;
                 break;
 
-            case 3 :
+            case 3:
                 current_item = 3;
                 break;
 
-            default: {
+            default:
+            {
             }
         }
 
-        ((RecyclerView) mView.findViewById(R.id.list_routelist)).scrollToPosition(itemPosition-1);
+        ((RecyclerView)mView.findViewById(R.id.list_routelist)).scrollToPosition(itemPosition - 1);
     }
+
     //==============================================================================================
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Context context)
+    {
         super.onAttach(context);
 
-        if(getActivity() != null && getActivity() instanceof TNaviMainActivity) {
-            fComm = (FragmentCommunicator) context;
+        if(getActivity() != null && getActivity() instanceof TNaviMainActivity)
+        {
+            fComm = (FragmentCommunicator)context;
         }
     }
+
     //==============================================================================================
-    private ArrayList<RouteDetailList> GetRpResults(int idx) {
-        if (m_gApp == null) {
+    private ArrayList<RouteDetailList> GetRpResults(int idx)
+    {
+        if(m_gApp == null)
+        {
             return null;
         }
 
-        if (m_gApp.rgData() == null) {
+        if(m_gApp.rgData() == null)
+        {
             return null;
         }
 
-        if (m_gApp.rgData().m_pContext == null) {
+        if(m_gApp.rgData().m_pContext == null)
+        {
             return null;
         }
 
-        if (m_gApp.rgData().m_pContext[idx] == null) {
+        if(m_gApp.rgData().m_pContext[idx] == null)
+        {
             return null;
         }
 
@@ -958,7 +1051,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
         ArrayList<RouteDetailList> results = new ArrayList<>();
         RouteDetailList item_details = null;
 
-        if (rgData.nServiceLinkCount < 1) {
+        if(rgData.nServiceLinkCount < 1)
+        {
             // messageBox 관리 생략
             results = null;
             return null;
@@ -966,8 +1060,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
         if(rgData.nServiceLinkCount > 2)
         {
-            int nPreGp = rgData.nServiceLinkCount-2;
-            int nGoalIdx = rgData.nServiceLinkCount-1;
+            int nPreGp = rgData.nServiceLinkCount - 2;
+            int nGoalIdx = rgData.nServiceLinkCount - 1;
 
             if(rgData.pServiceLink[nPreGp].slinkInfo.nLength > 50 && rgData.pServiceLink[nGoalIdx].slinkInfo.nType == 50 && rgData.pServiceLink[nGoalIdx].slinkInfo.nLength < 50)
             {
@@ -982,7 +1076,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
         String strReplace;
         int nSumTime = 0;
 
-        for (int nArrIdx = 0; nArrIdx < rgData.nServiceLinkCount; nArrIdx++) {
+        for(int nArrIdx = 0; nArrIdx < rgData.nServiceLinkCount; nArrIdx++)
+        {
             item_details = new RouteDetailList();
 
             double fLatY, fLonX;
@@ -991,11 +1086,12 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
             strReplace = m_gApp.RemoveHTMLTag(item_servicelink.szStringText);
 
-            if (strReplace != null) {
+            if(strReplace != null)
+            {
                 // [Yeon-2019.01.30] 방면 명칭 분리
                 String strDivision = "|";
 
-                if (strReplace.contains(strDivision))
+                if(strReplace.contains(strDivision))
                 {
                     strReplace = strReplace.substring(0, strReplace.indexOf(strDivision));
                 }
@@ -1023,53 +1119,81 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
         return results;
     }
-    //==============================================================================================
-    private String getTotalRemainDistStr(int distance) {
-        String strResultDist = "0";
-        if (m_gApp.getAppSettingInfo().m_nDistUnit == 0) // km
-        {
-            if (distance >= 1000) {
-                float km = (float) distance / 1000.f;
 
-                if (km >= 100) {
-                    strResultDist = String.format("%d %s", (int) km, "km");
-                } else if (km >= 10) {
-                    strResultDist = String.format("%d %s", (int) km, "km");
-                } else {
-                    strResultDist = String.format("%.1f %s", (float) distance / 1000, "km");
+    //==============================================================================================
+    private String getTotalRemainDistStr(int distance)
+    {
+        String strResultDist = "0";
+        if(m_gApp.getAppSettingInfo().m_nDistUnit == 0) // km
+        {
+            if(distance >= 1000)
+            {
+                float km = (float)distance / 1000.f;
+
+                if(km >= 100)
+                {
+                    strResultDist = String.format("%d %s", (int)km, "km");
                 }
-            } else {
-                if (distance <= 0) {
+                else if(km >= 10)
+                {
+                    strResultDist = String.format("%d %s", (int)km, "km");
+                }
+                else
+                {
+                    strResultDist = String.format("%.1f %s", (float)distance / 1000, "km");
+                }
+            }
+            else
+            {
+                if(distance <= 0)
+                {
                     distance = 0;
                 }
-                if (distance >= 10) {
+                if(distance >= 10)
+                {
                     distance = distance - (distance % 10);
                     strResultDist = String.format("%d %s", distance, "m");
-                } else {
+                }
+                else
+                {
                     strResultDist = String.format("%d %s", distance, "m");
                 }
 
             }
-        } else {
-            if (distance >= 300) {
-                float km = (float) distance / 1000.f;
+        }
+        else
+        {
+            if(distance >= 300)
+            {
+                float km = (float)distance / 1000.f;
 
-                if (km >= 100) {
-                    strResultDist = String.format("%d %s", (int) (km * ANaviApplication.MITOKILOMETER), "mile");
-                } else if (km >= 10) {
-                    strResultDist = String.format("%.1f %s", (float) (km * ANaviApplication.MITOKILOMETER), "mile");
-                } else {
-                    strResultDist = String.format("%.2f %s", (float) (km * ANaviApplication.MITOKILOMETER), "mile");
+                if(km >= 100)
+                {
+                    strResultDist = String.format("%d %s", (int)(km * ANaviApplication.MITOKILOMETER), "mile");
                 }
-            } else {
-                if (distance <= 0) {
+                else if(km >= 10)
+                {
+                    strResultDist = String.format("%.1f %s", (float)(km * ANaviApplication.MITOKILOMETER), "mile");
+                }
+                else
+                {
+                    strResultDist = String.format("%.2f %s", (float)(km * ANaviApplication.MITOKILOMETER), "mile");
+                }
+            }
+            else
+            {
+                if(distance <= 0)
+                {
                     distance = 0;
                 }
-                if (distance >= 10) {
+                if(distance >= 10)
+                {
                     distance = distance - (distance % 10);
-                    strResultDist = String.format("%d ft", (int) (distance * ANaviApplication.MITOFIT), "ft");
-                } else {
-                    strResultDist = String.format("%d ft", (int) (distance * ANaviApplication.MITOFIT), "ft");
+                    strResultDist = String.format("%d ft", (int)(distance * ANaviApplication.MITOFIT), "ft");
+                }
+                else
+                {
+                    strResultDist = String.format("%d ft", (int)(distance * ANaviApplication.MITOFIT), "ft");
                 }
 
             }
@@ -1077,23 +1201,29 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
         return strResultDist;
     }
+
     //==============================================================================================
-    private String getTotalTimeStr(int secTime) {
+    private String getTotalTimeStr(int secTime)
+    {
         int minutes = 0;
         String strResultTime;
         strResultTime = String.format("%d s", secTime);
 
-        if (secTime > 59) {
-            minutes = (int) (secTime / 60);
+        if(secTime > 59)
+        {
+            minutes = (int)(secTime / 60);
             strResultTime = String.format("%d min", minutes);
         }
 
         return strResultTime;
     }
+
     //==============================================================================================
-    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
+    {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, Intent intent)
+        {
             String strAction = intent.getAction();
 
             if(strAction.equals("openRouteDetail"))
@@ -1110,17 +1240,21 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
             }
         }
     };
+
     //==============================================================================================
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
 
-        if(broadcastReceiver != null){
+        if(broadcastReceiver != null)
+        {
             mContext.unregisterReceiver(broadcastReceiver);
             broadcastReceiver = null;
         }
 
     }
+
     //==============================================================================================
     private void RouteDetailOpen()
     {
@@ -1134,8 +1268,9 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
         setSelectedListColor(0);
         showMapGuidePoint(0, true);
 
-        m_gApp.setMainMapOption(true,true,true,false);
+        m_gApp.setMainMapOption(true, true, true, false);
     }
+
     //==============================================================================================
     private void RouteDetailClose()
     {
@@ -1148,13 +1283,15 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
         float viatmp = 0;
         m_MapAnimation.Reset();
 
-        viatmp = m_fLevel[0] * (float) 1.5;
+        viatmp = m_fLevel[0] * (float)1.5;
 
-        if (viatmp - m_fLevel[0] > 1) {
+        if(viatmp - m_fLevel[0] > 1)
+        {
             viatmp = m_fLevel[0] + 1;
         }
 
-        if (viatmp > FMPMapConst.MAPVIEW_MAX_LEVEL) {
+        if(viatmp > FMPMapConst.MAPVIEW_MAX_LEVEL)
+        {
             viatmp = FMPMapConst.MAPVIEW_MAX_LEVEL;
         }
 
@@ -1164,25 +1301,33 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
         FMBaseActivity.onFatosMapListener.onMapAnimation(m_MapAnimation);
 
-        m_gApp.setMainMapOption(true,true,false,false);
+        m_gApp.setMainMapOption(true, true, false, false);
     }
+
     //==============================================================================================
-    private void setSelectedListColor(int nSelPos) {
-        if (listView_RouteDetail.isShown()) {
-            if (nSelPos != -1) {
+    private void setSelectedListColor(int nSelPos)
+    {
+        if(listView_RouteDetail.isShown())
+        {
+            if(nSelPos != -1)
+            {
                 m_NextListAdapter.setSelectedItem(nSelPos);
             }
         }
     }
+
     //==============================================================================================
-    public void showMapGuidePoint(int position, boolean bAnimation) {
-        if (position == -1 || m_NextTbtList == null) {
+    public void showMapGuidePoint(int position, boolean bAnimation)
+    {
+        if(position == -1 || m_NextTbtList == null)
+        {
             return;
         }
 
         int anyType = MAP_ANI_TYPE_DIRECT;
 
-        if (bAnimation) {
+        if(bAnimation)
+        {
             anyType = MAP_ANI_TYPE_DCCEL;
         }
 
@@ -1194,12 +1339,10 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
         m_MapAnimation.Reset();
         m_MapAnimation.setCenter(fCenterX, fCenterY);
         m_MapAnimation.setLevel(FMPMapConst.MAPVIEW_LEVEL_VIA_AUTO_MODE, FMPMapConst.MAPVIEW_LEVEL_DEFAULT_AUTO_MODE, MAP_ANI_TYPE_DCCEL);
-        m_MapAnimation.setMapWGS84(Double.parseDouble(m_NextTbtList.get(position).getCoordX()),
-                Double.parseDouble(m_NextTbtList.get(position).getCoordY()), anyType);
+        m_MapAnimation.setMapWGS84(Double.parseDouble(m_NextTbtList.get(position).getCoordX()), Double.parseDouble(m_NextTbtList.get(position).getCoordY()), anyType);
         FMBaseActivity.onFatosMapListener.onMapAnimation(m_MapAnimation);
 
-        FMBaseActivity.onFatosMapListener.onMapDrawPinImg(Double.parseDouble(m_NextTbtList.get(position).getCoordX()),
-                Double.parseDouble(m_NextTbtList.get(position).getCoordY()), MAP_OBJ_FLAG_PIN);
+        FMBaseActivity.onFatosMapListener.onMapDrawPinImg(Double.parseDouble(m_NextTbtList.get(position).getCoordX()), Double.parseDouble(m_NextTbtList.get(position).getCoordY()), MAP_OBJ_FLAG_PIN);
 
         m_gApp.setMapSummaryOption(true);
         m_gApp.setMapTripOption(false);

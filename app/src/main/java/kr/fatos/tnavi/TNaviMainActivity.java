@@ -862,7 +862,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                     setMarkerVisible(true);
 
                     Intent intentSearchkeyword = new Intent(m_Context, TNaviPickerActivity.class);
-
+                    intentSearchkeyword.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     Bundle bundle = new Bundle();
                     bundle.putString(TNaviActionCode.APP_MODE, APP_MODE);
                     bundle.putDouble("XCoord", m_dMapTouchScreenWGS84[0]);
