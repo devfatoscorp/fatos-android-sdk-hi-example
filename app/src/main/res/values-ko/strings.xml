@@ -64,7 +64,7 @@
     <string name="string_welanguage_korean">한국어</string>
     <string name="string_welanguage_english">English</string>
     <string name="string_welanguage_th">ไทย</string>
-    <string name="string_welanguage_zh">中國語</string>
+    <string name="string_welanguage_zh">中文</string>
 
     <string name="string_hiroutelinecolor">경로 색상</string>
     <string name="string_hirouteoptions">경로탐색 옵션</string>
@@ -142,7 +142,7 @@
 
     <string-array name="onemap_country_names">
         <item>English</item>
-        <item>中國語</item>
+        <item>中文</item>
         <item>ไทย</item>
         <item>한국어</item>
     </string-array>
@@ -156,7 +156,7 @@
 
     <string-array name="onemap_language">
         <item>English</item>
-        <item>中國語</item>
+        <item>中文</item>
         <item>ไทย</item>
         <item>한국어</item>
     </string-array>
@@ -168,4 +168,7 @@
     <string name="onemap_route_type5">무료경로</string>
 
     <string name="route_cancel_msg">재탐색중엔 경로탐색 취소를 할 수 없습니다.</string>
+
+    <string name="string_server">Server</string>
+    <string name="string_mobilizer">Mobilizer Info</string>
 </resources>

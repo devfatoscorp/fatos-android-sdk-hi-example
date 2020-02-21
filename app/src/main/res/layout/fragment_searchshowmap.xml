@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="horizontal">
 
         <Button
+            android:id="@+id/button_back"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:id="@+id/button_back"
             android:layout_gravity="center"
-            android:background="@drawable/amap_back_btn"/>
+            android:background="@drawable/amap_back_btn" />
 
         <TextView
+            android:id="@+id/textView_PoiName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/textView_PoiName"
-            android:drawablePadding="5dp"
-            android:textColor="@color/weColorText"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:textSize="18dp"
-            android:singleLine="true"
+            android:drawablePadding="5dp"
             android:ellipsize="end"
-            android:marqueeRepeatLimit="marquee_forever"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:gravity="center_vertical" />
+            android:gravity="center_vertical"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:textColor="@color/weColorText"
+            android:textSize="18dp" />
+
         <ImageButton
+            android:id="@+id/imageButton_allCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton_allCancel"
-            android:background="@drawable/btn_close_n"
-            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:layout_gravity="center"/>
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_close_n" />
     </LinearLayout>
 
     <RelativeLayout
@@ -47,21 +47,21 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/imageView_marker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView_marker"
-            android:src="@drawable/point"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:src="@drawable/point" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="10"
             android:layout_above="@+id/imageView_marker"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="0dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="10">
 
             <include
                 android:id="@+id/include_popup"
@@ -73,15 +73,15 @@
 
 
         <ImageButton
+            android:id="@+id/imageButton_poiDefault"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:id="@+id/imageButton_poiDefault"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/selector_goback_poi"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="25dp"
             android:background="@drawable/btn_1_6_1"
             android:scaleType="fitCenter"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"/>
+            android:src="@drawable/selector_goback_poi" />
     </RelativeLayout>
 </FrameLayout>

@@ -2,50 +2,51 @@ package kr.fatos.tnavi.Unit;
 
 import androidx.annotation.NonNull;
 
+
 @org.parceler.Parcel
 public class NPoiItem implements Comparable<NPoiItem> {
-    private String LocalName;
-    private String CategoryCode;
-    private String Country;
-    private String EnglishName;
-    private String HouseNumber;
-    private String LocalCategoryCode;
-    private String NostraId;
-    private String Postcode;
-    private String TelephoneNumber;
-    private double LocationPointX;
-    private double LocationPointY;
-    private double Route1X;
-    private double Route1Y;
-    private double Route2X;
-    private double Route2Y;
-    private double Route3X;
-    private double Route3Y;
-    private double Route4X;
-    private double Route4Y;
-    private String AdminLevel1Code;
-    private String AdminLevel1EnglishName;
-    private String AdminLevel1LocalName;
-    private String AdminLevel2Code;
-    private String AdminLevel2EnglishName;
-    private String AdminLevel2LocalName;
-    private String AdminLevel3Code;
-    private String AdminLevel3EnglishName;
-    private String AdminLevel3LocalName;
-    private String AdminLevel4Code;
-    private String AdminLevel4Englishname;
-    private String AdminLevel4LocalName;
-    private String BranchEnglishName;
-    private String BranchLocalName;
-    private double Distance;
-    private int Order;
-    private String strName;
+    public String LocalName;
+    public String CategoryCode;
+    public String Country;
+    public String EnglishName;
+    public String HouseNumber;
+    public String LocalCategoryCode;
+    public String NostraId;
+    public String Postcode;
+    public String TelephoneNumber;
+    public double LocationPointX;
+    public double LocationPointY;
+    public double Route1X;
+    public double Route1Y;
+    public double Route2X;
+    public double Route2Y;
+    public double Route3X;
+    public double Route3Y;
+    public double Route4X;
+    public double Route4Y;
+    public String AdminLevel1Code;
+    public String AdminLevel1EnglishName;
+    public String AdminLevel1LocalName;
+    public String AdminLevel2Code;
+    public String AdminLevel2EnglishName;
+    public String AdminLevel2LocalName;
+    public String AdminLevel3Code;
+    public String AdminLevel3EnglishName;
+    public String AdminLevel3LocalName;
+    public String AdminLevel4Code;
+    public String AdminLevel4Englishname;
+    public String AdminLevel4LocalName;
+    public String BranchEnglishName;
+    public String BranchLocalName;
+    public double Distance;
+    public int Order;
+    public String strName;
 
     // poi data items
-    private int m_nSectionGubun  = 0; // 0 : item , 1 : section , 2 : expand item, 3 : expand back
-    private int m_nSearchGubun  = 0; // 0 : 어디야? ,1 : Google , 2 : Naver , 3 : T map
-    private int m_nSearchItemCount = 0;
-    private boolean m_bShowSubMenu = false;
+    public int m_nSectionGubun  = 0; // 0 : item , 1 : section , 2 : expand item, 3 : expand back
+    public int m_nSearchGubun  = 0; // 0 : 어디야? ,1 : Google , 2 : Naver , 3 : T map
+    public int m_nSearchItemCount = 0;
+    public boolean m_bShowSubMenu = false;
 
 //    public String id; //NostraId
 //    public String name; //EnglishName
@@ -56,23 +57,23 @@ public class NPoiItem implements Comparable<NPoiItem> {
 //    public String middleAddrName; //AdminLevel2EnglishName
 //    public String lowerAddrName; //AdminLevel3EnglishName
 //    public String detailAddrName; //AdminLevel4EnglishName
-    private String noorLat;
-    private String noorLon;
-    private String firstNo;
-    private String secondNo;
-    private String roadName;
-    private String firstBuildNo;
-    private String secondBuildNo;
-    private String radius;
-    private String bizName;
-    private String upperBizName;
-    private String middleBizName;
-    private String lowerBizName;
-    private String detailBizName;
-    private String rpFlag;
-    private String parkFlag;
-    private String detailInfoFlag;
-    private String desc;
+    public String noorLat;
+    public String noorLon;
+    public String firstNo;
+    public String secondNo;
+    public String roadName;
+    public String firstBuildNo;
+    public String secondBuildNo;
+    public String radius;
+    public String bizName;
+    public String upperBizName;
+    public String middleBizName;
+    public String lowerBizName;
+    public String detailBizName;
+    public String rpFlag;
+    public String parkFlag;
+    public String detailInfoFlag;
+    public String desc;
 
     public NPoiItem()
     {

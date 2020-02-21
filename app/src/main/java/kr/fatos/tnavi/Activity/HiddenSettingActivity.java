@@ -1,22 +1,19 @@
 package kr.fatos.tnavi.Activity;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-import biz.fatossdk.config.FatosBuildConfig;
 import biz.fatossdk.fminterface.FMInterface;
-import biz.fatossdk.navi.NaviDto.DtoGetVersionRes;
 import biz.fatossdk.newanavi.ANaviApplication;
 import biz.fatossdk.newanavi.base.AMapBaseActivity;
 import kr.fatos.tnavi.R;
@@ -25,6 +22,8 @@ import kr.fatos.tnavi.Unit.settingItemListAdapter;
 
 public class HiddenSettingActivity extends AMapBaseActivity {
     public static final int SETTING_SIMUL_GPS = 0;
+    public static final int SETTING_SERVER = 1;
+    public static final int SETTING_MOBILIZER = 2;
 
     public static final String TAG = "AMAP";
     private Context m_Context = null;
@@ -37,9 +36,9 @@ public class HiddenSettingActivity extends AMapBaseActivity {
     private settingItemListAdapter settingAdapter = null;
     private TextView m_txtTitle;
 
-    static final int[] SETTING_MENU_NAME = new int[]{R.string.string_simul_gps};
-    static boolean[] SETTING_MENU_NAME_ENABLE = new boolean[]{true};
-    static final String[] SETTING_MENU_DATA_NAME = new String[]{"Off"};
+    static final int[] SETTING_MENU_NAME = new int[]{R.string.string_simul_gps, R.string.string_server, R.string.string_mobilizer};
+    static boolean[] SETTING_MENU_NAME_ENABLE = new boolean[]{true, true, true};
+    static final String[] SETTING_MENU_DATA_NAME = new String[]{"Off", "Commercial", "Off"};
 
     public HiddenSettingActivity() {
     }
@@ -76,6 +75,34 @@ public class HiddenSettingActivity extends AMapBaseActivity {
 
                     break;
                 }
+
+                case SETTING_SERVER :
+                {
+                    if (m_gApp.getAppSettingInfo().m_nServer == 0)
+                    {
+                        settingList.m_strSettingDataName = "Develop";
+                    }
+                    else if(m_gApp.getAppSettingInfo().m_nServer == 1)
+                    {
+                        settingList.m_strSettingDataName = "Commercial";
+                    }
+
+                    break;
+                }
+
+                case SETTING_MOBILIZER :
+                {
+                    if (m_gApp.getAppSettingInfo().m_bMobilizer)
+                    {
+                        settingList.m_strSettingDataName = "On";
+                    }
+                    else
+                    {
+                        settingList.m_strSettingDataName = "Off";
+                    }
+
+                    break;
+                }
             }
 
             arSettingDessert.add(i, settingList);
@@ -97,6 +124,39 @@ public class HiddenSettingActivity extends AMapBaseActivity {
                         m_gApp.saveSettingInfo(m_Context, m_gApp.getAppSettingInfo());
 
                         if (m_gApp.getAppSettingInfo().m_bSimulGps) {
+                            arSettingDessert.get(position).m_strSettingDataName = "On";
+                        }
+                        else {
+                            arSettingDessert.get(position).m_strSettingDataName = "Off";
+                        }
+
+                        settingAdapter.notifyDataSetChanged();
+                    }
+                    else if(arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_server)))
+                    {
+                        if(m_gApp.getAppSettingInfo().m_nServer == 0)
+                        {
+                            m_gApp.getAppSettingInfo().m_nServer = 1;
+                            arSettingDessert.get(position).m_strSettingDataName = "Commercial";
+                        }
+                        else if(m_gApp.getAppSettingInfo().m_nServer == 1)
+                        {
+                            m_gApp.getAppSettingInfo().m_nServer = 0;
+                            arSettingDessert.get(position).m_strSettingDataName = "Develop";
+                        }
+
+                        m_gApp.saveSettingInfo(m_Context, m_gApp.getAppSettingInfo());
+
+                        settingAdapter.notifyDataSetChanged();
+                        FMInterface.GetInstance().FM_ResetServerInfo();
+                        Toast.makeText(m_Context,"재실행 해야 적용 됩니다.", Toast.LENGTH_LONG).show();
+                    }
+                    else if(arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_mobilizer)))
+                    {
+                        m_gApp.getAppSettingInfo().m_bMobilizer = !m_gApp.getAppSettingInfo().m_bMobilizer;
+                        m_gApp.saveSettingInfo(m_Context, m_gApp.getAppSettingInfo());
+
+                        if (m_gApp.getAppSettingInfo().m_bMobilizer) {
                             arSettingDessert.get(position).m_strSettingDataName = "On";
                         }
                         else {

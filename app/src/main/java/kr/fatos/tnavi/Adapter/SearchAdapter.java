@@ -18,6 +18,8 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
+import biz.fatossdk.fminterface.FMBaseActivity;
+import biz.fatossdk.fminterface.FMInterface;
 import kr.fatos.tnavi.Code.SettingsCode;
 import kr.fatos.tnavi.Code.TNaviActionCode;
 import kr.fatos.tnavi.Lib.GUtilLib;
@@ -27,7 +29,8 @@ import kr.fatos.tnavi.TNaviMainActivity;
 import kr.fatos.tnavi.Unit.NPoiItem;
 import kr.fatos.tnavi.tnavifragment.SearchFragment;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder>
+{
 
     private Context context;
     private int resource;
@@ -39,7 +42,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     private final static String TAG = SearchAdapter.class.getSimpleName();
 
-    public SearchAdapter(Context context, int resource, ArrayList<NPoiItem> itemList, String action_route, String app_mode, SearchFragment i_searchFragment) {
+    public SearchAdapter(Context context, int resource, ArrayList<NPoiItem> itemList, String action_route, String app_mode, SearchFragment i_searchFragment)
+    {
         this.context = context;
         this.resource = resource;
         this.itemList = itemList;
@@ -51,30 +55,33 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i)
+    {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(resource, viewGroup, false);
 
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i)
+    {
         final NPoiItem item = this.itemList.get(i);
 
-        if(item != null) {
+        if(item != null)
+        {
             viewHolder.textView_Name.setText(item.getEnglishName());
 
             viewHolder.textView_Address.setText(item.getAddressFull());
 
             String strTempDist = "";
 
-            if (SettingsCode.getDistanceUnit() == 0)
+            if(SettingsCode.getDistanceUnit() == 0)
             {
-                strTempDist = GUtilLib.getInstance(context).updateTotalRemainDist((int) item.getDistance());
+                strTempDist = GUtilLib.getInstance(context).updateTotalRemainDist((int)item.getDistance());
             }
             else
             {
-                strTempDist = GUtilLib.getInstance(context).updateTotalRemainDistForMile((int) item.getDistance());
+                strTempDist = GUtilLib.getInstance(context).updateTotalRemainDistForMile((int)item.getDistance());
             }
 
             viewHolder.text_dist.setText(String.valueOf(strTempDist));
@@ -90,9 +97,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         }
 
         //지도보기 선택
-        viewHolder.button_MapView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.button_MapView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
+                FMBaseActivity.setCopyrightLocation(1);
+
                 Bundle bundle = new Bundle();
                 //bundle.putString(TNaviActionCode.APP_MODE, app_mode);
                 bundle.putString(TNaviActionCode.ROUTE_VIA_OR_GOAL, action_route);
@@ -103,16 +114,24 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             }
         });
         //경로안내 선택
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 searchFragment.setKeyboardVisible(false);
 
-                if(searchFragment.m_nSearchType == 0) {
+                if(searchFragment.m_nSearchType == 0)
+                {
                     searchFragment.changeFocus();
                     searchFragment.setStartText(item);
 
                     return;
+                }
+
+                if(FMInterface.GetInstance().FM_GetDriveInfo().isM_bIsRoute())
+                {
+                    ((TNaviMainActivity)context).m_FMInterface.FM_CancelRoute();
                 }
 
                 Bundle bundle = new Bundle();
@@ -128,7 +147,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return itemList.size();
     }
 
@@ -138,9 +158,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         this.itemList.addAll(itemList);
 
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+        new Handler(Looper.getMainLooper()).post(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 notifyDataSetChanged();
             }
         });
@@ -166,7 +188,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         TextView textView_Name, textView_Address, text_dist;
         Button button_MapView;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView)
+        {
             super(itemView);
 
             textView_Name = itemView.findViewById(R.id.textView_Name);

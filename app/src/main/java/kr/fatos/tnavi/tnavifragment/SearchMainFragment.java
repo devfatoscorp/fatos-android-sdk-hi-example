@@ -55,7 +55,8 @@ import kr.fatos.tnavi.R;
 import kr.fatos.tnavi.TNaviMainActivity;
 import kr.fatos.tnavi.WidgetUnit.MovableFloatingActionButton;
 
-public class SearchMainFragment extends Fragment implements View.OnClickListener{
+public class SearchMainFragment extends Fragment implements View.OnClickListener
+{
     TextView title_text_view, textView_DriveInfo_Distance, textView_Day, textView_Daytext, textView_Time, textView_Eta;
     static TextView textView_MainAddress;
     ImageButton imageButton_MainMenu, imageButton_PlayStop, imageButton_Close, imageButton_SpeedControl, imageButton_ReRoute;
@@ -92,20 +93,26 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
     private String strAddr;
     private static Activity mActivity;
     int m_nDefaultSpeed = 0;
+
     //==============================================================================================
-    public static SearchMainFragment newInstance(){
+    public static SearchMainFragment newInstance()
+    {
         SearchMainFragment fragment = new SearchMainFragment();
 
         return fragment;
     }
+
     //==============================================================================================
     @Override
     @AddTrace(name = "onCreateView(SearchMain)", enabled = true)
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        try{
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        try
+        {
             m_Context = container.getContext();
-        }catch(NullPointerException e){
+        }
+        catch(NullPointerException e)
+        {
             Crashlytics.log(Log.ERROR, "SearchMainFragment", "oncreateView onCreate Error:: " + e.toString());
         }
 
@@ -114,10 +121,13 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
         myTrace = FirebasePerformance.getInstance().newTrace("SearchMainTrace");
         myTrace.start();
 
-        try{
+        try
+        {
             m_FMInterface = ((TNaviMainActivity)getActivity()).m_FMInterface;
             myTrace.incrementMetric("m_FMInterfae not null", 1);
-        }catch (NullPointerException e){
+        }
+        catch(NullPointerException e)
+        {
             myTrace.incrementMetric("m_FMInterfae is null", 1);
             FMInterface.CreateInstance(m_Context);
             m_FMInterface = FMInterface.GetInstance();
@@ -125,7 +135,8 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
 
         View view = null;
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
             view = inflater.inflate(R.layout.fragment_searchmain, container, false);
         }
         else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
@@ -143,13 +154,15 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
             m_strAppMode = getArguments().getString(TNaviActionCode.APP_MODE);
         }
 
-        m_gApp = (ANaviApplication) view.getContext().getApplicationContext();
+        m_gApp = (ANaviApplication)view.getContext().getApplicationContext();
 
         return view;
     }
+
     //==============================================================================================
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         changeLanguage();
         final IntentFilter filter = new IntentFilter();
         filter.addAction("RELOAD_ACTIVITY");
@@ -158,28 +171,40 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
 
         super.onResume();
     }
+
     //==============================================================================================
     @Override
-    public void onStop() {
+    public void onStop()
+    {
         super.onStop();
 
         myTrace.stop();
 
-        if(m_Context != null){
-            try {
+        if(m_Context != null)
+        {
+            try
+            {
                 m_Context.unregisterReceiver(quickMenuFinishReceiver);
-            } catch (IllegalArgumentException e){
+            }
+            catch(IllegalArgumentException e)
+            {
 
-            } catch (Exception e) {
+            }
+            catch(Exception e)
+            {
 
-            }finally {
+            }
+            finally
+            {
 
             }
         }
     }
+
     //==============================================================================================
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
 
         title_text_view = view.findViewById(R.id.title_text_view);
@@ -277,12 +302,18 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
         {
             DefaultMode();
         }
-        
+//        else if(m_FMInterface.FM_GetDriveInfo().isM_bIsRoute())
+//        {
+//            RouteMode();
+//        }
+
         TNaviActionCode.CUR_SIMUL_SPEED = TNaviActionCode.SIMUL_SPEED_1;
         m_nDefaultSpeed = ((TNaviMainActivity)getActivity()).m_FMInterface.FM_GetSimulationSpeed();
     }
+
     //==============================================================================================
-    private void init_ButtonView(View view){
+    private void init_ButtonView(View view)
+    {
         ImageButton btn_goPopMenu;
 
         btn_goPopMenu = view.findViewById(R.id.imageButton_MainMenuOnemap);
@@ -300,12 +331,18 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
 
         container_button = view.findViewById(R.id.container_button);
     }
+
     //==============================================================================================
-    private void closePopupMenu() {
-        if(timerhandler!=null){
-            try{
+    private void closePopupMenu()
+    {
+        if(timerhandler != null)
+        {
+            try
+            {
                 timerhandler.removeMessages(HANDLER_WHAT_TIMER);
-            }catch (Exception e){
+            }
+            catch(Exception e)
+            {
 
             }
         }
@@ -314,14 +351,18 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
         container_button.setAnimation(animation_out);
         animation_out.start();
     }
+
     //==============================================================================================
-    private void goPopupMenu(){
+    private void goPopupMenu()
+    {
         String appMode = ((TNaviMainActivity)getActivity()).APP_MODE;
         if(container_button != null)
         {
-            if(container_button.getVisibility() == View.GONE) {
+            if(container_button.getVisibility() == View.GONE)
+            {
                 //design적용전까지 일단 메인화면에서는 막아둠
-                if(appMode.equals(TNaviActionCode.APP_MODE_DEFAULT)){
+                if(appMode.equals(TNaviActionCode.APP_MODE_DEFAULT))
+                {
                     container_button.setVisibility(View.VISIBLE);
                     LinearLayout ll = (LinearLayout)container_button.getChildAt(0);
                     ll.getChildAt(0).setVisibility(View.INVISIBLE);
@@ -330,14 +371,18 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
 
                     container_button.setAnimation(animation_in);
                     animation_in.start();
-                }else if(appMode.equals(TNaviActionCode.APP_MODE_ROUTE)){
+                }
+                else if(appMode.equals(TNaviActionCode.APP_MODE_ROUTE))
+                {
                     container_button.setVisibility(View.VISIBLE);
                     LinearLayout ll = (LinearLayout)container_button.getChildAt(0);
                     ll.getChildAt(0).setVisibility(View.INVISIBLE);
                     container_button.setAnimation(animation_in);
                     animation_in.start();
 
-                }else{
+                }
+                else
+                {
                     container_button.setVisibility(View.VISIBLE);
                     container_button.setAnimation(animation_in);
                     animation_in.start();
@@ -350,27 +395,30 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
                 }
 
             }
-            else if (container_button.getVisibility() == View.VISIBLE)
+            else if(container_button.getVisibility() == View.VISIBLE)
             {
-               closePopupMenu();
+                closePopupMenu();
             }
 
         }
     }
+
     //==============================================================================================
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         fComm.fragmentContactActivity(v);
-        switch(v.getId()) {
-            case R.id.imageButton_MainMenu :
-            case R.id.imageButton_MainMenuOnemap :
-                ActivityManager activityManager = (ActivityManager) m_Context.getSystemService(Context.ACTIVITY_SERVICE);
+        switch(v.getId())
+        {
+            case R.id.imageButton_MainMenu:
+            case R.id.imageButton_MainMenuOnemap:
+                ActivityManager activityManager = (ActivityManager)m_Context.getSystemService(Context.ACTIVITY_SERVICE);
                 List<ActivityManager.RunningTaskInfo> info = activityManager.getRunningTasks(1);
 
                 ActivityManager.RunningTaskInfo running = info.get(0);
                 ComponentName componentName = running.topActivity;
 
-                if (TNaviPickerActivity.class.getName().equals(componentName.getClassName()))
+                if(TNaviPickerActivity.class.getName().equals(componentName.getClassName()))
                 {
                     Intent intent = new Intent();
                     intent.setAction("CLOSE_POPUP");
@@ -388,54 +436,56 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
                 timerhandler.sendMessageDelayed(msg, 6000);
                 break;
 
-            case R.id.imageButton_PlayStop : //모의주행 일시정지, 시작
-                if(m_gApp.IsSimulateMode()) {
-                    if(isSimul) {
+            case R.id.imageButton_PlayStop: //모의주행 일시정지, 시작
+                if(m_gApp.IsSimulateMode())
+                {
+                    if(isSimul)
+                    {
                         isSimul = false;
 
                         imageButton_PlayStop.setBackgroundResource(R.drawable.selector_play);
-                        ((TNaviMainActivity) getActivity()).m_FMInterface.FM_PauseSimulation(); //모의 주행 일시정지
+                        ((TNaviMainActivity)getActivity()).m_FMInterface.FM_PauseSimulation(); //모의 주행 일시정지
                     }
                     else
                     {
                         isSimul = true;
 
                         imageButton_PlayStop.setBackgroundResource(R.drawable.selector_stop);
-                        ((TNaviMainActivity) getActivity()).m_FMInterface.FM_ResumeSimulation(); //모의 주행 재시작
-                        ((TNaviMainActivity) getActivity()).mapMoveCurrnetPostion();
+                        ((TNaviMainActivity)getActivity()).m_FMInterface.FM_ResumeSimulation(); //모의 주행 재시작
+                        ((TNaviMainActivity)getActivity()).mapMoveCurrnetPostion();
                     }
                 }
                 break;
 
-            case R.id.imageButton_Close ://경로 취소
+            case R.id.imageButton_Close://경로 취소
                 hide_search(true);
                 setPlayStopButtonVisible(false);
                 ((TNaviMainActivity)getActivity()).simulCancel();
 
                 break;
 
-            case R.id.imageButton_SpeedControl :
+            case R.id.imageButton_SpeedControl:
                 switch(TNaviActionCode.CUR_SIMUL_SPEED)
                 {
-                    case TNaviActionCode.SIMUL_SPEED_1 :
+                    case TNaviActionCode.SIMUL_SPEED_1:
                         TNaviActionCode.CUR_SIMUL_SPEED = TNaviActionCode.SIMUL_SPEED_2;
                         imageButton_SpeedControl.setBackgroundResource(R.drawable.selector_speed_control_2);
                         ((TNaviMainActivity)getActivity()).m_FMInterface.FM_SetSimulationSpeed(m_nDefaultSpeed * TNaviActionCode.CUR_SIMUL_SPEED);
                         break;
 
-                    case TNaviActionCode.SIMUL_SPEED_2 :
+                    case TNaviActionCode.SIMUL_SPEED_2:
                         TNaviActionCode.CUR_SIMUL_SPEED = TNaviActionCode.SIMUL_SPEED_4;
                         imageButton_SpeedControl.setBackgroundResource(R.drawable.selector_speed_control_4);
                         ((TNaviMainActivity)getActivity()).m_FMInterface.FM_SetSimulationSpeed(m_nDefaultSpeed * TNaviActionCode.CUR_SIMUL_SPEED);
                         break;
 
-                    case TNaviActionCode.SIMUL_SPEED_4 :
+                    case TNaviActionCode.SIMUL_SPEED_4:
                         TNaviActionCode.CUR_SIMUL_SPEED = TNaviActionCode.SIMUL_SPEED_8;
                         imageButton_SpeedControl.setBackgroundResource(R.drawable.selector_speed_control_8);
                         ((TNaviMainActivity)getActivity()).m_FMInterface.FM_SetSimulationSpeed(m_nDefaultSpeed * TNaviActionCode.CUR_SIMUL_SPEED);
                         break;
 
-                    case TNaviActionCode.SIMUL_SPEED_8 :
+                    case TNaviActionCode.SIMUL_SPEED_8:
                         TNaviActionCode.CUR_SIMUL_SPEED = TNaviActionCode.SIMUL_SPEED_1;
                         imageButton_SpeedControl.setBackgroundResource(R.drawable.selector_speed_control_1);
                         ((TNaviMainActivity)getActivity()).m_FMInterface.FM_SetSimulationSpeed(m_nDefaultSpeed * TNaviActionCode.CUR_SIMUL_SPEED);
@@ -443,11 +493,11 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
                 }
                 break;
 
-            case R.id.imageButton_ReRoute ://재탐색 버튼
+            case R.id.imageButton_ReRoute://재탐색 버튼
                 ((TNaviMainActivity)getActivity()).ReRoute();
                 break;
 
-            case R.id.floatingActionButton_Reroute : //재탐색 플로팅 버튼
+            case R.id.floatingActionButton_Reroute: //재탐색 플로팅 버튼
                 ((TNaviMainActivity)getActivity()).ReRoute();
                 break;
 
@@ -455,22 +505,24 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
                 ((TNaviMainActivity)getActivity()).m_FMInterface.FM_StartRGService(FMBaseActivity.onFatosMapListener);  //경로 안내 시작
                 ((TNaviMainActivity)getActivity()).showTbtLayout(true);
                 Bundle bundle = new Bundle();
-                bundle.putString(TNaviActionCode.APP_MODE,TNaviActionCode.APP_MODE_ROUTE);
+                bundle.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_ROUTE);
                 GoLib.getInstance().goTNaviMainActivity(m_Context, bundle);
                 closePopupMenu();
                 break;
 
             case R.id.pop_button2: // Cancel Route
-                ((TNaviMainActivity)getActivity()).popUpDialogShow(getString(R.string.string_yes),getString(R.string.string_title_route_cancel),
-                        getString(R.string.string_content_route_cancel), true);
+                ((TNaviMainActivity)getActivity()).popUpDialogShow(getString(R.string.string_yes), getString(R.string.string_title_route_cancel), getString(R.string.string_content_route_cancel), true);
 
                 closePopupMenu();
                 break;
 
             case R.id.pop_button3: //RouteInformation
-                if(m_gApp.IsSimulateMode()){
+                if(m_gApp.IsSimulateMode())
+                {
                     ((TNaviMainActivity)getActivity()).simulCancel();
-                }else{
+                }
+                else
+                {
                     ((TNaviMainActivity)getActivity()).goRouteInfo();
                 }
 
@@ -479,21 +531,25 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
 
             case R.id.pop_button4: //Settings
                 Bundle garbage_bundle = new Bundle();
-                GoLib.getInstance().goSettingActivity(m_Context,garbage_bundle);
+                GoLib.getInstance().goSettingActivity(m_Context, garbage_bundle);
                 closePopupMenu();
                 break;
         }
     }
+
     //==============================================================================================
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Context context)
+    {
         super.onAttach(context);
 
-        if(getActivity() != null && getActivity() instanceof TNaviMainActivity) {
+        if(getActivity() != null && getActivity() instanceof TNaviMainActivity)
+        {
             strAddr = ((TNaviMainActivity)getActivity()).getAddrText();
-            fComm = (FragmentCommunicator) context;
+            fComm = (FragmentCommunicator)context;
         }
     }
+
     //==============================================================================================
     public void setAddrText(double[] i_dCoord)
     {
@@ -505,34 +561,43 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
         params[0] = m_dGetY;
         params[1] = m_dGetX;
 
-        try{
+        try
+        {
             searchTask = new SearchTask();
             searchTask.execute(params);
 
-        }catch (Exception e){
+        }
+        catch(Exception e)
+        {
 
         }
     }
+
     //==============================================================================================
     public void setAddrText(String i_strAddr)
     {
         textView_MainAddressOnemap.setText(i_strAddr);
     }
+
     //==============================================================================================
     public void setRemainDistance(String i_strRemainDistance)
     {
         textView_DistOnemap.setText(i_strRemainDistance);
     }
+
     //==============================================================================================
     public void setRemainTime(String i_strRemainTime, boolean bArrTime)
     {
-        if(isAdded()) {
+        if(isAdded())
+        {
             String strDay = "";
             String strTime = "";
             String strEta = "";
 
-            if (bArrTime) {
-                if (i_strRemainTime.contains(" ")) {
+            if(bArrTime)
+            {
+                if(i_strRemainTime.contains(" "))
+                {
                     strTime = i_strRemainTime.substring(0, i_strRemainTime.indexOf(" "));
 
                     strEta = i_strRemainTime.substring(i_strRemainTime.length() - 2);
@@ -541,33 +606,45 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
 
                     textView_GoalTimeOnemap.setText(strTimeEta);
                 }
-            } else {
-                if (i_strRemainTime.contains(",")) {
+            }
+            else
+            {
+                if(i_strRemainTime.contains(","))
+                {
                     strDay = i_strRemainTime.substring(0, i_strRemainTime.indexOf(","));
                     strTime = i_strRemainTime.substring(i_strRemainTime.indexOf(",") + 1);
-                } else {
+                }
+                else
+                {
                     strTime = i_strRemainTime;
                 }
 
                 String strTimeH = strTime.substring(0, strTime.indexOf(":"));
                 String strTimeM = strTime.substring(strTime.indexOf(":") + 1);
 
-                if (!strDay.equals("")) {
+                if(!strDay.equals(""))
+                {
                     textView_DayEtaOnemap.setVisibility(View.VISIBLE);
                     textView_DayOnemap.setVisibility(View.VISIBLE);
 
                     textView_DayEtaOnemap.setText(strDay);
 
-                    if (Integer.valueOf(strDay) > 1) {
+                    if(Integer.valueOf(strDay) > 1)
+                    {
                         textView_DayOnemap.setText(getResources().getString(R.string.days_small) + " ");
-                    } else {
+                    }
+                    else
+                    {
                         textView_DayOnemap.setText(getResources().getString(R.string.day_small) + " ");
                     }
 
-                    if (strTimeH.equals("00")) {
+                    if(strTimeH.equals("00"))
+                    {
                         textView_TimeEtaOnemap.setVisibility(View.GONE);
                         textView_TimehOnemap.setVisibility(View.GONE);
-                    } else {
+                    }
+                    else
+                    {
                         textView_TimeEtaOnemap.setVisibility(View.VISIBLE);
                         textView_TimehOnemap.setVisibility(View.VISIBLE);
 
@@ -575,17 +652,22 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
                         textView_TimehOnemap.setText(" " + getString(R.string.h) + " ");
                     }
 
-                    if (strTimeM.equals("00")) {
+                    if(strTimeM.equals("00"))
+                    {
                         textView_TimeEtaMinOnemap.setVisibility(View.GONE);
                         textView_EtaOnemap.setVisibility(View.GONE);
-                    } else {
+                    }
+                    else
+                    {
                         textView_TimeEtaMinOnemap.setVisibility(View.VISIBLE);
                         textView_EtaOnemap.setVisibility(View.VISIBLE);
 
                         textView_TimeEtaMinOnemap.setText(strTimeM);
                         textView_EtaOnemap.setText(" " + getString(R.string.min));
                     }
-                } else if (!strTimeH.equals("00")) {
+                }
+                else if(!strTimeH.equals("00"))
+                {
                     textView_DayEtaOnemap.setVisibility(View.GONE);
                     textView_DayOnemap.setVisibility(View.GONE);
 
@@ -595,17 +677,22 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
                     textView_TimeEtaOnemap.setText(strTimeH);
                     textView_TimehOnemap.setText(" " + getString(R.string.h) + " ");
 
-                    if (strTimeM.equals("00")) {
+                    if(strTimeM.equals("00"))
+                    {
                         textView_TimeEtaMinOnemap.setVisibility(View.GONE);
                         textView_EtaOnemap.setVisibility(View.GONE);
-                    } else {
+                    }
+                    else
+                    {
                         textView_TimeEtaMinOnemap.setVisibility(View.VISIBLE);
                         textView_EtaOnemap.setVisibility(View.VISIBLE);
 
                         textView_TimeEtaMinOnemap.setText(strTimeM);
                         textView_EtaOnemap.setText(" " + getString(R.string.min));
                     }
-                } else {
+                }
+                else
+                {
                     textView_DayEtaOnemap.setVisibility(View.GONE);
                     textView_DayOnemap.setVisibility(View.GONE);
 
@@ -617,13 +704,15 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
 
                     textView_TimeEtaMinOnemap.setText(strTimeM);
 
-                    if (isAdded()) {
+                    if(isAdded())
+                    {
                         textView_EtaOnemap.setText(" " + getResources().getString(R.string.min));
                     }
                 }
             }
         }
     }
+
     //==============================================================================================
     private void RouteMode()
     {
@@ -633,8 +722,9 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
 
         setReRouteButtonVisible(true);
 
-        setAddrSearchButtonVisible(true);
+        setAddrSearchButtonVisible(false);
     }
+
     //==============================================================================================
     private void SimulMode()
     {
@@ -646,6 +736,7 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
 
         setAddrSearchButtonVisible(false);
     }
+
     //==============================================================================================
     private void DefaultMode()
     {
@@ -657,8 +748,10 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
 
         setAddrSearchButtonVisible(true);
     }
+
     //==============================================================================================
-    public void hide_search(boolean Show_Or_Hide){
+    public void hide_search(boolean Show_Or_Hide)
+    {
         if(container_searchBar != null)
         {
             if(Show_Or_Hide)
@@ -684,6 +777,7 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
             }
         }
     }
+
     //==============================================================================================
     public void setPlayStopButtonVisible(boolean i_bFlag)
     {
@@ -702,6 +796,7 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
             animation_right.start();
         }
     }
+
     //==============================================================================================
     @SuppressLint("RestrictedApi")
     public void setReRouteButtonVisible(boolean i_bFlag)
@@ -715,6 +810,7 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
             floatingActionButton_Reroute.setVisibility(View.GONE);
         }
     }
+
     //==============================================================================================
     public void setAddrSearchButtonVisible(boolean i_bFlag)
     {
@@ -727,6 +823,7 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
             imageButton_SearchOnemap.setVisibility(View.INVISIBLE);
         }
     }
+
     //==============================================================================================
     private void changeLanguage()
     {
@@ -742,31 +839,41 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
         pop_button2.setText(resources.getString(R.string.string_cancleroute));
         pop_button1.setText(resources.getString(R.string.string_go_route_from_simul));
     }
+
     //==============================================================================================
-    BroadcastReceiver quickMenuFinishReceiver = new BroadcastReceiver(){
-        public void onReceive(Context context, Intent intent){
+    BroadcastReceiver quickMenuFinishReceiver = new BroadcastReceiver()
+    {
+        public void onReceive(Context context, Intent intent)
+        {
             String action = intent.getAction();
 
-            if (action.equals("RELOAD_COUNTRY")) {
+            if(action.equals("RELOAD_COUNTRY"))
+            {
                 changeLanguage();
             }
         }
     };
+
     //==============================================================================================
-    public class TimerHandler extends Handler {
+    public class TimerHandler extends Handler
+    {
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(Message msg)
+        {
             super.handleMessage(msg);
 
-            if (imageButton_MainMenuOnemap != null) {
+            if(imageButton_MainMenuOnemap != null)
+            {
                 //주행중일 때만 사라지도록 하던 방식에서 모든 모드에서  사라지도록
                 closePopupMenu();
             }
         }
     }
+
     //==============================================================================================
     @AddTrace(name = "curDongNameTask[main]", enabled = true)
-    public static class SearchTask extends AsyncTask<double[], Void, String> {
+    public static class SearchTask extends AsyncTask<double[], Void, String>
+    {
         @Override
         protected String doInBackground(double[]... geoPoints)
         {
@@ -774,33 +881,39 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
             double longitude = latYlonX[0];
             double latitude = latYlonX[1];
 
-            if(isCancelled()){
+            if(isCancelled())
+            {
                 return null;
             }
 
-            if(m_FMInterface != null && m_gApp.getAppSettingInfo().m_nDefaultLanguage == 0){
+            if(m_FMInterface != null && m_gApp.getAppSettingInfo().m_nDefaultLanguage == 0)
+            {
                 //국내의 경우 native 사용
-                String address = m_FMInterface.FM_GetAddressVol2(latitude,longitude);
-                if(address!=null){
-                    if(!address.equals("")) return address;
+                String address = m_FMInterface.FM_GetAddressVol2(latitude, longitude);
+                if(address != null)
+                {
+                    if(!address.equals(""))
+                    {
+                        return address;
+                    }
                 }
             }
-//            try
-//            {
-//                Geocoder geoCoder = new Geocoder(m_Context,m_gApp.getFatosLocale());
-//                List<Address> addresses = geoCoder.getFromLocation(longitude,latitude, 1);
-//
-//                if (addresses.size() > 0) {
-//                    AMapLog.e(TAG,"@@@@@ addr1 : " + gettAddresString(addresses.get(0)));
-//
-//                }
-//                }
-//            catch (IOException ex)
-//            {
-//
-//            }
+            //            try
+            //            {
+            //                Geocoder geoCoder = new Geocoder(m_Context,m_gApp.getFatosLocale());
+            //                List<Address> addresses = geoCoder.getFromLocation(longitude,latitude, 1);
+            //
+            //                if (addresses.size() > 0) {
+            //                    AMapLog.e(TAG,"@@@@@ addr1 : " + gettAddresString(addresses.get(0)));
+            //
+            //                }
+            //                }
+            //            catch (IOException ex)
+            //            {
+            //
+            //            }
 
-//            AMapLog.e(TAG,"@@@@@ addr2 : " + AMapPositionManager.getCurPosName());
+            //            AMapLog.e(TAG,"@@@@@ addr2 : " + AMapPositionManager.getCurPosName());
             return AMapPositionManager.getCurPosName();
  /*
             try
@@ -845,15 +958,21 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
         @Override
         protected void onPostExecute(String address)
         {
-            if(address != null){
+            if(address != null)
+            {
                 final String address_str = address;
-                new Thread(new Runnable() {
+                new Thread(new Runnable()
+                {
                     @Override
-                    public void run() {
-                        if(mActivity!=null) {
-                            mActivity.runOnUiThread(new Runnable() {
+                    public void run()
+                    {
+                        if(mActivity != null)
+                        {
+                            mActivity.runOnUiThread(new Runnable()
+                            {
                                 @Override
-                                public void run() {
+                                public void run()
+                                {
                                     textView_MainAddressOnemap.setText(address_str);
                                 }
                             });
@@ -863,39 +982,53 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
             }
         }
     }
+
     //==============================================================================================
-    public static String gettAddresString(Address address){
+    public static String gettAddresString(Address address)
+    {
         boolean bAppended = false;
 
-        if (null != address ) {
+        if(null != address)
+        {
             StringBuilder sb = new StringBuilder();
-            if(address.getAdminArea() != null && address.getAdminArea().equals("") == false){
+            if(address.getAdminArea() != null && address.getAdminArea().equals("") == false)
+            {
                 sb.append(address.getAdminArea());
                 bAppended = true;
             }
 
-            if(address.getLocality() != null && address.getLocality().equals("") == false){
+            if(address.getLocality() != null && address.getLocality().equals("") == false)
+            {
                 //AdminArea와 Locality가 같은경우 덮어쓰지 않음 (19/01/31 for FATOSMapHi)
-                if(!sb.toString().equals(address.getLocality())){
+                if(!sb.toString().equals(address.getLocality()))
+                {
                     if(bAppended == true)
+                    {
                         sb.append(" ");//sb.append("/");
+                    }
                     sb.append(address.getLocality());
                     bAppended = true;
                 }
             }
 
-            if(address.getSubLocality() != null && address.getSubLocality().equals("") == false){
+            if(address.getSubLocality() != null && address.getSubLocality().equals("") == false)
+            {
 
                 if(bAppended == true)
+                {
                     sb.append(" ");//sb.append("/");
+                }
 
                 sb.append(address.getSubLocality());
                 bAppended = true;
             }
-            if(address.getThoroughfare() != null && address.getThoroughfare().equals("") == false){
+            if(address.getThoroughfare() != null && address.getThoroughfare().equals("") == false)
+            {
 
                 if(bAppended == true)
+                {
                     sb.append(" ");//sb.append("/");
+                }
 
                 sb.append(address.getThoroughfare());
                 bAppended = true;

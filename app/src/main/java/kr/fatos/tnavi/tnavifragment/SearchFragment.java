@@ -63,7 +63,8 @@ import kr.fatos.tnavi.Unit.NPoiItem;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment
+{
     private final static int HANDLER_WHAT_TIMER = 1;
 
     Button button_back;
@@ -93,23 +94,29 @@ public class SearchFragment extends Fragment {
     private ANaviApplication m_gApp;
     public NPoiItem m_nPoiItem = new NPoiItem();
     public int m_nSearchType = 1; //0: 시작 설정, 1: 목적지 설정, 2: 일반 설정
+
     //==============================================================================================
-    public static SearchFragment newInstance() {
+    public static SearchFragment newInstance()
+    {
         SearchFragment fragment = new SearchFragment();
         return fragment;
     }
+
     //==============================================================================================
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
     }
+
     //==============================================================================================
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        if (getArguments() != null) {
+        if(getArguments() != null)
+        {
             args = getArguments().getString(TNaviActionCode.ROUTE_VIA_OR_GOAL);
             app_mode = getArguments().getString(TNaviActionCode.APP_MODE);
             strWord = getArguments().getString(TNaviActionCode.SEARCH_MODE_WORD);
@@ -117,7 +124,7 @@ public class SearchFragment extends Fragment {
         }
 
         mContext = view.getContext();
-        m_gApp = (ANaviApplication) mContext.getApplicationContext();
+        m_gApp = (ANaviApplication)mContext.getApplicationContext();
         m_strPackageName = mContext.getPackageName();
         prefs = mContext.getSharedPreferences(getResources().getString(R.string.app_registerId), MODE_PRIVATE);
         final IntentFilter filter = new IntentFilter();
@@ -128,10 +135,12 @@ public class SearchFragment extends Fragment {
 
         return view;
     }
+
     //==============================================================================================
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        mImm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    {
+        mImm = (InputMethodManager)mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         button_back = view.findViewById(R.id.button_back);
         editText_search = view.findViewById(R.id.editText_search);
@@ -163,9 +172,11 @@ public class SearchFragment extends Fragment {
 
         txt_nosearchresult = view.findViewById(R.id.txt_nosearchresult);
 
-        ((Activity) getActivity()).runOnUiThread(new Runnable() {
+        ((Activity)getActivity()).runOnUiThread(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 imageButton_cate.setVisibility(View.GONE);
                 linearLayout_SettingInfo.setVisibility(View.GONE);
             }
@@ -173,17 +184,22 @@ public class SearchFragment extends Fragment {
 
         setRecyclerView();
 
-        button_back.setOnClickListener(new View.OnClickListener() {
+        button_back.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 getActivity().onBackPressed();
             }
         });
 
-        imageButton_clear.setOnClickListener(new View.OnClickListener() {
+        imageButton_clear.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-                if (!editText_search.getText().toString().isEmpty()) {
+            public void onClick(View view)
+            {
+                if(!editText_search.getText().toString().isEmpty())
+                {
                     showEventKeyboard();
                 }
 
@@ -193,15 +209,18 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        imageButton_sClear.setOnClickListener(new View.OnClickListener() {
+        imageButton_sClear.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-                if (!editText_start.getText().toString().isEmpty()) {
+            public void onClick(View view)
+            {
+                if(!editText_start.getText().toString().isEmpty())
+                {
                     showEventKeyboard();
                 }
 
-                ((TNaviMainActivity) getActivity()).set_strAddr("", 0);
-                ((TNaviMainActivity) getActivity()).setStartCoord(0, 0);
+                ((TNaviMainActivity)getActivity()).set_strAddr("", 0);
+                ((TNaviMainActivity)getActivity()).setStartCoord(0, 0);
 
                 editText_start.setText("");
                 setSearchVisible(true);
@@ -210,10 +229,13 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        imageButton_gClear.setOnClickListener(new View.OnClickListener() {
+        imageButton_gClear.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-                if (!editText_goal.getText().toString().isEmpty()) {
+            public void onClick(View view)
+            {
+                if(!editText_goal.getText().toString().isEmpty())
+                {
                     showEventKeyboard();
                 }
 
@@ -223,17 +245,21 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        imageButton_cate.setOnClickListener(new View.OnClickListener() {
+        imageButton_cate.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Bundle bundle = new Bundle();
                 GoLib.getInstance().goSearchSettingActivity(mContext, bundle); // 수정중
             }
         });
 
-        imageButton_Search.setOnClickListener(new View.OnClickListener() {
+        imageButton_Search.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 if(m_strText.isEmpty() || m_strText.equals(""))
                 {
                     return;
@@ -245,9 +271,11 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        imageButton_SSearch.setOnClickListener(new View.OnClickListener() {
+        imageButton_SSearch.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 if(m_strText.isEmpty() || m_strText.equals(""))
                 {
                     return;
@@ -259,9 +287,11 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        imageButton_GSearch.setOnClickListener(new View.OnClickListener() {
+        imageButton_GSearch.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 if(m_strText.isEmpty() || m_strText.equals(""))
                 {
                     return;
@@ -273,9 +303,11 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        editText_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        editText_search.setOnEditorActionListener(new TextView.OnEditorActionListener()
+        {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent)
+            {
                 if(EditorInfo.IME_ACTION_SEARCH == i)
                 {
                     if(m_strText.isEmpty() || m_strText.equals(""))
@@ -292,9 +324,11 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        editText_start.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        editText_start.setOnEditorActionListener(new TextView.OnEditorActionListener()
+        {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent)
+            {
                 if(EditorInfo.IME_ACTION_SEARCH == i)
                 {
                     if(m_strText.isEmpty() || m_strText.equals(""))
@@ -311,9 +345,11 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        editText_goal.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        editText_goal.setOnEditorActionListener(new TextView.OnEditorActionListener()
+        {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent)
+            {
                 if(EditorInfo.IME_ACTION_SEARCH == i)
                 {
                     if(m_strText.isEmpty() || m_strText.equals(""))
@@ -330,47 +366,58 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        editText_search.setOnTouchListener(new View.OnTouchListener() {
+        editText_search.setOnTouchListener(new View.OnTouchListener()
+        {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View v, MotionEvent event)
+            {
                 m_nSearchType = 2;
                 return false;
             }
         });
 
-        editText_start.setOnTouchListener(new View.OnTouchListener() {
+        editText_start.setOnTouchListener(new View.OnTouchListener()
+        {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View v, MotionEvent event)
+            {
                 m_nSearchType = 0;
                 return false;
             }
         });
 
-        editText_goal.setOnTouchListener(new View.OnTouchListener() {
+        editText_goal.setOnTouchListener(new View.OnTouchListener()
+        {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View v, MotionEvent event)
+            {
                 m_nSearchType = 1;
                 return false;
             }
         });
 
-        linearLayout_SettingInfo.setOnTouchListener(new View.OnTouchListener() {
+        linearLayout_SettingInfo.setOnTouchListener(new View.OnTouchListener()
+        {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public boolean onTouch(View view, MotionEvent motionEvent)
+            {
                 return true;
             }
         });
 
-        relativeLayout_Background.setOnTouchListener(new View.OnTouchListener() {
+        relativeLayout_Background.setOnTouchListener(new View.OnTouchListener()
+        {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public boolean onTouch(View view, MotionEvent motionEvent)
+            {
                 return true;
             }
         });
 
         timerHandler = new TimerHandler();
 
-        if (getArguments() != null) {
+        if(getArguments() != null)
+        {
             args = getArguments().getString(TNaviActionCode.ROUTE_VIA_OR_GOAL);
             app_mode = getArguments().getString(TNaviActionCode.APP_MODE);
             strWord = getArguments().getString(TNaviActionCode.SEARCH_MODE_WORD);
@@ -379,7 +426,8 @@ public class SearchFragment extends Fragment {
 
             if(args.equals(TNaviActionCode.JUST_GOAL))
             {
-                if(!TextUtils.isEmpty(strWord)) {
+                if(!TextUtils.isEmpty(strWord))
+                {
                     editText_start.setText(strWord);
                 }
 
@@ -395,8 +443,10 @@ public class SearchFragment extends Fragment {
             }
         }
 
-        if (arrayListMap != null) {
-            if (arrayListMap.size() > 0) {
+        if(arrayListMap != null)
+        {
+            if(arrayListMap.size() > 0)
+            {
                 setDistVisible();
                 listAdapter.addItemList(arrayListMap);
 
@@ -404,11 +454,14 @@ public class SearchFragment extends Fragment {
 
                 setSearchVisible(false);
             }
-        } else {
+        }
+        else
+        {
             setSearchVisible(true);
         }
 
-        if (strWord != null) {
+        if(strWord != null)
+        {
             editText_search.setText(strWord);
         }
 
@@ -416,17 +469,21 @@ public class SearchFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
     }
+
     //==============================================================================================
-    public void getRecentPOI() {
-        if (arrayList.size() > 0) {
+    public void getRecentPOI()
+    {
+        if(arrayList.size() > 0)
+        {
             arrayList.clear();
         }
 
         listAdapter.clearItemList();
 
-        arrayList = ((TNaviMainActivity) mContext).LoadRecentPOI();
+        arrayList = ((TNaviMainActivity)mContext).LoadRecentPOI();
 
-        if (arrayList == null) {
+        if(arrayList == null)
+        {
             arrayList = new ArrayList<>();
         }
 
@@ -435,38 +492,49 @@ public class SearchFragment extends Fragment {
         listAdapter.setDistVisible(false);
         listAdapter.addItemList(arrayList);
     }
+
     //==============================================================================================
     public void setDistVisible()
     {
         listAdapter.setDistVisible(true);
     }
+
     //==============================================================================================
-    public void showEventKeyboard() {
+    public void showEventKeyboard()
+    {
         mImm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
+
     //==============================================================================================
-    private void setRecyclerView() {
+    private void setRecyclerView()
+    {
         recyclerView_List.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(mContext);
         recyclerView_List.setLayoutManager(mLayoutManager);
         //만약 args가 있어서, 목적지인지 출발지인지 구분해야 하는 경우
 
-        if (args != null) {
+        if(args != null)
+        {
             listAdapter = new SearchAdapter(mContext, R.layout.recyclerview_search, new ArrayList<NPoiItem>(), args, app_mode, this);
-        } else {
-            listAdapter = new SearchAdapter(mContext, R.layout.recyclerview_search, new ArrayList<NPoiItem>(),
-                    TNaviActionCode.JUST_GOAL, TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH, this);
+        }
+        else
+        {
+            listAdapter = new SearchAdapter(mContext, R.layout.recyclerview_search, new ArrayList<NPoiItem>(), TNaviActionCode.JUST_GOAL, TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH, this);
         }
 
         recyclerView_List.setAdapter(listAdapter);
 
         arrayList = new ArrayList<>();
     }
+
     //==============================================================================================
-    TextWatcher textWatcher = new TextWatcher() {
+    TextWatcher textWatcher = new TextWatcher()
+    {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            if (m_bFlag) {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        {
+            if(m_bFlag)
+            {
                 return;
             }
 
@@ -474,26 +542,34 @@ public class SearchFragment extends Fragment {
         }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (m_bFlag) {
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
+            if(m_bFlag)
+            {
                 return;
             }
 
             m_strText = s.toString();
 
-            ((TNaviMainActivity) getActivity()).setSearchWord(m_strText);
+            ((TNaviMainActivity)getActivity()).setSearchWord(m_strText);
         }
 
         @Override
-        public void afterTextChanged(Editable s) {
+        public void afterTextChanged(Editable s)
+        {
             final String keyword = s.toString();
 
-            ((Activity) getActivity()).runOnUiThread(new Runnable() {
+            ((Activity)getActivity()).runOnUiThread(new Runnable()
+            {
                 @Override
-                public void run() {
-                    if (keyword.length() > 0) {
+                public void run()
+                {
+                    if(keyword.length() > 0)
+                    {
                         imageButton_clear.setVisibility(View.VISIBLE);
-                    } else {
+                    }
+                    else
+                    {
                         imageButton_clear.setVisibility(View.GONE);
                         setSearchVisible(true);
                         return;
@@ -501,16 +577,20 @@ public class SearchFragment extends Fragment {
                 }
             });
 
-            if (m_bFlag) {
+            if(m_bFlag)
+            {
                 return;
             }
         }
     };
     //==============================================================================================
-    TextWatcher textWatcherS = new TextWatcher() {
+    TextWatcher textWatcherS = new TextWatcher()
+    {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            if (m_bFlag) {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        {
+            if(m_bFlag)
+            {
                 return;
             }
 
@@ -518,26 +598,34 @@ public class SearchFragment extends Fragment {
         }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (m_bFlag) {
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
+            if(m_bFlag)
+            {
                 return;
             }
 
             m_strText = s.toString();
 
-            ((TNaviMainActivity) getActivity()).setSearchWord(m_strText);
+            ((TNaviMainActivity)getActivity()).setSearchWord(m_strText);
         }
 
         @Override
-        public void afterTextChanged(Editable s) {
+        public void afterTextChanged(Editable s)
+        {
             final String keyword = s.toString();
 
-            ((Activity) getActivity()).runOnUiThread(new Runnable() {
+            ((Activity)getActivity()).runOnUiThread(new Runnable()
+            {
                 @Override
-                public void run() {
-                    if (keyword.length() > 0) {
+                public void run()
+                {
+                    if(keyword.length() > 0)
+                    {
                         imageButton_sClear.setVisibility(View.VISIBLE);
-                    } else {
+                    }
+                    else
+                    {
                         imageButton_sClear.setVisibility(View.GONE);
                         setSearchVisible(true);
                         return;
@@ -545,16 +633,20 @@ public class SearchFragment extends Fragment {
                 }
             });
 
-            if (m_bFlag) {
+            if(m_bFlag)
+            {
                 return;
             }
         }
     };
     //==============================================================================================
-    TextWatcher textWatcherG = new TextWatcher() {
+    TextWatcher textWatcherG = new TextWatcher()
+    {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            if (m_bFlag) {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        {
+            if(m_bFlag)
+            {
                 return;
             }
 
@@ -562,26 +654,34 @@ public class SearchFragment extends Fragment {
         }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (m_bFlag) {
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
+            if(m_bFlag)
+            {
                 return;
             }
 
             m_strText = s.toString();
 
-            ((TNaviMainActivity) getActivity()).setSearchWord(m_strText);
+            ((TNaviMainActivity)getActivity()).setSearchWord(m_strText);
         }
 
         @Override
-        public void afterTextChanged(Editable s) {
+        public void afterTextChanged(Editable s)
+        {
             final String keyword = s.toString();
 
-            ((Activity) getActivity()).runOnUiThread(new Runnable() {
+            ((Activity)getActivity()).runOnUiThread(new Runnable()
+            {
                 @Override
-                public void run() {
-                    if (keyword.length() > 0) {
+                public void run()
+                {
+                    if(keyword.length() > 0)
+                    {
                         imageButton_gClear.setVisibility(View.VISIBLE);
-                    } else {
+                    }
+                    else
+                    {
                         imageButton_gClear.setVisibility(View.GONE);
                         setSearchVisible(true);
                         return;
@@ -589,21 +689,26 @@ public class SearchFragment extends Fragment {
                 }
             });
 
-            if (m_bFlag) {
+            if(m_bFlag)
+            {
                 return;
             }
         }
     };
+
     //==============================================================================================
-    private class EditChangeThread extends Thread {
+    private class EditChangeThread extends Thread
+    {
         private String strText;
 
-        public EditChangeThread(String strText) {
+        public EditChangeThread(String strText)
+        {
             this.strText = strText;
         }
 
         @Override
-        public void run() {
+        public void run()
+        {
             super.run();
 
             Message msg = new Message();
@@ -614,10 +719,13 @@ public class SearchFragment extends Fragment {
             timerHandler.sendMessageDelayed(msg, 500);
         }
     }
+
     //==============================================================================================
-    public class TimerHandler extends Handler {
+    public class TimerHandler extends Handler
+    {
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(Message msg)
+        {
             super.handleMessage(msg);
 
             String strMsg = msg.getData().getString("word");
@@ -627,61 +735,85 @@ public class SearchFragment extends Fragment {
             ((TNaviMainActivity)getActivity()).getSearchPoiItem(strMsg);
         }
     }
+
     //==============================================================================================
-    public void showProgress(String i_msg) {
+    public void showProgress(String i_msg)
+    {
         final String msg = i_msg;
 
-        ((Activity) getActivity()).runOnUiThread(new Runnable() {
+        ((Activity)getActivity()).runOnUiThread(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 textView_Address.setText(msg);
                 linearLayout_progressBar.setVisibility(View.VISIBLE);
             }
         });
     }
+
     //==============================================================================================
-    public void hideProgress() {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+    public void hideProgress()
+    {
+        new Handler(Looper.getMainLooper()).post(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 linearLayout_progressBar.setVisibility(View.GONE);
             }
         });
     }
+
     //==============================================================================================
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
+        if(resultCode == RESULT_OK)
+        {
+            if(requestCode == 1)
+            {
                 textView_cate.setText(SettingsCode.getValueCategory());
             }
         }
     }
-    //==============================================================================================
-    public void setKeyboardVisible(boolean bVisible) {
-        if (bVisible) {
 
-        } else {
+    //==============================================================================================
+    public void setKeyboardVisible(boolean bVisible)
+    {
+        if(bVisible)
+        {
+
+        }
+        else
+        {
             mImm.hideSoftInputFromWindow(editText_search.getWindowToken(), 0);
             mImm.hideSoftInputFromWindow(editText_start.getWindowToken(), 0);
             mImm.hideSoftInputFromWindow(editText_goal.getWindowToken(), 0);
         }
     }
+
     //==============================================================================================
     public void setSearchVisible(boolean i_bFlag)   //true면 최근 데이터 뿌려주고 false 일때는 검색결과 없을때 자동차 모양
     {
-        if (i_bFlag) {
+        if(i_bFlag)
+        {
             getRecentPOI();
         }
 
-        ((Activity) getActivity()).runOnUiThread(new Runnable() {
+        ((Activity)getActivity()).runOnUiThread(new Runnable()
+        {
             @Override
-            public void run() {
-                if (listAdapter.getItemCount() <= 0) {
+            public void run()
+            {
+                if(listAdapter.getItemCount() <= 0)
+                {
                     relativeLayout_SearchNoData.setVisibility(View.VISIBLE);
-                } else {
+                }
+                else
+                {
                     relativeLayout_SearchNoData.setVisibility(View.INVISIBLE);
 
                 }
@@ -690,30 +822,40 @@ public class SearchFragment extends Fragment {
 
         hideProgress();
     }
-    //==============================================================================================
-    BroadcastReceiver quickMenuFinishReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            String temp = ((TNaviMainActivity) getActivity()).getSearchWord();
 
-            if (temp == null) {
+    //==============================================================================================
+    BroadcastReceiver quickMenuFinishReceiver = new BroadcastReceiver()
+    {
+        public void onReceive(Context context, Intent intent)
+        {
+            String action = intent.getAction();
+            String temp = ((TNaviMainActivity)getActivity()).getSearchWord();
+
+            if(temp == null)
+            {
                 temp = "";
             }
 
             m_strText = temp;
 
-            if (action.equals("RELOAD_CATEGORY")) {
-                if (textView_cate != null) {
+            if(action.equals("RELOAD_CATEGORY"))
+            {
+                if(textView_cate != null)
+                {
                     textView_cate.setText(SettingsCode.getValueCategory());
 
                     showProgress("\'" + temp + "\'\n" + getString(R.string.string_wesearchtext));
 
-                    if (SettingsCode.getValueCountry().equals(getString(R.string.string_korea))) {
+                    if(SettingsCode.getValueCountry().equals(getString(R.string.string_korea)))
+                    {
                         ((TNaviMainActivity)getActivity()).getSearchPoiItem(temp);
                     }
                 }
-            } else if (action.equals("RELOAD_COUNTRY")) {
-                if (textView_country != null) {
+            }
+            else if(action.equals("RELOAD_COUNTRY"))
+            {
+                if(textView_country != null)
+                {
                     textView_country.setText(SettingsCode.getValueCountry());
 
                     showProgress("\'" + temp + "\'\n" + getString(R.string.string_wesearchtext));
@@ -737,12 +879,15 @@ public class SearchFragment extends Fragment {
             }
         }
     };
+
     //==============================================================================================
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         mContext.unregisterReceiver(quickMenuFinishReceiver);
         super.onDestroy();
     }
+
     //==============================================================================================
     public void MergePOIItem(ArrayList<POIItem> i_ALPoiItem, String i_strResult)
     {
@@ -753,11 +898,11 @@ public class SearchFragment extends Fragment {
 
         if(i_ALPoiItem.size() <= 0)
         {
-            if(i_strResult == ErrorMessage.SUCCESS_NAVER_RESULT || i_strResult == FMError.FME_SUCCESS_SEARCH_SUCCESS) {
+            if(i_strResult == ErrorMessage.SUCCESS_NAVER_RESULT || i_strResult == FMError.FME_SUCCESS_SEARCH_SUCCESS)
+            {
                 setSearchVisible(true);
             }
-            else if(i_strResult == ErrorMessage.ERROR_NAVER_RESULT || i_strResult == FMError.FME_MESSAGE_SEARCH_ERROR ||
-                    i_strResult == ErrorMessage.TIMEOUT_RESULT || i_strResult.equals(ErrorMessage.ERROR_NOSTRA_RESULT))
+            else if(i_strResult == ErrorMessage.ERROR_NAVER_RESULT || i_strResult == FMError.FME_MESSAGE_SEARCH_ERROR || i_strResult == ErrorMessage.TIMEOUT_RESULT || i_strResult.equals(ErrorMessage.ERROR_NOSTRA_RESULT))
             {
                 setSearchVisible(false);
             }
@@ -825,24 +970,27 @@ public class SearchFragment extends Fragment {
         setDistVisible();
         listAdapter.addItemList(arrayList);
 
-        ((TNaviMainActivity) getActivity()).setSearchList(arrayList);
+        ((TNaviMainActivity)getActivity()).setSearchList(arrayList);
 
         setSearchVisible(false);
     }
+
     //==============================================================================================
     public void changeFocus()
     {
         editText_goal.requestFocus();
         m_nSearchType = 1;
     }
+
     //==============================================================================================
     public void setStartText(NPoiItem i_nPoiItem)
     {
         editText_start.setText(i_nPoiItem.getEnglishName());
 
-        ((TNaviMainActivity) getActivity()).set_strAddr(i_nPoiItem.getEnglishName(), 0);
-        ((TNaviMainActivity) getActivity()).setStartCoord(i_nPoiItem.getLocationPointX(), i_nPoiItem.getLocationPointY());
+        ((TNaviMainActivity)getActivity()).set_strAddr(i_nPoiItem.getEnglishName(), 0);
+        ((TNaviMainActivity)getActivity()).setStartCoord(i_nPoiItem.getLocationPointX(), i_nPoiItem.getLocationPointY());
     }
+
     //==============================================================================================
     public NPoiItem getPOIItem()
     {
