@@ -120,5 +120,5 @@ dependencies {
     //fatos - 소스배포시 삭제
     //implementation project(':fatos_sdk')
     //
-    implementation 'com.github.devfatoscorp:fatos_sdk_jitpack:1.1.7'
+    implementation 'com.github.devfatoscorp:fatos_sdk_jitpack:1.1.8'
 }
