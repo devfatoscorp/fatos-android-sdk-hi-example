@@ -27,8 +27,10 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import biz.fatossdk.config.FatosBuildConfig;
+import biz.fatossdk.config.FatosLogLib;
 import biz.fatossdk.newanavi.ANaviApplication;
 import biz.fatossdk.newanavi.manager.AMapDataTransferCode;
+import biz.fatossdk.newanavi.manager.AMapUtil;
 import kr.fatos.tnavi.Activity.CategoryActivity;
 import kr.fatos.tnavi.Activity.CopyrightActivity;
 import kr.fatos.tnavi.Activity.CountrySelectActivity;
@@ -57,6 +59,7 @@ public class NostraSettingFragment extends Fragment
     public static final int SETTING_VERSIONINFO = 3;
     public static final int SETTING_COPYRIGHT = 4;
     public static final int SETTING_UUID = 5;
+    public static final int SETTING_MACADDRESS = 6;
 
     private int default_language = 0;
     private static SharedPreferences prefs;
@@ -64,44 +67,36 @@ public class NostraSettingFragment extends Fragment
     private ArrayList<settingItemDetailList> arSettingDessert = new ArrayList<settingItemDetailList>();
     private settingItemListAdapter settingAdapter;
 
-    static int[] SETTING_MENU_NAME = new int[]{
-            R.string.string_nostrasetting_country,
-            R.string.string_nostrasetting_category,
-            //카테고리
-            //            R.string.string_wespeed_unit, //스피드단위 주석
-            //            R.string.string_wedistance_unit, //거리단위 주석
-            R.string.string_weterm_of_use,
-            R.string.string_weversion_info,
-            R.string.string_wecopyright,
-            R.string.string_weuuid
-    };
+    static int[] SETTING_MENU_NAME = new int[]{R.string.string_nostrasetting_country,
+                                               R.string.string_nostrasetting_category,
+                                               //카테고리
+                                               //            R.string.string_wespeed_unit, //스피드단위 주석
+                                               //            R.string.string_wedistance_unit, //거리단위 주석
+                                               R.string.string_weterm_of_use,
+                                               R.string.string_weversion_info,
+                                               R.string.string_wecopyright,
+                                               R.string.string_weuuid,
+                                               R.string.string_wemacaddr};
 
-    static boolean[] SETTING_MENU_NAME_ENABLE = new boolean[]{
-            true, true,
-            //            false, false,
-            true, true, true, false
-    };
+    static boolean[] SETTING_MENU_NAME_ENABLE = new boolean[]{true, true,
+                                                              //            false, false,
+                                                              true, true, true, false, false};
 
-    static int[] SETTING_MENU_NAME_TYPE = new int[]{
-            settingItemDetailList.SETTING_TYPE_TEXT,
-            settingItemDetailList.SETTING_TYPE_TEXT,
-            //카테고리
-            //            settingItemDetailList.SETTING_TYPE_TEXT, //스피드단위 주석
-            //            settingItemDetailList.SETTING_TYPE_NEXTPAGE, //거리단위 주석
-            settingItemDetailList.SETTING_TYPE_NEXTPAGE,
-            settingItemDetailList.SETTING_TYPE_NEXTPAGE,
-            settingItemDetailList.SETTING_TYPE_NEXTPAGE,
-            settingItemDetailList.SETTING_TYPE_TEXT
-    };
+    static int[] SETTING_MENU_NAME_TYPE = new int[]{settingItemDetailList.SETTING_TYPE_TEXT,
+                                                    settingItemDetailList.SETTING_TYPE_TEXT,
+                                                    //카테고리
+                                                    //            settingItemDetailList.SETTING_TYPE_TEXT, //스피드단위 주석
+                                                    //            settingItemDetailList.SETTING_TYPE_NEXTPAGE, //거리단위 주석
+                                                    settingItemDetailList.SETTING_TYPE_NEXTPAGE,
+                                                    settingItemDetailList.SETTING_TYPE_NEXTPAGE,
+                                                    settingItemDetailList.SETTING_TYPE_NEXTPAGE,
+                                                    settingItemDetailList.SETTING_TYPE_TEXT,
+                                                    settingItemDetailList.SETTING_TYPE_TEXT};
 
-    static final int[] SETTING_SPEED_UNIT_NAME = new int[]{
-            biz.fatossdk.anavi.R.string.string_speed_km,
-            biz.fatossdk.anavi.R.string.string_speed_mi
-    };
-    static final int[] SETTING_DISTANCE_UNIT_NAME = new int[]{
-            biz.fatossdk.anavi.R.string.string_km,
-            biz.fatossdk.anavi.R.string.string_mi
-    };
+    static final int[] SETTING_SPEED_UNIT_NAME = new int[]{biz.fatossdk.anavi.R.string.string_speed_km,
+                                                           biz.fatossdk.anavi.R.string.string_speed_mi};
+    static final int[] SETTING_DISTANCE_UNIT_NAME = new int[]{biz.fatossdk.anavi.R.string.string_km,
+                                                              biz.fatossdk.anavi.R.string.string_mi};
 
     public String[] countrynames;
 
@@ -111,15 +106,19 @@ public class NostraSettingFragment extends Fragment
 
     private boolean m_bIsLongPress = false;
     final Handler someHandler = new Handler();
-    final int duration = 2000;
+    final int duration = 3000;
+    final int m_nStart = 5000;
+    int m_nClickCount = 0;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.fragment_nostra_setting, container, false);
 
         m_Context = getActivity();
-        prefs = m_Context.getSharedPreferences(getResources().getString(R.string.app_registerId), MODE_PRIVATE);
+        prefs = m_Context.getSharedPreferences(getResources().getString(R.string.app_registerId),
+                                               MODE_PRIVATE);
         final IntentFilter filter = new IntentFilter();
         filter.addAction("RELOAD_ACTIVITY");
         m_Context.registerReceiver(quickMenuFinishReceiver, filter);
@@ -130,11 +129,13 @@ public class NostraSettingFragment extends Fragment
         countrynames = getResources().getStringArray(R.array.onemap_country_names);
 
         int ot = getResources().getConfiguration().orientation;
+
         switch(ot)
         {
             case Configuration.ORIENTATION_LANDSCAPE:
                 m_bPortrait = false;
                 break;
+
             case Configuration.ORIENTATION_PORTRAIT:
                 m_bPortrait = true;
                 break;
@@ -199,6 +200,13 @@ public class NostraSettingFragment extends Fragment
 
                     break;
                 }
+
+                case SETTING_MACADDRESS :
+                {
+                    settingList.m_strSettingDataName = AMapUtil.getMacAddr();
+
+                    break;
+                }
             }
 
             arSettingDessert.add(nIndex, settingList);
@@ -229,7 +237,8 @@ public class NostraSettingFragment extends Fragment
 
                 boolean bSettingName = false;
 
-                bSettingName = arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_nostrasetting_language));
+                bSettingName = arSettingDessert.get(position).m_strSettingName.equals(
+                        getResources().getString(R.string.string_nostrasetting_language));
 
                 if(bSettingName)
                 {
@@ -237,23 +246,28 @@ public class NostraSettingFragment extends Fragment
                     startActivity(intent);
                     settingAdapter.notifyDataSetChanged();
                 }
-                else if(arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_nostrasetting_category)))
+                else if(arSettingDessert.get(position).m_strSettingName.equals(
+                        getResources().getString(R.string.string_nostrasetting_category)))
                 {
                     Intent intentSearchkeyword = new Intent(getActivity(), CategoryActivity.class);
                     startActivity(intentSearchkeyword);
                     settingAdapter.notifyDataSetChanged();
                 }
-                else if(arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_weterm_of_use)))
+                else if(arSettingDessert.get(position).m_strSettingName.equals(
+                        getResources().getString(R.string.string_weterm_of_use)))
                 {
                     Intent intentSearchkeyword = new Intent(getActivity(), TermOfUseActivity.class);
                     startActivity(intentSearchkeyword);
                 }
-                else if(arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_weversion_info)))
+                else if(arSettingDessert.get(position).m_strSettingName.equals(
+                        getResources().getString(R.string.string_weversion_info)))
                 {
-                    Intent intentSearchkeyword = new Intent(getActivity(), VersionInfoActivity.class);
+                    Intent intentSearchkeyword = new Intent(getActivity(),
+                                                            VersionInfoActivity.class);
                     startActivity(intentSearchkeyword);
                 }
-                else if(arSettingDessert.get(position).m_strSettingName.equals(getResources().getString(R.string.string_wecopyright)))
+                else if(arSettingDessert.get(position).m_strSettingName.equals(
+                        getResources().getString(R.string.string_wecopyright)))
                 {
                     Intent intentSearchkeyword = new Intent(getActivity(), CopyrightActivity.class);
                     startActivity(intentSearchkeyword);
@@ -267,11 +281,26 @@ public class NostraSettingFragment extends Fragment
             public boolean onTouch(View v, MotionEvent event)
             {
                 int eventAction = event.getAction();
+                int position = ((ListView)v).pointToPosition((int)event.getX(), (int)event.getY());
 
                 if(eventAction == MotionEvent.ACTION_DOWN)
                 {
-                    m_bIsLongPress = true;
-                    someHandler.postDelayed(someCall, duration);
+                    if(position == 4)
+                    {
+                        someHandler.postDelayed(startCheck, m_nStart);
+
+                        m_nClickCount++;
+
+                        if(m_nClickCount == 5)
+                        {
+                            m_bIsLongPress = true;
+                            someHandler.postDelayed(someCall, duration);
+                        }
+                    }
+                    else
+                    {
+                        m_nClickCount = 0;
+                    }
                 }
                 else if(eventAction == MotionEvent.ACTION_UP)
                 {
@@ -291,11 +320,22 @@ public class NostraSettingFragment extends Fragment
         @Override
         public void run()
         {
+            m_nClickCount = 0;
+
             if(m_bIsLongPress)
             {
                 Intent intentSearchkeyword = new Intent(getActivity(), HiddenSettingActivity.class);
                 startActivity(intentSearchkeyword);
             }
+        }
+    };
+
+    final Runnable startCheck = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            m_nClickCount = 0;
         }
     };
 
@@ -322,7 +362,8 @@ public class NostraSettingFragment extends Fragment
     public void updateMenuLanguage()
     {
         m_gApp.updateLanguage();
-        arSettingDessert.get(SETTING_COUNTRY).m_strSettingDataName = countrynames[SettingsCode.getValueIndex()] + " >";
+        arSettingDessert.get(
+                SETTING_COUNTRY).m_strSettingDataName = countrynames[SettingsCode.getValueIndex()] + " >";
         settingAdapter.notifyDataSetChanged();
 
         for(int i = 0; i < arSettingDessert.size(); i++)

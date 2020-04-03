@@ -1,6 +1,7 @@
 package kr.fatos.tnavi.Code;
 
-public class SettingsCode {
+public class SettingsCode
+{
     //sharedpreferences 에 key로 사용되기 때문에 final
     private final static String KEY_LANGUAGE = "LANGUAGE";
     private final static String KEY_COUNTRY = "COUNTRY";
@@ -20,93 +21,120 @@ public class SettingsCode {
 
     private static int DISTANCE_UNIT = 0; //0 : km, 1 : mile
 
-    public static String getKeyLanguage() {
+    public static String getKeyLanguage()
+    {
         return KEY_LANGUAGE;
     }
 
-    public static int getKeyResultCount() {
+    public static int getKeyResultCount()
+    {
         return KEY_RESULT_COUNT;
     }
 
-    public static void setKeyResultCount(int keyResultCount) {
+    public static void setKeyResultCount(int keyResultCount)
+    {
         KEY_RESULT_COUNT = keyResultCount;
     }
 
-    public static String getKeyCountry() {
+    public static String getKeyCountry()
+    {
         return KEY_COUNTRY;
     }
-    public static String getValueLanguage() {
+
+    public static String getValueLanguage()
+    {
         return VALUE_LANGUAGE;
     }
 
-    public static void setValueLanguage(String valueLanguage) {
+    public static void setValueLanguage(String valueLanguage)
+    {
         VALUE_LANGUAGE = valueLanguage;
     }
 
-    public static String getValueCountry() {
+    public static String getValueCountry()
+    {
         return VALUE_COUNTRY;
     }
 
-    public static void setValueCountry(String valueCountry) {
+    public static void setValueCountry(String valueCountry)
+    {
         VALUE_COUNTRY = valueCountry;
     }
-    public static int getValueIndex() {
+
+    public static int getValueIndex()
+    {
         return VALUE_INDEX;
     }
 
-    public static void setValueIndex(int valueIndex) {
+    public static void setValueIndex(int valueIndex)
+    {
         VALUE_INDEX = valueIndex;
     }
-    public static String getKeyIndex() {
+
+    public static String getKeyIndex()
+    {
         return KEY_INDEX;
     }
 
 
-    public static String getValueCategory() {
+    public static String getValueCategory()
+    {
         return VALUE_CATEGORY;
     }
 
-    public static void setValueCategory(String valueCategory) {
+    public static void setValueCategory(String valueCategory)
+    {
         VALUE_CATEGORY = valueCategory;
     }
 
-    public static int getValueCategoryIndex() {
+    public static int getValueCategoryIndex()
+    {
         return VALUE_CATEGORY_INDEX;
     }
 
-    public static void setValueCategoryIndex(int valueCategoryIndex) {
+    public static void setValueCategoryIndex(int valueCategoryIndex)
+    {
         VALUE_CATEGORY_INDEX = valueCategoryIndex;
     }
 
-    public static void setKeyRecentPoiCount(int keyRecentPoiCount) {
+    public static void setKeyRecentPoiCount(int keyRecentPoiCount)
+    {
         KEY_RECENT_POI_COUNT = keyRecentPoiCount;
     }
-    public static String getKeyCategory() {
+
+    public static String getKeyCategory()
+    {
         return KEY_CATEGORY;
     }
 
-    public static void setKeyCategory(String keyCategory) {
+    public static void setKeyCategory(String keyCategory)
+    {
         KEY_CATEGORY = keyCategory;
     }
 
 
-    public static String getKeyCategoryindex() {
+    public static String getKeyCategoryindex()
+    {
         return KEY_CATEGORYINDEX;
     }
 
-    public static void setKeyCategoryindex(String keyCategoryindex) {
+    public static void setKeyCategoryindex(String keyCategoryindex)
+    {
         KEY_CATEGORYINDEX = keyCategoryindex;
     }
 
-    public static int getKeyRecentPoiCount() {
+    public static int getKeyRecentPoiCount()
+    {
         return KEY_RECENT_POI_COUNT;
     }
 
-    public static int getDistanceUnit() {
+    public static int getDistanceUnit()
+    {
         return DISTANCE_UNIT;
     }
 
-    public static void setDistanceUnit(int distanceUnit) {
+    public static void setDistanceUnit(int distanceUnit)
+    {
         DISTANCE_UNIT = distanceUnit;
     }
 }

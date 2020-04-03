@@ -54,17 +54,15 @@ public class SettingActivity extends FMBaseActivity
     private static int activeInstances = 0;
     private Button m_btnRouteColor0, m_btnRouteColor1, m_btnRouteColor2, m_btnRouteColor3, m_btnRouteColor4, m_btnRouteColor5, m_btnRouteColor6;
     private Button m_btnRouteColor7, m_btnRouteColor8;
-    static int[] SETTING_NAVI_MENU_NAME_ROUTECOLOR = new int[]{
-            Color.argb(255, 255, 0, 0),
-            Color.argb(255, 0, 255, 0),
-            Color.argb(255, 0, 0, 255),
-            Color.argb(255, 255, 0, 255),
-            Color.argb(255, 255, 255, 0),
-            Color.argb(255, 117, 157, 249),
-            Color.argb(255, 127, 127, 127),
-            Color.argb(255, 127, 63, 0),
-            Color.argb(255, 0, 63, 127)
-    };
+    static int[] SETTING_NAVI_MENU_NAME_ROUTECOLOR = new int[]{Color.argb(255, 255, 0, 0),
+                                                               Color.argb(255, 0, 255, 0),
+                                                               Color.argb(255, 0, 0, 255),
+                                                               Color.argb(255, 255, 0, 255),
+                                                               Color.argb(255, 255, 255, 0),
+                                                               Color.argb(255, 117, 157, 249),
+                                                               Color.argb(255, 127, 127, 127),
+                                                               Color.argb(255, 127, 63, 0),
+                                                               Color.argb(255, 0, 63, 127)};
 
     private int[] selectRouteLineColor = new int[2];
     private int[] nonSelectRouteLineColor = new int[2];
@@ -88,7 +86,15 @@ public class SettingActivity extends FMBaseActivity
 
         //updateMenuLanguage();
 
-        adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(), FragmentPagerItems.with(this).add(getString(R.string.string_wegeneral), NostraSettingFragment.class).add(getString(R.string.string_wenavigation), NaviSettingFragment.class).create());
+        adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(),
+                                               FragmentPagerItems.with(this)
+                                                                 .add(getString(
+                                                                         R.string.string_wegeneral),
+                                                                      NostraSettingFragment.class)
+                                                                 .add(getString(
+                                                                         R.string.string_wenavigation),
+                                                                      NaviSettingFragment.class)
+                                                                 .create());
         //int title, float width, Class<? extends Fragment> clazz,
         //        Bundle args)
         viewPager = (ViewPager)findViewById(R.id.viewpager);
@@ -188,7 +194,9 @@ public class SettingActivity extends FMBaseActivity
         Configuration config = new Configuration();
         config.locale = locale;
         getApplicationContext().getResources().updateConfiguration(config, null);
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        getBaseContext().getResources()
+                        .updateConfiguration(config,
+                                             getBaseContext().getResources().getDisplayMetrics());
         if(TTSEngine.getInstance() != null)
         {
             TTSEngine.getInstance().setLocale(locale);
@@ -204,7 +212,9 @@ public class SettingActivity extends FMBaseActivity
         Configuration config = new Configuration();
         config.locale = locale;
         getApplicationContext().getResources().updateConfiguration(config, null);
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        getBaseContext().getResources()
+                        .updateConfiguration(config,
+                                             getBaseContext().getResources().getDisplayMetrics());
         if(TTSEngine.getInstance() != null)
         {
             TTSEngine.getInstance().setLocale(locale);

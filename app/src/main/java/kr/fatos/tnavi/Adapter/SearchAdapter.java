@@ -42,7 +42,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     private final static String TAG = SearchAdapter.class.getSimpleName();
 
-    public SearchAdapter(Context context, int resource, ArrayList<NPoiItem> itemList, String action_route, String app_mode, SearchFragment i_searchFragment)
+    public SearchAdapter(Context context, int resource, ArrayList<NPoiItem> itemList,
+                         String action_route, String app_mode, SearchFragment i_searchFragment)
     {
         this.context = context;
         this.resource = resource;
@@ -77,11 +78,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
             if(SettingsCode.getDistanceUnit() == 0)
             {
-                strTempDist = GUtilLib.getInstance(context).updateTotalRemainDist((int)item.getDistance());
+                strTempDist = GUtilLib.getInstance(context)
+                                      .updateTotalRemainDist((int)item.getDistance());
             }
             else
             {
-                strTempDist = GUtilLib.getInstance(context).updateTotalRemainDistForMile((int)item.getDistance());
+                strTempDist = GUtilLib.getInstance(context)
+                                      .updateTotalRemainDistForMile((int)item.getDistance());
             }
 
             viewHolder.text_dist.setText(String.valueOf(strTempDist));

@@ -9,28 +9,34 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import kr.fatos.tnavi.TNaviMainActivity;
 
-public class MovableFloatingActionButton extends FloatingActionButton implements View.OnTouchListener {
+public class MovableFloatingActionButton extends FloatingActionButton
+        implements View.OnTouchListener
+{
     private final static float CLICK_DRAG_TOLERANCE = 10;
 
     private float downRawX, downRawY;
     private float dX, dY;
 
-    public MovableFloatingActionButton(Context context) {
+    public MovableFloatingActionButton(Context context)
+    {
         super(context);
         init();
     }
 
-    public MovableFloatingActionButton(Context context, AttributeSet attrs) {
+    public MovableFloatingActionButton(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
         init();
     }
 
-    public MovableFloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MovableFloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr)
+    {
         super(context, attrs, defStyleAttr);
         init();
     }
 
-    private void init() {
+    private void init()
+    {
         float[] fXY = ((TNaviMainActivity)getContext()).LoadFloatingButtonXY();
 
         if(fXY != null)
@@ -43,10 +49,11 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
     }
 
     @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
+    public boolean onTouch(View view, MotionEvent motionEvent)
+    {
         int action = motionEvent.getAction();
 
-        if (action == MotionEvent.ACTION_DOWN)
+        if(action == MotionEvent.ACTION_DOWN)
         {
             downRawX = motionEvent.getRawX();
             downRawY = motionEvent.getRawY();
@@ -56,7 +63,7 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
             return true;
 
         }
-        else if (action == MotionEvent.ACTION_MOVE)
+        else if(action == MotionEvent.ACTION_MOVE)
         {
             int viewWidth = view.getWidth();
             int viewHeight = view.getHeight();
@@ -73,16 +80,12 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
             newY = Math.max(0, newY);
             newY = Math.min(parentHeight - viewHeight, newY);
 
-            view.animate()
-                    .x(newX)
-                    .y(newY)
-                    .setDuration(0)
-                    .start();
+            view.animate().x(newX).y(newY).setDuration(0).start();
 
             return true;
 
         }
-        else if (action == MotionEvent.ACTION_UP)
+        else if(action == MotionEvent.ACTION_UP)
         {
             float upRawX = motionEvent.getRawX();
             float upRawY = motionEvent.getRawY();
@@ -90,9 +93,10 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
             float upDX = upRawX - downRawX;
             float upDY = upRawY - downRawY;
 
-            ((TNaviMainActivity)getContext()).SaveFloatingButtonXY(this.getTranslationX(), this.getTranslationY());
+            ((TNaviMainActivity)getContext()).SaveFloatingButtonXY(this.getTranslationX(),
+                                                                   this.getTranslationY());
 
-            if (Math.abs(upDX) < CLICK_DRAG_TOLERANCE && Math.abs(upDY) < CLICK_DRAG_TOLERANCE)
+            if(Math.abs(upDX) < CLICK_DRAG_TOLERANCE && Math.abs(upDY) < CLICK_DRAG_TOLERANCE)
             {
                 return performClick();
             }

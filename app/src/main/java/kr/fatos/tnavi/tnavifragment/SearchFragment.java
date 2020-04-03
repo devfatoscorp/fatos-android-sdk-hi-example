@@ -111,7 +111,8 @@ public class SearchFragment extends Fragment
 
     //==============================================================================================
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
@@ -120,13 +121,15 @@ public class SearchFragment extends Fragment
             args = getArguments().getString(TNaviActionCode.ROUTE_VIA_OR_GOAL);
             app_mode = getArguments().getString(TNaviActionCode.APP_MODE);
             strWord = getArguments().getString(TNaviActionCode.SEARCH_MODE_WORD);
-            arrayListMap = Parcels.unwrap(getArguments().getParcelable(TNaviActionCode.ARRAYLIST_MAP_TO_SEARCH));
+            arrayListMap = Parcels.unwrap(
+                    getArguments().getParcelable(TNaviActionCode.ARRAYLIST_MAP_TO_SEARCH));
         }
 
         mContext = view.getContext();
         m_gApp = (ANaviApplication)mContext.getApplicationContext();
         m_strPackageName = mContext.getPackageName();
-        prefs = mContext.getSharedPreferences(getResources().getString(R.string.app_registerId), MODE_PRIVATE);
+        prefs = mContext.getSharedPreferences(getResources().getString(R.string.app_registerId),
+                                              MODE_PRIVATE);
         final IntentFilter filter = new IntentFilter();
         filter.addAction("RELOAD_CATEGORY");
         filter.addAction("RELOAD_COUNTRY");
@@ -315,7 +318,8 @@ public class SearchFragment extends Fragment
                         return false;
                     }
 
-                    showProgress("\'" + m_strText + "\'\n" + getString(R.string.string_wesearchtext));
+                    showProgress(
+                            "\'" + m_strText + "\'\n" + getString(R.string.string_wesearchtext));
 
                     ((TNaviMainActivity)getActivity()).getSearchPoiItem(m_strText);
                 }
@@ -336,7 +340,8 @@ public class SearchFragment extends Fragment
                         return false;
                     }
 
-                    showProgress("\'" + m_strText + "\'\n" + getString(R.string.string_wesearchtext));
+                    showProgress(
+                            "\'" + m_strText + "\'\n" + getString(R.string.string_wesearchtext));
 
                     ((TNaviMainActivity)getActivity()).getSearchPoiItem(m_strText);
                 }
@@ -357,7 +362,8 @@ public class SearchFragment extends Fragment
                         return false;
                     }
 
-                    showProgress("\'" + m_strText + "\'\n" + getString(R.string.string_wesearchtext));
+                    showProgress(
+                            "\'" + m_strText + "\'\n" + getString(R.string.string_wesearchtext));
 
                     ((TNaviMainActivity)getActivity()).getSearchPoiItem(m_strText);
                 }
@@ -422,7 +428,8 @@ public class SearchFragment extends Fragment
             app_mode = getArguments().getString(TNaviActionCode.APP_MODE);
             strWord = getArguments().getString(TNaviActionCode.SEARCH_MODE_WORD);
 
-            arrayListMap = Parcels.unwrap(getArguments().getParcelable(TNaviActionCode.ARRAYLIST_MAP_TO_SEARCH));
+            arrayListMap = Parcels.unwrap(
+                    getArguments().getParcelable(TNaviActionCode.ARRAYLIST_MAP_TO_SEARCH));
 
             if(args.equals(TNaviActionCode.JUST_GOAL))
             {
@@ -436,7 +443,8 @@ public class SearchFragment extends Fragment
                 relativeLayout_search.setVisibility(View.GONE);
                 linearLayout_Head.setVisibility(View.VISIBLE);
             }
-            else if(args.equals(TNaviActionCode.CHANGE_VIA_GO_ROUTE) || args.equals(TNaviActionCode.CHANGE_GOAL_GO_ROUTE))
+            else if(args.equals(TNaviActionCode.CHANGE_VIA_GO_ROUTE) || args.equals(
+                    TNaviActionCode.CHANGE_GOAL_GO_ROUTE))
             {
                 linearLayout_Head.setVisibility(View.GONE);
                 relativeLayout_search.setVisibility(View.VISIBLE);
@@ -515,11 +523,14 @@ public class SearchFragment extends Fragment
 
         if(args != null)
         {
-            listAdapter = new SearchAdapter(mContext, R.layout.recyclerview_search, new ArrayList<NPoiItem>(), args, app_mode, this);
+            listAdapter = new SearchAdapter(mContext, R.layout.recyclerview_search,
+                                            new ArrayList<NPoiItem>(), args, app_mode, this);
         }
         else
         {
-            listAdapter = new SearchAdapter(mContext, R.layout.recyclerview_search, new ArrayList<NPoiItem>(), TNaviActionCode.JUST_GOAL, TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH, this);
+            listAdapter = new SearchAdapter(mContext, R.layout.recyclerview_search,
+                                            new ArrayList<NPoiItem>(), TNaviActionCode.JUST_GOAL,
+                                            TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH, this);
         }
 
         recyclerView_List.setAdapter(listAdapter);
@@ -902,7 +913,8 @@ public class SearchFragment extends Fragment
             {
                 setSearchVisible(true);
             }
-            else if(i_strResult == ErrorMessage.ERROR_NAVER_RESULT || i_strResult == FMError.FME_MESSAGE_SEARCH_ERROR || i_strResult == ErrorMessage.TIMEOUT_RESULT || i_strResult.equals(ErrorMessage.ERROR_NOSTRA_RESULT))
+            else if(i_strResult == ErrorMessage.ERROR_NAVER_RESULT || i_strResult == FMError.FME_MESSAGE_SEARCH_ERROR || i_strResult == ErrorMessage.TIMEOUT_RESULT || i_strResult
+                    .equals(ErrorMessage.ERROR_NOSTRA_RESULT))
             {
                 setSearchVisible(false);
             }
@@ -988,7 +1000,8 @@ public class SearchFragment extends Fragment
         editText_start.setText(i_nPoiItem.getEnglishName());
 
         ((TNaviMainActivity)getActivity()).set_strAddr(i_nPoiItem.getEnglishName(), 0);
-        ((TNaviMainActivity)getActivity()).setStartCoord(i_nPoiItem.getLocationPointX(), i_nPoiItem.getLocationPointY());
+        ((TNaviMainActivity)getActivity()).setStartCoord(i_nPoiItem.getLocationPointX(),
+                                                         i_nPoiItem.getLocationPointY());
     }
 
     //==============================================================================================

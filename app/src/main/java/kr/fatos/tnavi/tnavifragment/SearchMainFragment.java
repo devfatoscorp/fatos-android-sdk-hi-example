@@ -11,7 +11,6 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Address;
-import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,14 +37,11 @@ import com.google.firebase.perf.FirebasePerformance;
 import com.google.firebase.perf.metrics.AddTrace;
 import com.google.firebase.perf.metrics.Trace;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import biz.fatossdk.fminterface.FMBaseActivity;
 import biz.fatossdk.fminterface.FMInterface;
 import biz.fatossdk.newanavi.ANaviApplication;
-import biz.fatossdk.newanavi.manager.AMapLog;
 import biz.fatossdk.newanavi.manager.AMapPositionManager;
 import kr.fatos.tnavi.Activity.TNaviPickerActivity;
 import kr.fatos.tnavi.Code.TNaviActionCode;
@@ -105,7 +101,8 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
     //==============================================================================================
     @Override
     @AddTrace(name = "onCreateView(SearchMain)", enabled = true)
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState)
     {
         try
         {
@@ -113,7 +110,8 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
         }
         catch(NullPointerException e)
         {
-            Crashlytics.log(Log.ERROR, "SearchMainFragment", "oncreateView onCreate Error:: " + e.toString());
+            Crashlytics.log(Log.ERROR, "SearchMainFragment",
+                            "oncreateView onCreate Error:: " + e.toString());
         }
 
         mActivity = (TNaviMainActivity)getActivity();
@@ -249,18 +247,23 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
         linearLayout_BottomOnemap.setVisibility(View.VISIBLE);
         view_shadow.setVisibility(View.VISIBLE);
 
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)relativeLayout_MenuItem.getLayoutParams();
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)relativeLayout_MenuItem
+                .getLayoutParams();
         layoutParams.addRule(RelativeLayout.ABOVE, R.id.linearLayout_BottomOnemap);
         relativeLayout_MenuItem.setLayoutParams(layoutParams);
 
         ll_bottom.setVisibility(View.GONE);
 
-        RelativeLayout.LayoutParams linearLayout_PlayStopLayoutParams = (RelativeLayout.LayoutParams)linearLayout_PlayStop.getLayoutParams();
-        linearLayout_PlayStopLayoutParams.addRule(RelativeLayout.ABOVE, R.id.linearLayout_BottomOnemap);
+        RelativeLayout.LayoutParams linearLayout_PlayStopLayoutParams = (RelativeLayout.LayoutParams)linearLayout_PlayStop
+                .getLayoutParams();
+        linearLayout_PlayStopLayoutParams.addRule(RelativeLayout.ABOVE,
+                                                  R.id.linearLayout_BottomOnemap);
         linearLayout_PlayStop.setLayoutParams(linearLayout_PlayStopLayoutParams);
 
-        RelativeLayout.LayoutParams floatingActionButton_RerouteLayoutParams = (RelativeLayout.LayoutParams)floatingActionButton_Reroute.getLayoutParams();
-        floatingActionButton_RerouteLayoutParams.addRule(RelativeLayout.ABOVE, R.id.linearLayout_BottomOnemap);
+        RelativeLayout.LayoutParams floatingActionButton_RerouteLayoutParams = (RelativeLayout.LayoutParams)floatingActionButton_Reroute
+                .getLayoutParams();
+        floatingActionButton_RerouteLayoutParams.addRule(RelativeLayout.ABOVE,
+                                                         R.id.linearLayout_BottomOnemap);
         floatingActionButton_Reroute.setLayoutParams(floatingActionButton_RerouteLayoutParams);
 
         if(m_FMInterface.nativeIsRoute())
@@ -302,10 +305,10 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
         {
             DefaultMode();
         }
-//        else if(m_FMInterface.FM_GetDriveInfo().isM_bIsRoute())
-//        {
-//            RouteMode();
-//        }
+        //        else if(m_FMInterface.FM_GetDriveInfo().isM_bIsRoute())
+        //        {
+        //            RouteMode();
+        //        }
 
         TNaviActionCode.CUR_SIMUL_SPEED = TNaviActionCode.SIMUL_SPEED_1;
         m_nDefaultSpeed = ((TNaviMainActivity)getActivity()).m_FMInterface.FM_GetSimulationSpeed();
@@ -412,7 +415,46 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
         {
             case R.id.imageButton_MainMenu:
             case R.id.imageButton_MainMenuOnemap:
-                ActivityManager activityManager = (ActivityManager)m_Context.getSystemService(Context.ACTIVITY_SERVICE);
+/*
+                boolean[] getPathInfo = new boolean[FMInterface.GetInstance().FM_GetTripInfoSize(0)];
+                FMInterface.GetInstance().FM_GetTripPassInfo(0,getPathInfo);
+
+                boolean[] getPathInfo2 = new boolean[FMInterface.GetInstance().FM_GetTripInfoSize(2)];
+                FMInterface.GetInstance().FM_GetTripPassInfo(2,getPathInfo2);
+
+                String[] strLearningPath = new String[3];
+                String[] PathColor = new String[3];
+                strLearningPath[0] = "/sdcard/fatos/user/learningpath1.db";
+                strLearningPath[2] = "/sdcard/fatos/user/learningpath2.db";
+                strLearningPath[1] = "/sdcard/fatos/user/learningpath3.db";
+
+                PathColor[0] = "#ff0000";
+                PathColor[1] = "#00ff00";
+                PathColor[2] = "#0000ff";
+
+                FMInterface.GetInstance().FM_DrawLearningPath(strLearningPath, PathColor);
+
+                boolean[] SETTING_MENU_NAME_ENABLE = new boolean[]{false, false,
+                        false, false, true, false, true, true,
+                        false, false, true, true, false, false};
+
+                FMInterface.GetInstance().FM_SetPathPointInfo(2, SETTING_MENU_NAME_ENABLE);
+
+                 int[] a = new int[6];
+                //int[] b = new int[4];
+                a[0] = 1;
+                //a[0] = 3;
+                a[1] = 2;
+                a[2] = 3;
+                a[3] = 4;
+                a[4] = 5;
+                a[5] = 7;
+
+                FMInterface.GetInstance().FM_SetPoiView(a,null);
+
+*/
+                ActivityManager activityManager = (ActivityManager)m_Context.getSystemService(
+                        Context.ACTIVITY_SERVICE);
                 List<ActivityManager.RunningTaskInfo> info = activityManager.getRunningTasks(1);
 
                 ActivityManager.RunningTaskInfo running = info.get(0);
@@ -469,26 +511,34 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
                 {
                     case TNaviActionCode.SIMUL_SPEED_1:
                         TNaviActionCode.CUR_SIMUL_SPEED = TNaviActionCode.SIMUL_SPEED_2;
-                        imageButton_SpeedControl.setBackgroundResource(R.drawable.selector_speed_control_2);
-                        ((TNaviMainActivity)getActivity()).m_FMInterface.FM_SetSimulationSpeed(m_nDefaultSpeed * TNaviActionCode.CUR_SIMUL_SPEED);
+                        imageButton_SpeedControl.setBackgroundResource(
+                                R.drawable.selector_speed_control_2);
+                        ((TNaviMainActivity)getActivity()).m_FMInterface.FM_SetSimulationSpeed(
+                                m_nDefaultSpeed * TNaviActionCode.CUR_SIMUL_SPEED);
                         break;
 
                     case TNaviActionCode.SIMUL_SPEED_2:
                         TNaviActionCode.CUR_SIMUL_SPEED = TNaviActionCode.SIMUL_SPEED_4;
-                        imageButton_SpeedControl.setBackgroundResource(R.drawable.selector_speed_control_4);
-                        ((TNaviMainActivity)getActivity()).m_FMInterface.FM_SetSimulationSpeed(m_nDefaultSpeed * TNaviActionCode.CUR_SIMUL_SPEED);
+                        imageButton_SpeedControl.setBackgroundResource(
+                                R.drawable.selector_speed_control_4);
+                        ((TNaviMainActivity)getActivity()).m_FMInterface.FM_SetSimulationSpeed(
+                                m_nDefaultSpeed * TNaviActionCode.CUR_SIMUL_SPEED);
                         break;
 
                     case TNaviActionCode.SIMUL_SPEED_4:
                         TNaviActionCode.CUR_SIMUL_SPEED = TNaviActionCode.SIMUL_SPEED_8;
-                        imageButton_SpeedControl.setBackgroundResource(R.drawable.selector_speed_control_8);
-                        ((TNaviMainActivity)getActivity()).m_FMInterface.FM_SetSimulationSpeed(m_nDefaultSpeed * TNaviActionCode.CUR_SIMUL_SPEED);
+                        imageButton_SpeedControl.setBackgroundResource(
+                                R.drawable.selector_speed_control_8);
+                        ((TNaviMainActivity)getActivity()).m_FMInterface.FM_SetSimulationSpeed(
+                                m_nDefaultSpeed * TNaviActionCode.CUR_SIMUL_SPEED);
                         break;
 
                     case TNaviActionCode.SIMUL_SPEED_8:
                         TNaviActionCode.CUR_SIMUL_SPEED = TNaviActionCode.SIMUL_SPEED_1;
-                        imageButton_SpeedControl.setBackgroundResource(R.drawable.selector_speed_control_1);
-                        ((TNaviMainActivity)getActivity()).m_FMInterface.FM_SetSimulationSpeed(m_nDefaultSpeed * TNaviActionCode.CUR_SIMUL_SPEED);
+                        imageButton_SpeedControl.setBackgroundResource(
+                                R.drawable.selector_speed_control_1);
+                        ((TNaviMainActivity)getActivity()).m_FMInterface.FM_SetSimulationSpeed(
+                                m_nDefaultSpeed * TNaviActionCode.CUR_SIMUL_SPEED);
                         break;
                 }
                 break;
@@ -502,7 +552,8 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
                 break;
 
             case R.id.pop_button1: // Go
-                ((TNaviMainActivity)getActivity()).m_FMInterface.FM_StartRGService(FMBaseActivity.onFatosMapListener);  //경로 안내 시작
+                ((TNaviMainActivity)getActivity()).m_FMInterface.FM_StartRGService(
+                        FMBaseActivity.onFatosMapListener);  //경로 안내 시작
                 ((TNaviMainActivity)getActivity()).showTbtLayout(true);
                 Bundle bundle = new Bundle();
                 bundle.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_ROUTE);
@@ -511,7 +562,12 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
                 break;
 
             case R.id.pop_button2: // Cancel Route
-                ((TNaviMainActivity)getActivity()).popUpDialogShow(getString(R.string.string_yes), getString(R.string.string_title_route_cancel), getString(R.string.string_content_route_cancel), true);
+                ((TNaviMainActivity)getActivity()).popUpDialogShow(getString(R.string.string_yes),
+                                                                   getString(
+                                                                           R.string.string_title_route_cancel),
+                                                                   getString(
+                                                                           R.string.string_content_route_cancel),
+                                                                   true);
 
                 closePopupMenu();
                 break;
@@ -631,11 +687,13 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
 
                     if(Integer.valueOf(strDay) > 1)
                     {
-                        textView_DayOnemap.setText(getResources().getString(R.string.days_small) + " ");
+                        textView_DayOnemap.setText(
+                                getResources().getString(R.string.days_small) + " ");
                     }
                     else
                     {
-                        textView_DayOnemap.setText(getResources().getString(R.string.day_small) + " ");
+                        textView_DayOnemap.setText(
+                                getResources().getString(R.string.day_small) + " ");
                     }
 
                     if(strTimeH.equals("00"))
@@ -830,8 +888,11 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
         Configuration conf = getResources().getConfiguration();
         conf.locale = m_gApp.getFatosLocale();
         DisplayMetrics metrics = new DisplayMetrics();
-        ((TNaviMainActivity)getActivity()).getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        Resources resources = new Resources(((TNaviMainActivity)getActivity()).getAssets(), metrics, conf);
+        ((TNaviMainActivity)getActivity()).getWindowManager()
+                                          .getDefaultDisplay()
+                                          .getMetrics(metrics);
+        Resources resources = new Resources(((TNaviMainActivity)getActivity()).getAssets(), metrics,
+                                            conf);
 
         title_text_view.setHint(resources.getString(R.string.string_wesearch));
         pop_button4.setText(resources.getString(R.string.string_wesettings));

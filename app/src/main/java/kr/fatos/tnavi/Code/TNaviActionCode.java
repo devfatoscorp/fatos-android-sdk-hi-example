@@ -1,6 +1,7 @@
 package kr.fatos.tnavi.Code;
 
-public class TNaviActionCode {
+public class TNaviActionCode
+{
     public static final String CERTIFICATION = "CERTIFICATION";
     public static final String READY_MAIN_MAP = "READY_MAIN_MAP";
 
@@ -14,10 +15,10 @@ public class TNaviActionCode {
     public static final String MAIN_MENU_RESULT_SIMUL_START = "MAIN_MENU_RESULT_SIMUL_START";
 
     public static final String MAIN_ROUTESUMMARY_BACK = "MAIN_ROUTESUMMARY_BACK";
-    public static final String MAIN_STARTRGSERVICE= "MAIN_STARTRGSERVICE";
+    public static final String MAIN_STARTRGSERVICE = "MAIN_STARTRGSERVICE";
 
     public static final String EXTRA_AIRMODE_ON = "FATOS_AUTO_AIRMODE_ON";
-    public static final String EXTRA_AIRMODE_OFF= "FATOS_AUTO_AIRMODE_OFF";
+    public static final String EXTRA_AIRMODE_OFF = "FATOS_AUTO_AIRMODE_OFF";
 
     //모드 정의
     public static final String APP_MODE_DEFAULT = "APP_MODE_DEFAULT"; //초기실행 모드

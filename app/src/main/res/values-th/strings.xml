@@ -57,6 +57,7 @@
     <string name="string_weversion_info">Version Info</string>
     <string name="string_wecopyright">Copyright</string>
     <string name="string_weuuid">UUID</string>
+    <string name="string_wemacaddr">Mac Addr</string>
 
     <string name="string_welanguage_change">Do you want to change the language setting?\nSome screens may not be displayed\nin the set language</string>
     <string name="string_wecountry_change">Do you want to change the language setting?</string>
@@ -68,7 +69,7 @@
 
     <string name="string_hiroutelinecolor">Route line color</string>
     <string name="string_hirouteoptions">Route options</string>
-    <string name="string_hinightmode">Night mode</string>
+    <string name="string_hinightmode">สีของแผนที่</string>
     <string name="string_himapcolortheme">Map color theme</string>
     <string name="string_hidynamiczoom">Dynamic Zoom</string>
     <string name="string_rpserver">RP Server</string>
@@ -171,4 +172,5 @@
 
     <string name="string_server">Server</string>
     <string name="string_mobilizer">Mobilizer Info</string>
+    <string name="string_voice_noti">คำแนะนำด้วยเสียง</string>
 </resources>

@@ -11,7 +11,8 @@ import biz.fatossdk.newanavi.ANaviApplication;
 import biz.fatossdk.newanavi.splash.FatosToast;
 import kr.fatos.tnavi.R;
 
-public class RouteOptionPopupActivity extends FMBaseActivity {
+public class RouteOptionPopupActivity extends FMBaseActivity
+{
 
     private Context m_Context = null;
     private ANaviApplication m_gApp;
@@ -19,30 +20,37 @@ public class RouteOptionPopupActivity extends FMBaseActivity {
     private Button m_btnHome;
 
     private Button[] m_btnRouteOption;
- 
-    static final int[] SETTING_ROUTE_OPTION = new int[]{R.string.string_route_option_recomm, R.string.string_route_option_exp,
-            R.string.string_route_option_general, R.string.string_route_option_short, R.string.string_route_option_free};
+
+    static final int[] SETTING_ROUTE_OPTION = new int[]{R.string.string_route_option_recomm,
+                                                        R.string.string_route_option_exp,
+                                                        R.string.string_route_option_general,
+                                                        R.string.string_route_option_short,
+                                                        R.string.string_route_option_free};
 
     @Override
-    public void onBackPressed() {
-//        super.onBackPressed();
+    public void onBackPressed()
+    {
+        //        super.onBackPressed();
         finish();
         //overridePendingTransition(R.anim.hold,R.anim.fade_out_fast);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_route_option_popup);
 
         m_Context = this;
-        m_gApp = (ANaviApplication) m_Context.getApplicationContext();
+        m_gApp = (ANaviApplication)m_Context.getApplicationContext();
 
-        m_btnHome = (Button) findViewById(R.id.btn_close);
-        m_btnHome.setOnClickListener(new View.OnClickListener() {
+        m_btnHome = (Button)findViewById(R.id.btn_close);
+        m_btnHome.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
 
                 onBackPressed();
             }
@@ -50,52 +58,77 @@ public class RouteOptionPopupActivity extends FMBaseActivity {
 
         m_btnRouteOption = new Button[SETTING_ROUTE_OPTION.length];
 
-        m_btnRouteOption[0] = (Button) findViewById(R.id.route_option1);
+        m_btnRouteOption[0] = (Button)findViewById(R.id.route_option1);
 
-        m_btnRouteOption[0].setOnClickListener(new View.OnClickListener() {
+        m_btnRouteOption[0].setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
 
-                if (!selectRouteOption(0)) return;
+                if(!selectRouteOption(0))
+                {
+                    return;
+                }
                 updateRouteOption();
             }
         });
 
 
-        m_btnRouteOption[1] = (Button) findViewById(R.id.route_option2);
-        m_btnRouteOption[1].setOnClickListener(new View.OnClickListener() {
+        m_btnRouteOption[1] = (Button)findViewById(R.id.route_option2);
+        m_btnRouteOption[1].setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if (!selectRouteOption(2)) return;
+            public void onClick(View v)
+            {
+                if(!selectRouteOption(2))
+                {
+                    return;
+                }
                 updateRouteOption();
 
             }
         });
 
-        m_btnRouteOption[2] = (Button) findViewById(R.id.route_option3);
-        m_btnRouteOption[2].setOnClickListener(new View.OnClickListener() {
+        m_btnRouteOption[2] = (Button)findViewById(R.id.route_option3);
+        m_btnRouteOption[2].setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if (!selectRouteOption(3)) return;
+            public void onClick(View v)
+            {
+                if(!selectRouteOption(3))
+                {
+                    return;
+                }
                 updateRouteOption();
 
             }
         });
 
-        m_btnRouteOption[3] = (Button) findViewById(R.id.route_option4);
-        m_btnRouteOption[3].setOnClickListener(new View.OnClickListener() {
+        m_btnRouteOption[3] = (Button)findViewById(R.id.route_option4);
+        m_btnRouteOption[3].setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if (!selectRouteOption(4)) return;
+            public void onClick(View v)
+            {
+                if(!selectRouteOption(4))
+                {
+                    return;
+                }
                 updateRouteOption();
             }
         });
-        
-        m_btnRouteOption[4] = (Button) findViewById(R.id.route_option5);
-        m_btnRouteOption[4].setOnClickListener(new View.OnClickListener() {
+
+        m_btnRouteOption[4] = (Button)findViewById(R.id.route_option5);
+        m_btnRouteOption[4].setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if (!selectRouteOption(5)) return;
+            public void onClick(View v)
+            {
+                if(!selectRouteOption(5))
+                {
+                    return;
+                }
                 updateRouteOption();
             }
         });
@@ -121,27 +154,38 @@ public class RouteOptionPopupActivity extends FMBaseActivity {
             true // 무료 도로*/
 
 
-    private boolean selectRouteOption(int i) {
-        if (m_gApp.getAppSettingInfo().m_nCurSelectRouteOption < m_gApp.getAppSettingInfo().MAX_ROUTE_OPTION) {
-            if (m_gApp.getAppSettingInfo().m_arRouteOptionEnable[i]) {
-                if (m_gApp.getAppSettingInfo().m_nCurSelectRouteOption == 2) {
-                    FatosToast.ShowFatosYellow( getString(R.string.warning_opt_route_least, m_gApp.getAppSettingInfo().m_nCurSelectRouteOption) );
+    private boolean selectRouteOption(int i)
+    {
+        if(m_gApp.getAppSettingInfo().m_nCurSelectRouteOption < m_gApp.getAppSettingInfo().MAX_ROUTE_OPTION)
+        {
+            if(m_gApp.getAppSettingInfo().m_arRouteOptionEnable[i])
+            {
+                if(m_gApp.getAppSettingInfo().m_nCurSelectRouteOption == 2)
+                {
+                    FatosToast.ShowFatosYellow(getString(R.string.warning_opt_route_least,
+                                                         m_gApp.getAppSettingInfo().m_nCurSelectRouteOption));
                     return false;
                 }
                 m_gApp.getAppSettingInfo().m_arRouteOptionEnable[i] = false;
                 m_gApp.getAppSettingInfo().m_nCurSelectRouteOption--;
             }
-            else if (!m_gApp.getAppSettingInfo().m_arRouteOptionEnable[i]) {
+            else if(!m_gApp.getAppSettingInfo().m_arRouteOptionEnable[i])
+            {
                 m_gApp.getAppSettingInfo().m_arRouteOptionEnable[i] = true;
                 m_gApp.getAppSettingInfo().m_nCurSelectRouteOption++;
             }
-        } else {
-            if (m_gApp.getAppSettingInfo().m_arRouteOptionEnable[i]) {
+        }
+        else
+        {
+            if(m_gApp.getAppSettingInfo().m_arRouteOptionEnable[i])
+            {
                 m_gApp.getAppSettingInfo().m_arRouteOptionEnable[i] = false;
                 m_gApp.getAppSettingInfo().m_nCurSelectRouteOption--;
             }
-            else {
-                FatosToast.ShowFatosYellow( getString(R.string.warning_opt_route_upto, m_gApp.getAppSettingInfo().MAX_ROUTE_OPTION) );
+            else
+            {
+                FatosToast.ShowFatosYellow(getString(R.string.warning_opt_route_upto,
+                                                     m_gApp.getAppSettingInfo().MAX_ROUTE_OPTION));
                 return false;
             }
         }
@@ -153,7 +197,7 @@ public class RouteOptionPopupActivity extends FMBaseActivity {
     {
         int select = 0;
 
-        for(int i = 0; i < m_gApp.getAppSettingInfo().TOTAL_ROUTE_OPTION_CNT ; i++)
+        for(int i = 0; i < m_gApp.getAppSettingInfo().TOTAL_ROUTE_OPTION_CNT; i++)
         {
             switch(i)
             {

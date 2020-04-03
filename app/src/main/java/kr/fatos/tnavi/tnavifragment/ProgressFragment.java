@@ -8,23 +8,27 @@ import androidx.fragment.app.DialogFragment;
 
 import kr.fatos.tnavi.R;
 
-public class ProgressFragment extends DialogFragment {
+public class ProgressFragment extends DialogFragment
+{
 
-    public static ProgressFragment newInstance() {
+    public static ProgressFragment newInstance()
+    {
         ProgressFragment fragment = new ProgressFragment();
 
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
 
         super.onCreate(savedInstanceState);
         setCancelable(false);
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState){
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
 
         ProgressDialog dialog = new ProgressDialog(getActivity(), getTheme());
         dialog.setTitle(getString(R.string.app_name));
@@ -33,7 +37,6 @@ public class ProgressFragment extends DialogFragment {
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         return dialog;
     }
-
 
 
 }

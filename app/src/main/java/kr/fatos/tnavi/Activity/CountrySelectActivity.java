@@ -56,7 +56,8 @@ public class CountrySelectActivity extends FMBaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_country_select);
 
-        prefs = getSharedPreferences(getResources().getString(R.string.app_registerId), MODE_PRIVATE);
+        prefs = getSharedPreferences(getResources().getString(R.string.app_registerId),
+                                     MODE_PRIVATE);
         m_Context = this;
         m_gApp = (ANaviApplication)m_Context.getApplicationContext();
 
@@ -96,7 +97,9 @@ public class CountrySelectActivity extends FMBaseActivity
 
                             language_change(position);
 
-                            SharedPreferences.Editor editor = getSharedPreferences(getResources().getString(R.string.app_registerId), MODE_PRIVATE).edit();
+                            SharedPreferences.Editor editor = getSharedPreferences(
+                                    getResources().getString(R.string.app_registerId), MODE_PRIVATE)
+                                    .edit();
                             editor.putString(SettingsCode.getKeyCountry(), countrynames[position]);
                             editor.putInt(SettingsCode.getKeyIndex(), position);
                             SettingsCode.setValueCountry(countrynames[position]);
@@ -104,7 +107,8 @@ public class CountrySelectActivity extends FMBaseActivity
                             editor.apply();
 
                             Intent toSearch = new Intent();
-                            toSearch.setAction("RELOAD_COUNTRY"); // searchmain에서 접근하는 검색옵션 메뉴쪽에도 알려줘야함
+                            toSearch.setAction(
+                                    "RELOAD_COUNTRY"); // searchmain에서 접근하는 검색옵션 메뉴쪽에도 알려줘야함
                             sendBroadcast(toSearch);
 
                             Intent intent = new Intent();
@@ -259,7 +263,8 @@ public class CountrySelectActivity extends FMBaseActivity
     {
         m_gApp.updateLanguage();
 
-        m_txtTitle.setText(m_Context.getResources().getString(R.string.string_nostrasetting_country));
+        m_txtTitle.setText(
+                m_Context.getResources().getString(R.string.string_nostrasetting_country));
 
         countrynames = getResources().getStringArray(R.array.onemap_country_names);
         countrycodes = getResources().getStringArray(R.array.onemap_country_codes);

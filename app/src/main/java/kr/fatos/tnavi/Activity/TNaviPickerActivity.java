@@ -22,7 +22,8 @@ import kr.fatos.tnavi.Code.TNaviActionCode;
 import kr.fatos.tnavi.R;
 import kr.fatos.tnavi.TNaviMainActivity;
 
-public class TNaviPickerActivity extends Activity {
+public class TNaviPickerActivity extends Activity
+{
     TextView textView_Name, textView_Address;
 
     String strAddress;
@@ -35,7 +36,8 @@ public class TNaviPickerActivity extends Activity {
     double y;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -58,10 +60,12 @@ public class TNaviPickerActivity extends Activity {
 
         Bundle extras = getIntent().getExtras();
 
-        if (extras != null) {
+        if(extras != null)
+        {
             String strAppMode = extras.getString(TNaviActionCode.APP_MODE);
 
-            if(!Objects.equals(strAppMode, TNaviActionCode.APP_MODE_SHOW_MAP)) {
+            if(!Objects.equals(strAppMode, TNaviActionCode.APP_MODE_SHOW_MAP))
+            {
                 x = extras.getDouble("XCoord");
                 y = extras.getDouble("YCoord");
 
@@ -75,48 +79,53 @@ public class TNaviPickerActivity extends Activity {
         }
 
 
-//        findViewById(R.id.frameLayout).setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if ( event.getAction() == MotionEvent.ACTION_DOWN ) {
-//                    closePopup();
-//                }
-//
-//                return false;
-//            }
-//        });
+        //        findViewById(R.id.frameLayout).setOnTouchListener(new View.OnTouchListener() {
+        //            @Override
+        //            public boolean onTouch(View v, MotionEvent event) {
+        //                if ( event.getAction() == MotionEvent.ACTION_DOWN ) {
+        //                    closePopup();
+        //                }
+        //
+        //                return false;
+        //            }
+        //        });
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
+    public void onWindowFocusChanged(boolean hasFocus)
+    {
         super.onWindowFocusChanged(hasFocus);
 
-//        DisplayMetrics displayMetrics = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-//
-//        int screenHeight = displayMetrics.heightPixels;
-//
-//        int nLayoutY = getWindow().getAttributes().y = screenHeight / 2;
-//        int nLayoutHeight = frameLayout.getHeight();
-//
-//        frameLayout.setTranslationY(nLayoutY - nLayoutHeight);
+        //        DisplayMetrics displayMetrics = new DisplayMetrics();
+        //        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        //
+        //        int screenHeight = displayMetrics.heightPixels;
+        //
+        //        int nLayoutY = getWindow().getAttributes().y = screenHeight / 2;
+        //        int nLayoutHeight = frameLayout.getHeight();
+        //
+        //        frameLayout.setTranslationY(nLayoutY - nLayoutHeight);
     }
 
     @Override
-    public void setFinishOnTouchOutside(boolean finish) {
+    public void setFinishOnTouchOutside(boolean finish)
+    {
         super.setFinishOnTouchOutside(finish);
     }
 
     private void closePopup()
     {
-        ((TNaviMainActivity)TNaviMainActivity.m_Context).setGpsAppMode(TNaviActionCode.GPS_APP_MODE_DEFAULT);
+        ((TNaviMainActivity)TNaviMainActivity.m_Context).setGpsAppMode(
+                TNaviActionCode.GPS_APP_MODE_DEFAULT);
         setResult(RESULT_CANCELED);
         finish();
     }
 
     @Override
-    protected void onDestroy() {
-        if(broadCast != null) {
+    protected void onDestroy()
+    {
+        if(broadCast != null)
+        {
             unregisterReceiver(broadCast);
         }
 
@@ -124,20 +133,24 @@ public class TNaviPickerActivity extends Activity {
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         closePopup();
     }
 
-    public void onClickRoute(View v) {
-        Log.d(TAG,"onClickRoute!");
+    public void onClickRoute(View v)
+    {
+        Log.d(TAG, "onClickRoute!");
 
         Intent intent = new Intent();
 
-        if(strAddress!=null){
-            intent.putExtra("strAddr",strAddress);
+        if(strAddress != null)
+        {
+            intent.putExtra("strAddr", strAddress);
         }
 
-        ((TNaviMainActivity)TNaviMainActivity.m_Context).setGpsAppMode(TNaviActionCode.GPS_APP_MODE_DEFAULT);
+        ((TNaviMainActivity)TNaviMainActivity.m_Context).setGpsAppMode(
+                TNaviActionCode.GPS_APP_MODE_DEFAULT);
 
         setResult(RESULT_OK, intent);
         finish();
@@ -155,22 +168,26 @@ public class TNaviPickerActivity extends Activity {
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
+    public boolean dispatchTouchEvent(MotionEvent ev)
+    {
         Rect dialogBounds = new Rect();
         getWindow().getDecorView().getHitRect(dialogBounds);
 
         if(!dialogBounds.contains((int)ev.getX(), (int)ev.getY()))
         {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
             return false;
         }
 
         return super.dispatchTouchEvent(ev);
     }
 
-    BroadcastReceiver broadCast = new BroadcastReceiver() {
+    BroadcastReceiver broadCast = new BroadcastReceiver()
+    {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, Intent intent)
+        {
             String strAction = intent.getAction();
 
             if(strAction.equals("SET_TEXT"))

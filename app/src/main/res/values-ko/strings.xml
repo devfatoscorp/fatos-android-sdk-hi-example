@@ -57,6 +57,7 @@
     <string name="string_weversion_info">버전 정보</string>
     <string name="string_wecopyright">저작권</string>
     <string name="string_weuuid">UUID</string>
+    <string name="string_wemacaddr">Mac Addr</string>
 
     <string name="string_welanguage_change">언어를 변경하시겠습니까?\n일부화면은 선택된 언어로\n표시되지 않을 수 있습니다.</string>
     <string name="string_wecountry_change">언어를 변경하시겠습니까?</string>
@@ -68,7 +69,7 @@
 
     <string name="string_hiroutelinecolor">경로 색상</string>
     <string name="string_hirouteoptions">경로탐색 옵션</string>
-    <string name="string_hinightmode">야간 모드</string>
+    <string name="string_hinightmode">지도 색상</string>
     <string name="string_himapcolortheme">지도 테마</string>
     <string name="string_hidynamiczoom">스마트 주행모드</string>
     <string name="string_rpserver">RP 서버</string>
@@ -171,4 +172,5 @@
 
     <string name="string_server">Server</string>
     <string name="string_mobilizer">Mobilizer Info</string>
+    <string name="string_voice_noti">안내음성</string>
 </resources>

@@ -33,6 +33,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.io.IOException;
@@ -53,6 +55,7 @@ import biz.fatossdk.fminterface.FMSortOption;
 import biz.fatossdk.fminterface.RouteSummaryData;
 import biz.fatossdk.map.FMPMapConst;
 import biz.fatossdk.nativeMap.MapAnimation;
+import biz.fatossdk.navi.NativeNavi;
 import biz.fatossdk.navi.RoutePosition;
 import biz.fatossdk.navi.rgdata.RouteData;
 import biz.fatossdk.newanavi.ANaviApplication;
@@ -81,7 +84,8 @@ import kr.fatos.tnavi.tnavifragment.SearchMainFragment;
 import kr.fatos.tnavi.tnavifragment.SearchShowMapFragment;
 import kr.fatos.tnavi.tnavifragment.SummaryFragment;
 
-public class TNaviMainActivity extends FMBaseActivity implements FragmentCommunicator, SharedPreferences.OnSharedPreferenceChangeListener
+public class TNaviMainActivity extends FMBaseActivity
+        implements FragmentCommunicator, SharedPreferences.OnSharedPreferenceChangeListener
 {
     public static SharedPreferences prefs = null;
     private Handler m_Handler = new Handler();
@@ -206,10 +210,10 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             setGpsAppMode(TNaviActionCode.GPS_APP_MODE_DEFAULT);
             setUIMode(TNaviActionCode.UI_NORMAL_DRIVE_MODE);
 
-//            if(m_FMInterface.FM_GetDriveInfo().isM_bIsRoute())
-//            {
-//                routeCancel();
-//            }
+            //            if(m_FMInterface.FM_GetDriveInfo().isM_bIsRoute())
+            //            {
+            //                routeCancel();
+            //            }
 
             this.RouteFlag = false;
 
@@ -249,13 +253,14 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
 
         if(APP_MODE.equals(TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH))
         {
-//            if(m_FMInterface.FM_GetDriveInfo().isM_bIsRoute())
-//            {
-//                routeCancel();
-//            }
+            //            if(m_FMInterface.FM_GetDriveInfo().isM_bIsRoute())
+            //            {
+            //                routeCancel();
+            //            }
         }
 
-        if(APP_MODE.equals(TNaviActionCode.APP_MODE_DEFAULT) || APP_MODE.equals(TNaviActionCode.APP_MODE_ROUTE) || APP_MODE.equals(TNaviActionCode.APP_MODE_SIMULATE) || APP_MODE.equals(TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH))
+        if(APP_MODE.equals(TNaviActionCode.APP_MODE_DEFAULT) || APP_MODE.equals(TNaviActionCode.APP_MODE_ROUTE) || APP_MODE
+                .equals(TNaviActionCode.APP_MODE_SIMULATE) || APP_MODE.equals(TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH))
         {
             //메인지도 보여질떄는 기존모드 적용되도록
             m_gApp.ChangeMapViewMode(m_gApp.m_nCurMapMode, true);
@@ -313,7 +318,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
 
                 args.putString(TNaviActionCode.ROUTE_VIA_OR_GOAL, TNaviActionCode.JUST_GOAL);
                 args.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH);
-                GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchFragment.newInstance(), tag_search_fragment, args);
+                GoLib.getInstance()
+                     .goFragment(getSupportFragmentManager(), R.id.container, SearchFragment.newInstance(), tag_search_fragment, args);
                 setAPP_MODE(TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH);
 
                 break;
@@ -335,11 +341,13 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         {
             case TNaviActionCode.CHANGE_VIA_GO_ROUTE:
                 setAPP_MODE(TNaviActionCode.SEARCH_MODE);
-                GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchFragment.newInstance(), tag_search_fragment, bundle);
+                GoLib.getInstance()
+                     .goFragment(getSupportFragmentManager(), R.id.container, SearchFragment.newInstance(), tag_search_fragment, bundle);
                 break;
             case TNaviActionCode.CHANGE_GOAL_GO_ROUTE:
                 setAPP_MODE(TNaviActionCode.SEARCH_MODE);
-                GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchFragment.newInstance(), tag_search_fragment, bundle);
+                GoLib.getInstance()
+                     .goFragment(getSupportFragmentManager(), R.id.container, SearchFragment.newInstance(), tag_search_fragment, bundle);
                 break;
         }
     }
@@ -392,24 +400,6 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             try
             {
                 InitProcess();
-                setContentView(R.layout.activity_tnavi_main);
-
-                if(bFirstRun)
-                {
-                    bFirstRun = false;
-                }
-
-                //속도와 거리 단위를 Km로 초기화
-                m_gApp.getAppSettingInfo().m_nSpeedUnit = 0;
-                m_gApp.getAppSettingInfo().m_nDistUnit = 0;
-                SettingsCode.setDistanceUnit(m_gApp.getAppSettingInfo().m_nDistUnit);
-
-                imageView_marker = findViewById(R.id.imageView_marker);
-                imageView_MapCenterPoint = findViewById(R.id.imageView_MapCenterPoint);
-
-                saved_data = new savedData();
-
-                CheckLastRoute();
             }
             catch(IOException e)
             {
@@ -497,7 +487,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
 
         String strCountry = SettingsCode.getValueCountry();
 
-        if(!strCountry.equals(getString(R.string.string_welanguage_english)) && !strCountry.equals(getString(R.string.string_welanguage_zh)) && !strCountry.equals(getString(R.string.string_welanguage_th)) && !strCountry.equals(getString(R.string.string_welanguage_korean)))
+        if(!strCountry.equals(getString(R.string.string_welanguage_english)) && !strCountry.equals(getString(R.string.string_welanguage_zh)) && !strCountry
+                .equals(getString(R.string.string_welanguage_th)) && !strCountry.equals(getString(R.string.string_welanguage_korean)))
         {
             SettingsCode.setValueCountry(getString(R.string.string_welanguage_english));
             SettingsCode.setValueIndex(0);
@@ -602,6 +593,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                     }
 
                     routeTovia(m_dMapTouchScreenWGS84[0], m_dMapTouchScreenWGS84[1], TNaviActionCode.JUST_GOAL, m_POIItem);
+
+                    mapMoveCurrnetPostion();
                 }
                 else
                 {
@@ -611,11 +604,9 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                         showTbtLayout(true);
                         m_FMInterface.FM_StartRGService(FMBaseActivity.onFatosMapListener);
                     }
+
                     m_POIItem = null;
                 }
-
-                mapMoveCurrnetPostion();
-
         }
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -718,6 +709,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                             {
                                 set_strAddr(EnglishName, 1);
                             }
+                            
                             routeTovia(poiItem.getLocationPointX(), poiItem.getLocationPointY(), args, poiItem); //목적지 업데이트
                         }
                     }
@@ -735,7 +727,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             bundle.putString(TNaviActionCode.ROUTE_VIA_OR_GOAL, args);
             bundle.putInt(TNaviActionCode.SEARCH_KIND, nSearchKind);
 
-            GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchShowMapFragment.newInstance(), tag_showmap_fragment, bundle);
+            GoLib.getInstance()
+                 .goFragment(getSupportFragmentManager(), R.id.container, SearchShowMapFragment.newInstance(), tag_showmap_fragment, bundle);
 
             View view = this.getCurrentFocus();
 
@@ -752,7 +745,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             mapMoveCurrnetPostion();
 
             setDriveInfoThreadFlag(true);
-            GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), null);
+            GoLib.getInstance()
+                 .goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), null);
 
         }
         else if(Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_SEARCH))
@@ -761,7 +755,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             onUpdateMapMode(3);
             mapMoveCurrnetPostion();
 
-            GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchFragment.newInstance(), tag_search_fragment, null);
+            GoLib.getInstance()
+                 .goFragment(getSupportFragmentManager(), R.id.container, SearchFragment.newInstance(), tag_search_fragment, null);
         }
         else if(Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_JUST_GOAL_SEARCH))
         {
@@ -812,7 +807,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                 set_strAddr(poiItem.getLocationPointX() + ", " + poiItem.getLocationPointY(), 1);
             }
 
-            routeTovia(poiItem.getLocationPointX(), poiItem.getLocationPointY(), TNaviActionCode.JUST_GOAL, poiItem); //목적지만 탐색(변경 X)
+            routeTovia(poiItem.getLocationPointX(), poiItem.getLocationPointY(), TNaviActionCode.JUST_GOAL, poiItem); //목적지 업데이트
         }
         else if(Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_ROUTE))
         {
@@ -822,7 +817,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             bundle.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_ROUTE);
             mapMoveCurrnetPostion();
 
-            GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), bundle);
+            GoLib.getInstance()
+                 .goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), bundle);
         }
         else if(Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_SIMULATE))
         {
@@ -832,7 +828,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             bundle.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_SIMULATE);
 
             mapMoveCurrnetPostion();
-            GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), tag_searchmain_fragment, bundle);
+            GoLib.getInstance()
+                 .goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), tag_searchmain_fragment, bundle);
         }
     }
 
@@ -844,175 +841,217 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         m_route = m_gApp.getRouteApiInstance();
         FMInterface.CreateInstance(m_Context);
         m_FMInterface = FMInterface.GetInstance();
+
         m_iEngineInit = initFatosNaviEngine();
 
-        if(m_iEngineInit != 1)
-        {
-            Intent intent = new Intent();
-            intent.setAction(TNaviActionCode.READY_MAIN_MAP); // Action name
-            sendBroadcast(intent);
-
-            return;
-        }
-
-        m_FMInterface.FM_Init(m_Context, m_gApp.getRoutePathInfo().m_strAPIKEY, new ANaviApplication.MapStatusListener()
+        setOnTNaviListener(new OnTNaviListener()
         {
             @Override
-            public void onRouteFinish()
+            public void routeResult()
             {
-                // 출<->목 변경시에는 fragment 전환 하지 않음
-                if(isChangeViaWithGoalFlag)
-                {
-                    isChangeViaWithGoalFlag = false;
-                    return;
-                }
-
-                if(!APP_MODE.equals(TNaviActionCode.APP_MODE_DEFAULT))
-                {
-                    setAPP_MODE(TNaviActionCode.APP_MODE_DEFAULT);
-                }
-
-                m_gApp.ArriveGoalVol2(m_Context);
-
-                Bundle bundle = new Bundle();
-                bundle.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_DEFAULT);
-                GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), tag_searchmain_fragment, bundle);
-            }
-
-            //bMapMove : 원위치 버튼 눌렀을때 false, 터치로 움직였을때 true
-            @Override
-            public void onMapMove(boolean bMapMove)
-            {
-                setDriveInfoThreadFlag(true);
-
-                if(bMapMove)
-                {
-                    setMapCenterVisible(true);
-                    setDriveInfoThreadFlag(true);
-                }
-                else
-                {
-                    setMapCenterVisible(false);
-                }
-            }
-
-            @Override
-            public void onReRouting()
-            {
-
-            }
-
-            @Override
-            public void onCycleReRouting()
-            {
-
-            }
-
-            @Override
-            public void onInControlLineArea()
-            {
-
-            }
-
-            @Override
-            public void mapReady()
-            {
-                //1초에 한번씩 행정동명 가져오는 쓰레드 시작
-                DriveInfoThread.start();
-
-                if(Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_DEFAULT))
-                {
-                    //검색화면 추가
-                    GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), null);
-                }
-
-                //경로 색상 초기화
-                m_gApp.setMapRouteLineColor(0, getResources().getColor(R.color.cardview_onemap_textcolor));
-            }
-
-            @Override
-            public void updateObjPickerInfo(int nType, String strKey, String strName, double nLong, double nLat)
-            {
-
-            }
-
-            @Override
-            public void updateMapTouch(float fX, float fY)
-            {
-
-            }
-
-            @Override
-            public void updateMapLongTouch(float fX, float fY)
-            {
-
-                if(APP_MODE.equals(TNaviActionCode.APP_MODE_SHOWING_SUMMARY))
-                {
-                    return;
-                }
-
-                //지도보기 시에는 롱클릭을 막는다.
-                if(!Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_SHOW_MAP))
-                {
-                    /**
-                     * 화면 좌표를 wgs84 좌표로 변환
-                     */
-                    m_FMInterface.FM_GetWGS84ToScreen(fX, fY, m_dMapTouchScreenWGS84);
-                    /**
-                     * wgs84 좌표 기준 행정동명 가져오기
-                     * Thread 처리
-                     */
-
-                    final FMDriveInfo fmDriveInfo = GetDriveInfo();
-
-                    String strAddr;
-                    strAddr = m_FMInterface.FM_GetAddressVol2(m_dMapTouchScreenWGS84[0], m_dMapTouchScreenWGS84[1]);
-
-                    /**
-                     * 지도 이동
-                     */
-                    m_FMInterface.FM_SetMapPosition(0, m_dMapTouchScreenWGS84[0], m_dMapTouchScreenWGS84[1], 16.f);
-
-                    setMarkerVisible(true);
-
-                    Intent intentSearchkeyword = new Intent(m_Context, TNaviPickerActivity.class);
-                    intentSearchkeyword.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    Bundle bundle = new Bundle();
-                    bundle.putString(TNaviActionCode.APP_MODE, APP_MODE);
-                    bundle.putDouble("XCoord", m_dMapTouchScreenWGS84[0]);
-                    bundle.putDouble("YCoord", m_dMapTouchScreenWGS84[1]);
-                    bundle.putString("Address", fmDriveInfo.getM_strCurPosName());
-                    intentSearchkeyword.putExtras(bundle);
-
-                    if(m_POIItem == null)
-                    {
-                        m_POIItem = new NPoiItem();
-                    }
-
-                    m_POIItem.init();
-                    m_POIItem.setLocationPointX(m_dMapTouchScreenWGS84[0]);
-                    m_POIItem.setLocationPointY(m_dMapTouchScreenWGS84[1]);
-                    m_POIItem.setEnglishName(strAddr);
-                    m_POIItem.setStrName(strAddr);
-
-                    setGpsAppMode(TNaviActionCode.GPS_APP_MODE_LONG_TOUCH);
-
-                    startActivityForResult(intentSearchkeyword, TNaviActionCode.LONGTOUCH_CLICK);
-                }
-            }
-
-            @Override
-            public void updateMapAngle(float nAngle)
-            {
-
+                routeResultTNavi();
             }
         });
 
-        Intent intent = new Intent();
-        intent.setAction(TNaviActionCode.READY_MAIN_MAP); // Action name
-        sendBroadcast(intent);
-        m_gApp.getAppSettingInfo().updateSDIInfo();
-        updatelaunguage();
+        if(m_iEngineInit < 0)
+        {
+
+        }
+        else
+        {
+            setContentView(R.layout.activity_tnavi_main);
+
+
+            if(bFirstRun)
+            {
+                bFirstRun = false;
+            }
+
+            //속도와 거리 단위를 Km로 초기화
+            m_gApp.getAppSettingInfo().m_nSpeedUnit = 0;
+            m_gApp.getAppSettingInfo().m_nDistUnit = 0;
+            SettingsCode.setDistanceUnit(m_gApp.getAppSettingInfo().m_nDistUnit);
+
+            imageView_marker = findViewById(R.id.imageView_marker);
+            imageView_MapCenterPoint = findViewById(R.id.imageView_MapCenterPoint);
+
+            saved_data = new savedData();
+
+            CheckLastRoute();
+
+            //        if(m_iEngineInit != 1)
+            //        {
+            //            Intent intent = new Intent();
+            //            intent.setAction(TNaviActionCode.READY_MAIN_MAP); // Action name
+            //            sendBroadcast(intent);
+            //
+            //            return;
+            //        }
+
+            m_FMInterface.FM_Init(m_Context, m_gApp.getRoutePathInfo().m_strAPIKEY, new ANaviApplication.MapStatusListener()
+            {
+                @Override
+                public void onRouteFinish()
+                {
+                    // 출<->목 변경시에는 fragment 전환 하지 않음
+                    if(isChangeViaWithGoalFlag)
+                    {
+                        isChangeViaWithGoalFlag = false;
+                        return;
+                    }
+
+                    if(!APP_MODE.equals(TNaviActionCode.APP_MODE_DEFAULT))
+                    {
+                        setAPP_MODE(TNaviActionCode.APP_MODE_DEFAULT);
+                    }
+
+                    m_gApp.ArriveGoalVol2(m_Context);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_DEFAULT);
+                    GoLib.getInstance()
+                         .goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment
+                                 .newInstance(), tag_searchmain_fragment, bundle);
+                }
+
+                //bMapMove : 원위치 버튼 눌렀을때 false, 터치로 움직였을때 true
+                @Override
+                public void onMapMove(boolean bMapMove)
+                {
+                    setDriveInfoThreadFlag(true);
+
+                    if(bMapMove)
+                    {
+                        setMapCenterVisible(true);
+                        setDriveInfoThreadFlag(true);
+                    }
+                    else
+                    {
+                        setMapCenterVisible(false);
+                    }
+                }
+
+                @Override
+                public void onReRouting()
+                {
+
+                }
+
+                @Override
+                public void onCycleReRouting()
+                {
+
+                }
+
+                @Override
+                public void onInControlLineArea()
+                {
+
+                }
+
+                @Override
+                public void mapReady()
+                {
+                    //1초에 한번씩 행정동명 가져오는 쓰레드 시작
+                    DriveInfoThread.start();
+
+                    if(Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_DEFAULT))
+                    {
+                        //검색화면 추가
+                        GoLib.getInstance()
+                             .goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment
+                                     .newInstance(), null);
+                    }
+
+                    //경로 색상 초기화
+                    m_gApp.setMapRouteLineColor(0, getResources().getColor(R.color.cardview_onemap_textcolor));
+                }
+
+                @Override
+                public void updateObjPickerInfo(int nType, String strKey, String strName,
+                                                double nLong, double nLat)
+                {
+
+                }
+
+                @Override
+                public void updateMapTouch(float fX, float fY)
+                {
+
+                }
+
+                @Override
+                public void updateMapLongTouch(float fX, float fY)
+                {
+
+                    if(APP_MODE.equals(TNaviActionCode.APP_MODE_SHOWING_SUMMARY))
+                    {
+                        return;
+                    }
+
+                    //지도보기 시에는 롱클릭을 막는다.
+                    if(!Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_SHOW_MAP))
+                    {
+                        /**
+                         * 화면 좌표를 wgs84 좌표로 변환
+                         */
+                        m_FMInterface.FM_GetWGS84ToScreen(fX, fY, m_dMapTouchScreenWGS84);
+                        /**
+                         * wgs84 좌표 기준 행정동명 가져오기
+                         * Thread 처리
+                         */
+
+                        final FMDriveInfo fmDriveInfo = GetDriveInfo();
+
+                        String strAddr;
+                        strAddr = m_FMInterface.FM_GetAddressVol2(m_dMapTouchScreenWGS84[0], m_dMapTouchScreenWGS84[1]);
+
+                        /**
+                         * 지도 이동
+                         */
+                        m_FMInterface.FM_SetMapPosition(0, m_dMapTouchScreenWGS84[0], m_dMapTouchScreenWGS84[1], 16.f);
+
+                        setMarkerVisible(true);
+
+                        Intent intentSearchkeyword = new Intent(m_Context, TNaviPickerActivity.class);
+                        intentSearchkeyword.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(TNaviActionCode.APP_MODE, APP_MODE);
+                        bundle.putDouble("XCoord", m_dMapTouchScreenWGS84[0]);
+                        bundle.putDouble("YCoord", m_dMapTouchScreenWGS84[1]);
+                        bundle.putString("Address", fmDriveInfo.getM_strCurPosName());
+                        intentSearchkeyword.putExtras(bundle);
+
+                        if(m_POIItem == null)
+                        {
+                            m_POIItem = new NPoiItem();
+                        }
+
+                        m_POIItem.init();
+                        m_POIItem.setLocationPointX(m_dMapTouchScreenWGS84[0]);
+                        m_POIItem.setLocationPointY(m_dMapTouchScreenWGS84[1]);
+                        m_POIItem.setEnglishName(strAddr);
+                        m_POIItem.setStrName(strAddr);
+
+                        setGpsAppMode(TNaviActionCode.GPS_APP_MODE_LONG_TOUCH);
+
+                        startActivityForResult(intentSearchkeyword, TNaviActionCode.LONGTOUCH_CLICK);
+                    }
+                }
+
+                @Override
+                public void updateMapAngle(float nAngle)
+                {
+
+                }
+            });
+
+            Intent intent = new Intent();
+            intent.setAction(TNaviActionCode.READY_MAIN_MAP); // Action name
+            sendBroadcast(intent);
+            m_gApp.getAppSettingInfo().updateSDIInfo();
+            updatelaunguage();
+        }
     }
 
     //==============================================================================================
@@ -1086,7 +1125,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
 
         Bundle bundle = new Bundle();
         bundle.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_DEFAULT);
-        GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), tag_searchmain_fragment, bundle);
+        GoLib.getInstance()
+             .goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), tag_searchmain_fragment, bundle);
     }
 
     //==============================================================================================
@@ -1119,7 +1159,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             m_FMInterface.FM_RouteSummary(FMBaseActivity.onFatosMapListener);
 
             setAPP_MODE(TNaviActionCode.APP_MODE_SHOWING_SUMMARY);
-            GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, summaryFragment, tag_summary_fragment, args);
+            GoLib.getInstance()
+                 .goFragment(getSupportFragmentManager(), R.id.container, summaryFragment, tag_summary_fragment, args);
         }
 
         showTbtLayout(false);
@@ -1142,7 +1183,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             m_FMInterface.FM_RE_RouteSummary(FMBaseActivity.onFatosMapListener);
             //모의주행 종료시에는 요약화면으로 가야 함.
             setAPP_MODE(TNaviActionCode.APP_MODE_SHOWING_SUMMARY);
-            GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, summaryFragment, tag_summary_fragment, args);
+            GoLib.getInstance()
+                 .goFragment(getSupportFragmentManager(), R.id.container, summaryFragment, tag_summary_fragment, args);
         }
 
         showTbtLayout(false);
@@ -1184,7 +1226,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             else
             {
                 setAPP_MODE(TNaviActionCode.APP_MODE_DEFAULT);
-                GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), null);
+                GoLib.getInstance()
+                     .goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), null);
                 m_FMInterface.FM_CancelRoute();
                 routeCancel();
             }
@@ -1204,7 +1247,9 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
 
                 if(!m_FMInterface.FM_GetDriveInfo().isM_bIsRoute())
                 {
-                    GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), null);
+                    GoLib.getInstance()
+                         .goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment
+                                 .newInstance(), null);
 
                     setAPP_MODE(TNaviActionCode.APP_MODE_DEFAULT);
                 }
@@ -1215,7 +1260,9 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
 
                     Bundle bundle = new Bundle();
                     bundle.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_ROUTE);
-                    GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), tag_searchmain_fragment, bundle);
+                    GoLib.getInstance()
+                         .goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment
+                                 .newInstance(), tag_searchmain_fragment, bundle);
 
                     showTbtLayout(true);
 
@@ -1237,11 +1284,13 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                 bundle.putParcelable(TNaviActionCode.ARRAYLIST_MAP_TO_SEARCH, Parcels.wrap(m_TempPoiItem));
                 bundle.putString(TNaviActionCode.SEARCH_MODE_WORD, m_SearchWord);
 
-                GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchFragment.newInstance(), tag_search_fragment, bundle);
+                GoLib.getInstance()
+                     .goFragment(getSupportFragmentManager(), R.id.container, SearchFragment.newInstance(), tag_search_fragment, bundle);
 
                 setAPP_MODE(TNaviActionCode.APP_MODE_SEARCH);
             }
-            else if(m_strMapViewRouteViaOrGoal.equals(TNaviActionCode.CHANGE_VIA_GO_ROUTE) || m_strMapViewRouteViaOrGoal.equals(TNaviActionCode.CHANGE_GOAL_GO_ROUTE))
+            else if(m_strMapViewRouteViaOrGoal.equals(TNaviActionCode.CHANGE_VIA_GO_ROUTE) || m_strMapViewRouteViaOrGoal
+                    .equals(TNaviActionCode.CHANGE_GOAL_GO_ROUTE))
             {
                 Bundle bundle = new Bundle();
                 bundle.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_SEARCH_TO_ROUTE);
@@ -1249,7 +1298,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                 bundle.putParcelable(TNaviActionCode.ARRAYLIST_MAP_TO_SEARCH, Parcels.wrap(m_TempPoiItem));
                 bundle.putString(TNaviActionCode.SEARCH_MODE_WORD, m_SearchWord);
 
-                GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchFragment.newInstance(), tag_search_fragment, bundle);
+                GoLib.getInstance()
+                     .goFragment(getSupportFragmentManager(), R.id.container, SearchFragment.newInstance(), tag_search_fragment, bundle);
 
                 setAPP_MODE(TNaviActionCode.SEARCH_MODE);
             }
@@ -1269,41 +1319,47 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             //연타시 딜레이가 있는 디바이스의 경우 다른 화면에서 종료 팝업이 안내되는 경우가 있어서, 앱모드 한번 더 검증
             if(APP_MODE.equals(TNaviActionCode.APP_MODE_DEFAULT))
             {
-                new AlertDialog.Builder(this).setTitle(getString(R.string.app_name)).setMessage(getString(R.string.string_hi_close)).setPositiveButton(getString(R.string.string_btn_popup_positive), new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                        {
-                            finishAndRemoveTask();
-                        }
-                        else
-                        {
-                            finish();
-                        }
-                        //앱 종료시 gps서비스 남아있는 문제 때문에 super.onDestroy 호출 후 process kill 하도록 수정
-                        TNaviMainActivity.super.onDestroy();
+                new AlertDialog.Builder(this).setTitle(getString(R.string.app_name))
+                                             .setMessage(getString(R.string.string_hi_close))
+                                             .setPositiveButton(getString(R.string.string_btn_popup_positive), new DialogInterface.OnClickListener()
+                                             {
+                                                 @Override
+                                                 public void onClick(
+                                                         DialogInterface dialogInterface, int i)
+                                                 {
+                                                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                                                     {
+                                                         finishAndRemoveTask();
+                                                     }
+                                                     else
+                                                     {
+                                                         finish();
+                                                     }
+                                                     //앱 종료시 gps서비스 남아있는 문제 때문에 super.onDestroy 호출 후 process kill 하도록 수정
+                                                     TNaviMainActivity.super.onDestroy();
 
-                        if(bThreadFlag)
-                        {
-                            bThreadFlag = false;
-                        }
+                                                     if(bThreadFlag)
+                                                     {
+                                                         bThreadFlag = false;
+                                                     }
 
-                        unregisterReceiver(receiver);
-                        releaseFatosAuto();
+                                                     unregisterReceiver(receiver);
+                                                     releaseFatosAuto();
 
-                        Process.killProcess(Process.myPid());
-                        System.exit(0);
-                    }
-                }).setNegativeButton(getString(R.string.string_btn_popup_negative), new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        m_gApp.startAutoRouteGudiance();
-                    }
-                }).show();
+                                                     Process.killProcess(Process.myPid());
+                                                     System.exit(0);
+                                                 }
+                                             })
+                                             .setNegativeButton(getString(R.string.string_btn_popup_negative), new DialogInterface.OnClickListener()
+                                             {
+                                                 @Override
+                                                 public void onClick(
+                                                         DialogInterface dialogInterface, int i)
+                                                 {
+                                                     m_gApp.startAutoRouteGudiance();
+                                                 }
+                                             })
+                                             .show();
             }
         }
     }
@@ -1449,7 +1505,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
 
             if(i_PoiItem.getAddressFull().equals("") || i_PoiItem.getEnglishName().equals(""))
             {
-                String address_wgs = String.format("%.5f", i_PoiItem.getLocationPointX()) + ", " + String.format("%.5f", i_PoiItem.getLocationPointY());
+                String address_wgs = String.format("%.5f", i_PoiItem.getLocationPointX()) + ", " + String
+                        .format("%.5f", i_PoiItem.getLocationPointY());
                 m_RecentPOIItem.setAdminLevel1EnglishName("No Address Name");
                 m_RecentPOIItem.setEnglishName(address_wgs);
             }
@@ -1659,7 +1716,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             SummaryFragment summaryFragment = new SummaryFragment();
             summaryFragment.setArguments(args);
 
-            GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, summaryFragment, tag_summary_fragment, args);
+            GoLib.getInstance()
+                 .goFragment(getSupportFragmentManager(), R.id.container, summaryFragment, tag_summary_fragment, args);
         }
     }
 
@@ -1690,8 +1748,7 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         String result = msg.getData().getString(AMapGoogleSearchUtil.RESULT);
         ArrayList<String> searchList = new ArrayList<String>();
 
-        if(result.equals(FMError.FME_SUCCESS_SEARCH_SUCCESS)
-            || result.equals(ErrorMessage.SUCCESS_NOSTRA_RESULT))
+        if(result.equals(FMError.FME_SUCCESS_SEARCH_SUCCESS) || result.equals(ErrorMessage.SUCCESS_NOSTRA_RESULT))
         {
             searchResultPOI = m_FMInterface.FM_GetSearchResult(FMSortOption.FM_SORT_BY_DIST);
 
@@ -1741,7 +1798,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
             }
 
         }
-        else if(result.equals(FMError.FME_MESSAGE_SEARCH_ERROR) || result.equals(ErrorMessage.TIMEOUT_RESULT) || result.equals(ErrorMessage.ERROR_NOSTRA_RESULT))
+        else if(result.equals(FMError.FME_MESSAGE_SEARCH_ERROR) || result.equals(ErrorMessage.TIMEOUT_RESULT) || result
+                .equals(ErrorMessage.ERROR_NOSTRA_RESULT))
         {
             String btn_text = getResources().getString(R.string.string_popupTitle_btn_Ok);
             String title = getResources().getString(R.string.string_popupTitle_error);
@@ -1816,7 +1874,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         {
             NPoiItem tempPoiItem = m_ALPoiItem.get(i);
 
-            if(tempPoiItem.getLocationPointX() == m_RecentPOIItem.getLocationPointX() && tempPoiItem.getLocationPointY() == m_RecentPOIItem.getLocationPointY())
+            if(tempPoiItem.getLocationPointX() == m_RecentPOIItem.getLocationPointX() && tempPoiItem
+                    .getLocationPointY() == m_RecentPOIItem.getLocationPointY())
             {
                 m_POIItem = null;
                 m_RecentPOIItem = null;
@@ -1995,16 +2054,26 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
 
                         if(SettingsCode.getDistanceUnit() == 0)
                         {
-                            data.putString("RemainDistance", GUtilLib.getInstance(m_Context).updateTotalRemainDist(fmDriveInfo.getM_nTotalRemainderDist()));
+                            data.putString("RemainDistance", GUtilLib.getInstance(m_Context)
+                                                                     .updateTotalRemainDist(fmDriveInfo
+                                                                                                    .getM_nTotalRemainderDist()));
                         }
                         else
                         {
-                            data.putString("RemainDistance", GUtilLib.getInstance(m_Context).updateTotalRemainDistForMile(fmDriveInfo.getM_nTotalRemainderDist()));
+                            data.putString("RemainDistance", GUtilLib.getInstance(m_Context)
+                                                                     .updateTotalRemainDistForMile(fmDriveInfo
+                                                                                                           .getM_nTotalRemainderDist()));
                         }
 
                         //fatostest - 남은시간 일자 제거
-                        data.putString("RemainTime", GUtilLib.getInstance(m_Context).updateTotalRemainTimeRouteWithoutDay(fmDriveInfo.getM_nServiceLinkRemainderTime(), true, m_gApp.getFatosLocale()));
-                        data.putString("RemainTimeTwo", GUtilLib.getInstance(m_Context).updateTotalRemainTimeRouteWithoutDay(fmDriveInfo.getM_nServiceLinkRemainderTime(), false, m_gApp.getFatosLocale()));
+                        data.putString("RemainTime", GUtilLib.getInstance(m_Context)
+                                                             .updateTotalRemainTimeRouteWithoutDay(fmDriveInfo
+                                                                                                           .getM_nServiceLinkRemainderTime(), true, m_gApp
+                                                                                                           .getFatosLocale()));
+                        data.putString("RemainTimeTwo", GUtilLib.getInstance(m_Context)
+                                                                .updateTotalRemainTimeRouteWithoutDay(fmDriveInfo
+                                                                                                              .getM_nServiceLinkRemainderTime(), false, m_gApp
+                                                                                                              .getFatosLocale()));
 
                         //fatostest - 남은시간 일자 포함
                         //                        data.putString("RemainTime", GUtilLib.getInstance(m_Context).updateTotalRemainTimeRoute(fmDriveInfo.getM_nServiceLinkRemainderTime(), true, m_gApp.getFatosLocale()));
@@ -2030,16 +2099,26 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
 
                         if(SettingsCode.getDistanceUnit() == 0)
                         {
-                            data.putString("RemainDistance", GUtilLib.getInstance(m_Context).updateTotalRemainDist(fmDriveInfo.getM_nTotalRemainderDist()));
+                            data.putString("RemainDistance", GUtilLib.getInstance(m_Context)
+                                                                     .updateTotalRemainDist(fmDriveInfo
+                                                                                                    .getM_nTotalRemainderDist()));
                         }
                         else
                         {
-                            data.putString("RemainDistance", GUtilLib.getInstance(m_Context).updateTotalRemainDistForMile(fmDriveInfo.getM_nTotalRemainderDist()));
+                            data.putString("RemainDistance", GUtilLib.getInstance(m_Context)
+                                                                     .updateTotalRemainDistForMile(fmDriveInfo
+                                                                                                           .getM_nTotalRemainderDist()));
                         }
 
                         //fatostest - 남은시간 일자 제거
-                        data.putString("RemainTime", GUtilLib.getInstance(m_Context).updateTotalRemainTimeRouteWithoutDay(fmDriveInfo.getM_nServiceLinkRemainderTime(), true, m_gApp.getFatosLocale()));
-                        data.putString("RemainTimeTwo", GUtilLib.getInstance(m_Context).updateTotalRemainTimeRouteWithoutDay(fmDriveInfo.getM_nServiceLinkRemainderTime(), false, m_gApp.getFatosLocale()));
+                        data.putString("RemainTime", GUtilLib.getInstance(m_Context)
+                                                             .updateTotalRemainTimeRouteWithoutDay(fmDriveInfo
+                                                                                                           .getM_nServiceLinkRemainderTime(), true, m_gApp
+                                                                                                           .getFatosLocale()));
+                        data.putString("RemainTimeTwo", GUtilLib.getInstance(m_Context)
+                                                                .updateTotalRemainTimeRouteWithoutDay(fmDriveInfo
+                                                                                                              .getM_nServiceLinkRemainderTime(), false, m_gApp
+                                                                                                              .getFatosLocale()));
 
                         //fatostest - 남은시간 일자 포함
                         //                        data.putString("RemainTime", GUtilLib.getInstance(m_Context).updateTotalRemainTimeRoute(fmDriveInfo.getM_nServiceLinkRemainderTime(), true, m_gApp.getFatosLocale()));
@@ -2292,7 +2371,8 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         {
             boolean bFlag = message.getData().getBoolean("Flag");
 
-            if((Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_DEFAULT) || Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_SIMULATE) || Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_ROUTE)) && bFlag)
+            if((Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_DEFAULT) || Objects.equals(APP_MODE, TNaviActionCode.APP_MODE_SIMULATE) || Objects
+                    .equals(APP_MODE, TNaviActionCode.APP_MODE_ROUTE)) && bFlag)
             {
                 imageView_MapCenterPoint.setVisibility(View.VISIBLE);
             }
@@ -2373,94 +2453,113 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
                 getWindowManager().getDefaultDisplay().getMetrics(metrics);
                 Resources resources = new Resources(getAssets(), metrics, conf);
 
-                new AlertDialog.Builder(this).setTitle(resources.getString(R.string.string_hi_routerecovery)).setMessage(resources.getString(R.string.string_hi_routebefore)).setPositiveButton(resources.getString(R.string.string_btn_popup_positive), new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        bLastRouteFlag = true;
+                new AlertDialog.Builder(this).setTitle(resources.getString(R.string.string_hi_routerecovery))
+                                             .setMessage(resources.getString(R.string.string_hi_routebefore))
+                                             .setPositiveButton(resources.getString(R.string.string_btn_popup_positive), new DialogInterface.OnClickListener()
+                                             {
+                                                 @Override
+                                                 public void onClick(
+                                                         DialogInterface dialogInterface, int i)
+                                                 {
+                                                     bLastRouteFlag = true;
 
-                        m_gApp.loadRoutePositionListVol2(m_Context);
+                                                     m_gApp.loadRoutePositionListVol2(m_Context);
 
-                        routeVol2(m_lastRouteDataItem);
+                                                     routeVol2(m_lastRouteDataItem);
 
-                        SharedPreferences settings;
+                                                     SharedPreferences settings;
 
-                        set_strAddr(getResources().getString(R.string.string_via_hint), 0);
-                        set_strAddr(m_lastRouteDataItem.getGoalPosName(), 1);
-                        settings = m_Context.getSharedPreferences("LastRoutCardData", Context.MODE_PRIVATE);
+                                                     set_strAddr(getResources().getString(R.string.string_via_hint), 0);
+                                                     set_strAddr(m_lastRouteDataItem.getGoalPosName(), 1);
+                                                     settings = m_Context.getSharedPreferences("LastRoutCardData", Context.MODE_PRIVATE);
 
-                        if(settings.contains("LastRoutCardData"))
-                        {
-                            String jsonString = settings.getString("LastRoutCardData", null);
-                            Gson gson = new Gson();
-                            ArrayList<RouteCardDataVol2> arraydata = gson.fromJson(jsonString, new TypeToken<ArrayList<RouteCardDataVol2>>()
-                            {
-                            }.getType());
-                            RouteCardDataVol2 data;
-                            data = arraydata.get(0);
-                            saved_summaryCardData = new ArrayList<RouteCardData>();
-                            saved_summaryCardData.add(new RouteCardData(data.strTypeName, data.nType, data.nLength, data.nTime, data.nFee, data.nAvgSpeed, data.nTurnCongestion, m_Context));
-                        }
+                                                     if(settings.contains("LastRoutCardData"))
+                                                     {
+                                                         String jsonString = settings.getString("LastRoutCardData", null);
+                                                         Gson gson = new Gson();
+                                                         ArrayList<RouteCardDataVol2> arraydata = gson.fromJson(jsonString, new TypeToken<ArrayList<RouteCardDataVol2>>()
+                                                         {
+                                                         }.getType());
+                                                         RouteCardDataVol2 data;
+                                                         data = arraydata.get(0);
+                                                         saved_summaryCardData = new ArrayList<RouteCardData>();
+                                                         saved_summaryCardData.add(new RouteCardData(data.strTypeName, data.nType, data.nLength, data.nTime, data.nFee, data.nAvgSpeed, data.nTurnCongestion, m_Context));
+                                                     }
 
-                        setDriveInfoThreadFlag(true);
+                                                     setDriveInfoThreadFlag(true);
 
-                        Bundle bundle = new Bundle();
-                        bundle.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_ROUTE);
-                        mapMoveCurrnetPostion();
+                                                     Bundle bundle = new Bundle();
+                                                     bundle.putString(TNaviActionCode.APP_MODE, TNaviActionCode.APP_MODE_ROUTE);
+                                                     mapMoveCurrnetPostion();
 
-                        GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), bundle);
+                                                     GoLib.getInstance()
+                                                          .goFragment(getSupportFragmentManager(), R.id.container, SearchMainFragment.newInstance(), bundle);
 
-                        setAPP_MODE(TNaviActionCode.APP_MODE_ROUTE);
-                        modeProcess(new Intent());
+                                                     setAPP_MODE(TNaviActionCode.APP_MODE_ROUTE);
+                                                     modeProcess(new Intent());
 
-                        final FMDriveInfo fmDriveInfo = GetDriveInfo();
-                        fragmentManager = getSupportFragmentManager();
-                        searchMainFragment = (SearchMainFragment)fragmentManager.findFragmentById(R.id.container);
+                                                     final FMDriveInfo fmDriveInfo = GetDriveInfo();
+                                                     fragmentManager = getSupportFragmentManager();
+                                                     searchMainFragment = (SearchMainFragment)fragmentManager.findFragmentById(R.id.container);
 
-                        if(searchMainFragment != null)
-                        {
-                            if(SettingsCode.getDistanceUnit() == 0)
-                            {
-                                searchMainFragment.setRemainDistance(GUtilLib.getInstance(m_Context).updateTotalRemainDist(fmDriveInfo.getM_nTotalRemainderDist()));
-                            }
-                            else
-                            {
-                                searchMainFragment.setRemainDistance(GUtilLib.getInstance(m_Context).updateTotalRemainDistForMile(fmDriveInfo.getM_nTotalRemainderDist()));
-                            }
+                                                     if(searchMainFragment != null)
+                                                     {
+                                                         if(SettingsCode.getDistanceUnit() == 0)
+                                                         {
+                                                             searchMainFragment.setRemainDistance(GUtilLib.getInstance(m_Context)
+                                                                                                          .updateTotalRemainDist(fmDriveInfo.getM_nTotalRemainderDist()));
+                                                         }
+                                                         else
+                                                         {
+                                                             searchMainFragment.setRemainDistance(GUtilLib.getInstance(m_Context)
+                                                                                                          .updateTotalRemainDistForMile(fmDriveInfo
+                                                                                                                                                .getM_nTotalRemainderDist()));
+                                                         }
 
 
-                            //fatostest - 남은시간 일자 제거
-                            searchMainFragment.setRemainTime(GUtilLib.getInstance(m_Context).updateTotalRemainTimeRouteWithoutDay(fmDriveInfo.getM_nServiceLinkRemainderTime(), true, m_gApp.getFatosLocale()), true);
-                            searchMainFragment.setRemainTime(GUtilLib.getInstance(m_Context).updateTotalRemainTimeRouteWithoutDay(fmDriveInfo.getM_nServiceLinkRemainderTime(), false, m_gApp.getFatosLocale()), false);
+                                                         //fatostest - 남은시간 일자 제거
+                                                         searchMainFragment.setRemainTime(GUtilLib.getInstance(m_Context)
+                                                                                                  .updateTotalRemainTimeRouteWithoutDay(fmDriveInfo
+                                                                                                                                                .getM_nServiceLinkRemainderTime(), true, m_gApp
+                                                                                                                                                .getFatosLocale()), true);
+                                                         searchMainFragment.setRemainTime(GUtilLib.getInstance(m_Context)
+                                                                                                  .updateTotalRemainTimeRouteWithoutDay(fmDriveInfo
+                                                                                                                                                .getM_nServiceLinkRemainderTime(), false, m_gApp
+                                                                                                                                                .getFatosLocale()), false);
 
-                            //fatostest - 남은시간 일자 포함
-                            //                                    searchMainFragment.setRemainTime(GUtilLib.getInstance(m_Context).updateTotalRemainTimeRoute(fmDriveInfo.getM_nServiceLinkRemainderTime(), true, m_gApp.getFatosLocale()), true);
-                            //                                    searchMainFragment.setRemainTime(GUtilLib.getInstance(m_Context).updateTotalRemainTimeRoute(fmDriveInfo.getM_nServiceLinkRemainderTime(), false, m_gApp.getFatosLocale()), false);
-                        }
-                    }
-                }).setNegativeButton(resources.getString(R.string.string_btn_popup_negative), new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        bLastRouteFlag = false;
-                        m_gApp.ArriveGoalVol2(m_Context);
-                    }
-                }).setOnKeyListener(new DialogInterface.OnKeyListener()
-                {
-                    @Override
-                    public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent)
-                    {
-                        if(i == KeyEvent.KEYCODE_BACK)
-                        {
-                            bLastRouteFlag = false;
-                            m_gApp.ArriveGoalVol2(m_Context);
-                        }
+                                                         //fatostest - 남은시간 일자 포함
+                                                         //                                    searchMainFragment.setRemainTime(GUtilLib.getInstance(m_Context).updateTotalRemainTimeRoute(fmDriveInfo.getM_nServiceLinkRemainderTime(), true, m_gApp.getFatosLocale()), true);
+                                                         //                                    searchMainFragment.setRemainTime(GUtilLib.getInstance(m_Context).updateTotalRemainTimeRoute(fmDriveInfo.getM_nServiceLinkRemainderTime(), false, m_gApp.getFatosLocale()), false);
+                                                     }
+                                                 }
+                                             })
+                                             .setNegativeButton(resources.getString(R.string.string_btn_popup_negative), new DialogInterface.OnClickListener()
+                                             {
+                                                 @Override
+                                                 public void onClick(
+                                                         DialogInterface dialogInterface, int i)
+                                                 {
+                                                     bLastRouteFlag = false;
+                                                     m_gApp.ArriveGoalVol2(m_Context);
+                                                 }
+                                             })
+                                             .setOnKeyListener(new DialogInterface.OnKeyListener()
+                                             {
+                                                 @Override
+                                                 public boolean onKey(
+                                                         DialogInterface dialogInterface, int i,
+                                                         KeyEvent keyEvent)
+                                                 {
+                                                     if(i == KeyEvent.KEYCODE_BACK)
+                                                     {
+                                                         bLastRouteFlag = false;
+                                                         m_gApp.ArriveGoalVol2(m_Context);
+                                                     }
 
-                        return false;
-                    }
-                }).show();
+                                                     return false;
+                                                 }
+                                             })
+                                             .show();
             }
         }
     }
@@ -2504,6 +2603,14 @@ public class TNaviMainActivity extends FMBaseActivity implements FragmentCommuni
         onUpdateMapMode(3);
         mapMoveCurrnetPostion();
     }
+
     //==============================================================================================
 
+    public void routeResultTNavi()
+    {
+        bLastRouteFlag = false;
+        m_gApp.ArriveGoalVol2(m_Context);
+
+        routeCancel();
+    }
 }

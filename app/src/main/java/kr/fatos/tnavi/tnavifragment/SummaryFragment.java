@@ -63,7 +63,8 @@ import static biz.fatossdk.nativeMap.MapAnimation.MAP_ANI_TYPE_DCCEL;
 import static biz.fatossdk.nativeMap.MapAnimation.MAP_ANI_TYPE_DIRECT;
 import static biz.fatossdk.newanavi.ANaviApplication.m_MapHandle;
 
-public class SummaryFragment extends Fragment implements RouteListAdapter.OnItemClicked, View.OnClickListener
+public class SummaryFragment extends Fragment
+        implements RouteListAdapter.OnItemClicked, View.OnClickListener
 {
     //==============================================================================================
     @Override
@@ -96,13 +97,15 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
             case (R.id.ll_btn_start):
                 args = new Bundle();
-                args.putString(TNaviActionCode.ROUTE_VIA_OR_GOAL, TNaviActionCode.CHANGE_VIA_GO_ROUTE);
+                args.putString(TNaviActionCode.ROUTE_VIA_OR_GOAL,
+                               TNaviActionCode.CHANGE_VIA_GO_ROUTE);
                 fComm.rerouteFromSummary(args);
                 break;
 
             case (R.id.ll_btn_goal):
                 args = new Bundle();
-                args.putString(TNaviActionCode.ROUTE_VIA_OR_GOAL, TNaviActionCode.CHANGE_GOAL_GO_ROUTE);
+                args.putString(TNaviActionCode.ROUTE_VIA_OR_GOAL,
+                               TNaviActionCode.CHANGE_GOAL_GO_ROUTE);
                 fComm.rerouteFromSummary(args);
                 break;
 
@@ -120,7 +123,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
                 if(tv_start.getText() == "")
                 {
-                    ((TNaviMainActivity)getActivity()).set_strAddr(getString(R.string.string_via_hint), 1);
+                    ((TNaviMainActivity)getActivity()).set_strAddr(
+                            getString(R.string.string_via_hint), 1);
                 }
                 else
                 {
@@ -129,14 +133,17 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
                 if(tv_goal.getText() == "")
                 {
-                    ((TNaviMainActivity)getActivity()).set_strAddr(getString(R.string.string_via_hint), 0);
+                    ((TNaviMainActivity)getActivity()).set_strAddr(
+                            getString(R.string.string_via_hint), 0);
                 }
                 else
                 {
                     ((TNaviMainActivity)getActivity()).set_strAddr((String)tv_goal.getText(), 0);
                 }
 
-                ((TNaviMainActivity)getActivity()).routeTovia(0.0, 0.0, TNaviActionCode.CHANGE_VIA_AND_GOAL, null);
+                ((TNaviMainActivity)getActivity()).routeTovia(0.0, 0.0,
+                                                              TNaviActionCode.CHANGE_VIA_AND_GOAL,
+                                                              null);
                 break;
 
             default:
@@ -204,14 +211,16 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
             m_gApp.setM_nSelRouteOption(nRouteType);
 
-            ((TNaviMainActivity)getActivity()).m_FMInterface.FM_StartRGService(FMBaseActivity.onFatosMapListener);  //경로 안내 시작
+            ((TNaviMainActivity)getActivity()).m_FMInterface.FM_StartRGService(
+                    FMBaseActivity.onFatosMapListener);  //경로 안내 시작
             ((TNaviMainActivity)getActivity()).SaveLastRouteData(); //주행중인 정보 저장
             ((TNaviMainActivity)getActivity()).showTbtLayout(true);
             ((ANaviApplication)m_gApp).setMapSummaryOption(false);
 
             if(m_gApp.getAppSettingInfo().m_nRPType == 2)
             {
-                ((TNaviMainActivity)getActivity()).setAutoReRouteforOnemap(RouteParam.SS_FATOS_SERVER);
+                ((TNaviMainActivity)getActivity()).setAutoReRouteforOnemap(
+                        RouteParam.SS_FATOS_SERVER);
             }
 
             Bundle bundle = new Bundle();
@@ -223,7 +232,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
             //FM_StartSimulation
             m_gApp.setM_nSelRouteOption(nRouteType);
 
-            ((TNaviMainActivity)getActivity()).m_FMInterface.FM_StartSimulation(FMBaseActivity.onFatosMapListener); //모의 주행 시작
+            ((TNaviMainActivity)getActivity()).m_FMInterface.FM_StartSimulation(
+                    FMBaseActivity.onFatosMapListener); //모의 주행 시작
             ((TNaviMainActivity)getActivity()).showTbtLayout(true);
             ((ANaviApplication)m_gApp).setMapSummaryOption(false);
             Bundle bundle = new Bundle();
@@ -252,7 +262,11 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
     {
         super.onDestroyView();
 
-        if(!((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.SEARCH_MODE) && !((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.APP_MODE_SIMULATE) && !((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.APP_MODE_ROUTE) && !((TNaviMainActivity)mContext).APP_MODE.equals(TNaviActionCode.APP_MODE_SHOWING_SUMMARY))
+        if(!((TNaviMainActivity)mContext).APP_MODE.equals(
+                TNaviActionCode.SEARCH_MODE) && !((TNaviMainActivity)mContext).APP_MODE.equals(
+                TNaviActionCode.APP_MODE_SIMULATE) && !((TNaviMainActivity)mContext).APP_MODE.equals(
+                TNaviActionCode.APP_MODE_ROUTE) && !((TNaviMainActivity)mContext).APP_MODE.equals(
+                TNaviActionCode.APP_MODE_SHOWING_SUMMARY))
         {
 
             ((TNaviMainActivity)mContext).set_strAddr("", 0);
@@ -287,14 +301,16 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
     //==============================================================================================
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState)
     {
         //        Log.e(TAG,"OnCreateView");
 
         scaleScreen[0] = 0.5f;
         scaleScreen[1] = 0.5f;
 
-        ((TNaviMainActivity)getActivity()).m_FMInterface.nativeMapRouteLineFitLevelPosEx(m_MapHandle, scaleScreen, m_fLevel, m_dCenterXY, true);
+        ((TNaviMainActivity)getActivity()).m_FMInterface.nativeMapRouteLineFitLevelPosEx(
+                m_MapHandle, scaleScreen, m_fLevel, m_dCenterXY, true);
 
         View view = null;
 
@@ -348,7 +364,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
         linearLayout_Head.setLayoutParams(layoutParams);
 
-        RelativeLayout.LayoutParams bottom_summarylayoutParams = (RelativeLayout.LayoutParams)bottom_summary.getLayoutParams();
+        RelativeLayout.LayoutParams bottom_summarylayoutParams = (RelativeLayout.LayoutParams)bottom_summary
+                .getLayoutParams();
         bottom_summarylayoutParams.leftMargin = 0;
         bottom_summarylayoutParams.rightMargin = 0;
         bottom_summarylayoutParams.bottomMargin = 0;
@@ -394,7 +411,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                                 int totalItemCount)
             {
                 View firstCell = listView_RouteDetail.getChildAt(0);
 
@@ -403,7 +421,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     return;
                 }
 
-                int distanceFromFirstCellToTop = listView_RouteDetail.getFirstVisiblePosition() * firstCell.getHeight() - firstCell.getTop();
+                int distanceFromFirstCellToTop = listView_RouteDetail.getFirstVisiblePosition() * firstCell
+                        .getHeight() - firstCell.getTop();
 
                 previousDistanceFromFirstCellToTop = distanceFromFirstCellToTop;
             }
@@ -493,7 +512,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
         routeListRecyclerView.setHasFixedSize(true);
 
-        routeListRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        routeListRecyclerView.setLayoutManager(
+                new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
 
         //DATA를 감쌀 List 초기화 및 어댑터에 등록
         routeList = new ArrayList<>();
@@ -505,7 +525,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
         if(getArguments() != null)
         {
-            ArrayList<RouteCardData> routeData = getArguments().getParcelableArrayList(TNaviActionCode.LONGTOUCH_ROUTESUMMARY);
+            ArrayList<RouteCardData> routeData = getArguments().getParcelableArrayList(
+                    TNaviActionCode.LONGTOUCH_ROUTESUMMARY);
 
             //경탐 결과가 넘어옴
             if(routeData != null)
@@ -673,16 +694,24 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
     private void create_buttonResource(int itemSize, ArrayList<Integer> RouteTypeList)
     {
         //최종 레이아웃 영역 정의
-        LinearLayout.LayoutParams area_params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 0.3f);
+        LinearLayout.LayoutParams area_params = new LinearLayout.LayoutParams(0,
+                                                                              LinearLayout.LayoutParams.MATCH_PARENT,
+                                                                              0.3f);
         //감쌀 레이아웃 정의
-        RelativeLayout.LayoutParams Rl_params = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        RelativeLayout.LayoutParams Rl_params = new RelativeLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
         //이미지와 텍스트뷰 크기 정의
-        RelativeLayout.LayoutParams Imageview_params_2 = new RelativeLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()));
+        RelativeLayout.LayoutParams Imageview_params_2 = new RelativeLayout.LayoutParams(
+                (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22,
+                                               getResources().getDisplayMetrics()),
+                (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22,
+                                               getResources().getDisplayMetrics()));
 
         Imageview_params_2.addRule(RelativeLayout.CENTER_IN_PARENT);
 
-        RelativeLayout.LayoutParams Tv_params = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams Tv_params = new RelativeLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         Tv_params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         Tv_params.addRule(RelativeLayout.CENTER_HORIZONTAL);
@@ -701,8 +730,10 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     textView.setGravity(Gravity.CENTER);
 
                     textView.setId(R.id.summary_tv_text);
-                    textView.setTextColor((getResources().getColor(R.color.cardview_onemap_textcolor)));
-                    textView.measure(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    textView.setTextColor(
+                            (getResources().getColor(R.color.cardview_onemap_textcolor)));
+                    textView.measure(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                                     RelativeLayout.LayoutParams.WRAP_CONTENT);
 
                     LinearLayout area = new LinearLayout(mView.getContext());
                     area.setOrientation(LinearLayout.VERTICAL);
@@ -713,7 +744,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
                     imageView.setBackground(getResources().getDrawable(R.drawable.tab_btn_bar_one));
 
-                    itemColor[itemIndex] = (getResources().getColor(R.color.cardview_onemap_textcolor));
+                    itemColor[itemIndex] = (getResources().getColor(
+                            R.color.cardview_onemap_textcolor));
                     itemIndex += 1;
 
                     imageView2.setLayoutParams(Imageview_params_2);
@@ -731,9 +763,13 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     imageView2.setId(R.id.btn_recomm_icon);
 
                     //상단바 크기 정의r
-                    RelativeLayout.LayoutParams Imageview_params_i1 = new RelativeLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
+                    RelativeLayout.LayoutParams Imageview_params_i1 = new RelativeLayout.LayoutParams(
+                            (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22,
+                                                           getResources().getDisplayMetrics()),
+                            (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
 
-                    Imageview_params_i1.addRule(RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
+                    Imageview_params_i1.addRule(
+                            RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
                     imageView.setLayoutParams(Imageview_params_i1);
 
                     area2.addView(imageView);
@@ -758,11 +794,13 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     textView_2.setLayoutParams(Tv_params);
                     textView_2.setGravity(Gravity.CENTER);
 
-                    textView_2.setTextColor((getResources().getColor(R.color.cardview_onemap_textcolor)));
+                    textView_2.setTextColor(
+                            (getResources().getColor(R.color.cardview_onemap_textcolor)));
                     textView_2.setId(R.id.summary_tv_text);
                     textView_2.measure(Tv_params.width, Tv_params.height);
 
-                    itemColor[itemIndex] = (getResources().getColor(R.color.cardview_onemap_textcolor));
+                    itemColor[itemIndex] = (getResources().getColor(
+                            R.color.cardview_onemap_textcolor));
                     itemIndex += 1;
                     LinearLayout area_2 = new LinearLayout(mView.getContext());
                     area_2.setOrientation(LinearLayout.VERTICAL);
@@ -772,7 +810,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     RelativeLayout area2_2 = new RelativeLayout(mView.getContext());
                     area2_2.setLayoutParams(Rl_params);
 
-                    imageView_2.setBackground(getResources().getDrawable(R.drawable.tab_btn_bar_one));
+                    imageView_2.setBackground(
+                            getResources().getDrawable(R.drawable.tab_btn_bar_one));
 
                     imageView2_2.setLayoutParams(Imageview_params_2);
                     imageView2_2_1.setLayoutParams(Imageview_params_2);
@@ -789,9 +828,13 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     imageView2_2.setId(R.id.btn_exp_icon);
 
                     //상단바 크기 정의
-                    RelativeLayout.LayoutParams Imageview_params_i2 = new RelativeLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
+                    RelativeLayout.LayoutParams Imageview_params_i2 = new RelativeLayout.LayoutParams(
+                            (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22,
+                                                           getResources().getDisplayMetrics()),
+                            (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
 
-                    Imageview_params_i2.addRule(RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
+                    Imageview_params_i2.addRule(
+                            RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
                     imageView_2.setLayoutParams(Imageview_params_i2);
 
                     area2_2.addView(imageView_2);
@@ -814,11 +857,13 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     textView_3.setLayoutParams(Tv_params);
                     textView_3.setGravity(Gravity.CENTER);
 
-                    textView_3.setTextColor((getResources().getColor(R.color.cardview_onemap_textcolor)));
+                    textView_3.setTextColor(
+                            (getResources().getColor(R.color.cardview_onemap_textcolor)));
                     textView_3.setId(R.id.summary_tv_text);
                     textView_3.measure(Tv_params.width, Tv_params.height);
 
-                    itemColor[itemIndex] = (getResources().getColor(R.color.cardview_onemap_textcolor));
+                    itemColor[itemIndex] = (getResources().getColor(
+                            R.color.cardview_onemap_textcolor));
                     itemIndex += 1;
 
                     LinearLayout area_3 = new LinearLayout(mView.getContext());
@@ -829,7 +874,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     RelativeLayout area2_3 = new RelativeLayout(mView.getContext());
                     area2_3.setLayoutParams(Rl_params);
 
-                    imageView_3.setBackground(getResources().getDrawable(R.drawable.tab_btn_bar_one));
+                    imageView_3.setBackground(
+                            getResources().getDrawable(R.drawable.tab_btn_bar_one));
 
                     imageView2_3.setLayoutParams(Imageview_params_2);
                     imageView2_3_1.setLayoutParams(Imageview_params_2);
@@ -846,9 +892,13 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     imageView2_3.setId(R.id.btn_short_bar);
 
                     //상단바 크기 정의
-                    RelativeLayout.LayoutParams Imageview_params_i3 = new RelativeLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
+                    RelativeLayout.LayoutParams Imageview_params_i3 = new RelativeLayout.LayoutParams(
+                            (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22,
+                                                           getResources().getDisplayMetrics()),
+                            (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
 
-                    Imageview_params_i3.addRule(RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
+                    Imageview_params_i3.addRule(
+                            RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
                     imageView_3.setLayoutParams(Imageview_params_i3);
 
                     area2_3.addView(imageView_3);
@@ -878,14 +928,17 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     RelativeLayout area2_4 = new RelativeLayout(mView.getContext());
                     area2_4.setLayoutParams(Rl_params);
 
-                    textView_4.setTextColor((getResources().getColor(R.color.cardview_onemap_textcolor)));
+                    textView_4.setTextColor(
+                            (getResources().getColor(R.color.cardview_onemap_textcolor)));
                     textView_4.setId(R.id.summary_tv_text);
                     textView_4.measure(Tv_params.width, Tv_params.height);
 
-                    itemColor[itemIndex] = (getResources().getColor(R.color.cardview_onemap_textcolor));
+                    itemColor[itemIndex] = (getResources().getColor(
+                            R.color.cardview_onemap_textcolor));
                     itemIndex += 1;
 
-                    imageView_4.setBackground(getResources().getDrawable(R.drawable.tab_btn_bar_one));
+                    imageView_4.setBackground(
+                            getResources().getDrawable(R.drawable.tab_btn_bar_one));
                     imageView_4.setId(R.id.btn_general_bar);
 
                     imageView2_4.setId(R.id.btn_general_icon);
@@ -899,9 +952,13 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     imageView2_4_1.setTag(Integer.valueOf(R.drawable.tab_btn_icon_recom_2_one_n));
 
                     //상단바 크기 정의
-                    RelativeLayout.LayoutParams Imageview_params_i4 = new RelativeLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
+                    RelativeLayout.LayoutParams Imageview_params_i4 = new RelativeLayout.LayoutParams(
+                            (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22,
+                                                           getResources().getDisplayMetrics()),
+                            (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
 
-                    Imageview_params_i4.addRule(RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
+                    Imageview_params_i4.addRule(
+                            RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
                     imageView_4.setLayoutParams(Imageview_params_i4);
 
                     area2_4.addView(imageView_4);
@@ -924,11 +981,13 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     textView_5.setLayoutParams(Tv_params);
                     textView_5.setGravity(Gravity.CENTER);
 
-                    textView_5.setTextColor((getResources().getColor(R.color.cardview_onemap_textcolor)));
+                    textView_5.setTextColor(
+                            (getResources().getColor(R.color.cardview_onemap_textcolor)));
                     textView_5.setId(R.id.summary_tv_text);
                     textView_5.measure(Tv_params.width, Tv_params.height);
 
-                    itemColor[itemIndex] = (getResources().getColor(R.color.cardview_onemap_textcolor));
+                    itemColor[itemIndex] = (getResources().getColor(
+                            R.color.cardview_onemap_textcolor));
                     itemIndex += 1;
 
                     LinearLayout area_5 = new LinearLayout(mView.getContext());
@@ -938,7 +997,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     RelativeLayout area2_5 = new RelativeLayout(mView.getContext());
                     area2_5.setLayoutParams(Rl_params);
 
-                    imageView_5.setBackground(getResources().getDrawable(R.drawable.tab_btn_bar_one));
+                    imageView_5.setBackground(
+                            getResources().getDrawable(R.drawable.tab_btn_bar_one));
                     imageView_5.setId(R.id.btn_free_bar);
 
                     //imageView2_5.setId(R.id.btn_general_icon);
@@ -952,9 +1012,13 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                     imageView2_5_1.setTag(Integer.valueOf(R.drawable.tab_btn_icon_free_n));
 
                     //상단바 크기 정의
-                    RelativeLayout.LayoutParams Imageview_params_i5 = new RelativeLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getResources().getDisplayMetrics()), (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
+                    RelativeLayout.LayoutParams Imageview_params_i5 = new RelativeLayout.LayoutParams(
+                            (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22,
+                                                           getResources().getDisplayMetrics()),
+                            (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
 
-                    Imageview_params_i5.addRule(RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
+                    Imageview_params_i5.addRule(
+                            RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
                     imageView_5.setLayoutParams(Imageview_params_i5);
 
                     area2_5.addView(imageView_5);
@@ -1040,7 +1104,8 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
         m_gApp.m_nGoalRemainLinkLength = 0;
         RouteData rgData = m_gApp.rgData().m_pContext[idx];
 
-        @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        @SuppressLint("SimpleDateFormat")
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
         Date now = new Date();
         Calendar cal = Calendar.getInstance();
@@ -1100,9 +1165,12 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
             item_details.setTxtInfoName(strReplace);
             item_details.setTbtCode(item_servicelink.nType);
 
-            item_details.setSubInfo(String.format("Dist: %s | Time: %s", getTotalRemainDistStr(item_servicelink.nLength), getTotalTimeStr(item_servicelink.nTime)));
+            item_details.setSubInfo(String.format("Dist: %s | Time: %s",
+                                                  getTotalRemainDistStr(item_servicelink.nLength),
+                                                  getTotalTimeStr(item_servicelink.nTime)));
             nSumTime += item_servicelink.nTime;
-            item_details.setTimeDistInfo(getTotalTimeStr(item_servicelink.nTime), getTotalRemainDistStr(item_servicelink.nLength), nSumTime);
+            item_details.setTimeDistInfo(getTotalTimeStr(item_servicelink.nTime),
+                                         getTotalRemainDistStr(item_servicelink.nLength), nSumTime);
 
             fLatY = rgData.pServiceLink[nArrIdx].wpGP.y;
             fLonX = rgData.pServiceLink[nArrIdx].wpGP.x;
@@ -1169,15 +1237,21 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
                 if(km >= 100)
                 {
-                    strResultDist = String.format("%d %s", (int)(km * ANaviApplication.MITOKILOMETER), "mile");
+                    strResultDist = String.format("%d %s",
+                                                  (int)(km * ANaviApplication.MITOKILOMETER),
+                                                  "mile");
                 }
                 else if(km >= 10)
                 {
-                    strResultDist = String.format("%.1f %s", (float)(km * ANaviApplication.MITOKILOMETER), "mile");
+                    strResultDist = String.format("%.1f %s",
+                                                  (float)(km * ANaviApplication.MITOKILOMETER),
+                                                  "mile");
                 }
                 else
                 {
-                    strResultDist = String.format("%.2f %s", (float)(km * ANaviApplication.MITOKILOMETER), "mile");
+                    strResultDist = String.format("%.2f %s",
+                                                  (float)(km * ANaviApplication.MITOKILOMETER),
+                                                  "mile");
                 }
             }
             else
@@ -1189,11 +1263,13 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
                 if(distance >= 10)
                 {
                     distance = distance - (distance % 10);
-                    strResultDist = String.format("%d ft", (int)(distance * ANaviApplication.MITOFIT), "ft");
+                    strResultDist = String.format("%d ft",
+                                                  (int)(distance * ANaviApplication.MITOFIT), "ft");
                 }
                 else
                 {
-                    strResultDist = String.format("%d ft", (int)(distance * ANaviApplication.MITOFIT), "ft");
+                    strResultDist = String.format("%d ft",
+                                                  (int)(distance * ANaviApplication.MITOFIT), "ft");
                 }
 
             }
@@ -1338,11 +1414,16 @@ public class SummaryFragment extends Fragment implements RouteListAdapter.OnItem
 
         m_MapAnimation.Reset();
         m_MapAnimation.setCenter(fCenterX, fCenterY);
-        m_MapAnimation.setLevel(FMPMapConst.MAPVIEW_LEVEL_VIA_AUTO_MODE, FMPMapConst.MAPVIEW_LEVEL_DEFAULT_AUTO_MODE, MAP_ANI_TYPE_DCCEL);
-        m_MapAnimation.setMapWGS84(Double.parseDouble(m_NextTbtList.get(position).getCoordX()), Double.parseDouble(m_NextTbtList.get(position).getCoordY()), anyType);
+        m_MapAnimation.setLevel(FMPMapConst.MAPVIEW_LEVEL_VIA_AUTO_MODE,
+                                FMPMapConst.MAPVIEW_LEVEL_DEFAULT_AUTO_MODE, MAP_ANI_TYPE_DCCEL);
+        m_MapAnimation.setMapWGS84(Double.parseDouble(m_NextTbtList.get(position).getCoordX()),
+                                   Double.parseDouble(m_NextTbtList.get(position).getCoordY()),
+                                   anyType);
         FMBaseActivity.onFatosMapListener.onMapAnimation(m_MapAnimation);
 
-        FMBaseActivity.onFatosMapListener.onMapDrawPinImg(Double.parseDouble(m_NextTbtList.get(position).getCoordX()), Double.parseDouble(m_NextTbtList.get(position).getCoordY()), MAP_OBJ_FLAG_PIN);
+        FMBaseActivity.onFatosMapListener.onMapDrawPinImg(
+                Double.parseDouble(m_NextTbtList.get(position).getCoordX()),
+                Double.parseDouble(m_NextTbtList.get(position).getCoordY()), MAP_OBJ_FLAG_PIN);
 
         m_gApp.setMapSummaryOption(true);
         m_gApp.setMapTripOption(false);

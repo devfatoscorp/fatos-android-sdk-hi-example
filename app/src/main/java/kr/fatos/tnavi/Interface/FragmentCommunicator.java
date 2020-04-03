@@ -7,9 +7,9 @@ import java.util.List;
 
 import biz.fatossdk.navi.RoutePosition;
 
-public interface FragmentCommunicator {
-
+public interface FragmentCommunicator
+{
     public void fragmentContactActivity(View v);
-    public void rerouteFromSummary(Bundle bundle);
 
+    public void rerouteFromSummary(Bundle bundle);
 }

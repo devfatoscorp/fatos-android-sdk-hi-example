@@ -5,7 +5,8 @@ import android.util.Log;
 import kr.fatos.tnavi.BuildConfig;
 
 //디버그 모드일때만 로그 표출하기 위한 글로벌 로그 클래스
-public class GLogLib {
+public class GLogLib
+{
     private static boolean enabled = BuildConfig.DEBUG;
 
     public static void d(String tag, String text)

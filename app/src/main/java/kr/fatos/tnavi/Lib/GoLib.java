@@ -15,7 +15,8 @@ import kr.fatos.tnavi.Activity.SettingActivity;
 import kr.fatos.tnavi.tnavifragment.SearchFragment;
 import kr.fatos.tnavi.TNaviMainActivity;
 
-public class GoLib {
+public class GoLib
+{
     public final String TAG = GoLib.class.getSimpleName();
 
     private volatile static GoLib instance;
@@ -24,7 +25,7 @@ public class GoLib {
     {
         if(instance == null)
         {
-            synchronized (GoLib.class)
+            synchronized(GoLib.class)
             {
                 if(instance == null)
                 {
@@ -37,7 +38,8 @@ public class GoLib {
     }
 
     //프레그먼트 이동
-    public void goFragment(FragmentManager fragmentManager, int containerViewId, Fragment fragment, @Nullable Bundle bundle)
+    public void goFragment(FragmentManager fragmentManager, int containerViewId, Fragment fragment,
+                           @Nullable Bundle bundle)
     {
         if(bundle != null)
         {
@@ -47,7 +49,8 @@ public class GoLib {
         fragmentManager.beginTransaction().replace(containerViewId, fragment).commit();
     }
 
-    public void goFragment(FragmentManager fragmentManager, int containerViewId, Fragment fragment, String tag, @Nullable Bundle bundle)
+    public void goFragment(FragmentManager fragmentManager, int containerViewId, Fragment fragment,
+                           String tag, @Nullable Bundle bundle)
     {
         if(bundle != null)
         {
@@ -58,14 +61,18 @@ public class GoLib {
     }
 
     //프레그먼트 add
-    public void goFragmentReplaceToBackStack(FragmentManager fragmentManager, int containerViewId, Fragment fragment, String tag, @Nullable Bundle bundle)
+    public void goFragmentReplaceToBackStack(FragmentManager fragmentManager, int containerViewId,
+                                             Fragment fragment, String tag, @Nullable Bundle bundle)
     {
         if(bundle != null)
         {
             fragment.setArguments(bundle);
         }
 
-        fragmentManager.beginTransaction().replace(containerViewId, fragment, tag).addToBackStack(null).commit();
+        fragmentManager.beginTransaction()
+                       .replace(containerViewId, fragment, tag)
+                       .addToBackStack(null)
+                       .commit();
     }
 
     //이전 프래그먼트
@@ -78,7 +85,7 @@ public class GoLib {
     public void goSearchActivity(Context context, Bundle bundle)
     {
         Intent intent = new Intent(context, SearchFragment.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtras(bundle);
         context.startActivity(intent);
     }
@@ -98,29 +105,34 @@ public class GoLib {
         Intent intent = new Intent(context, TNaviMainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-        if(bundle != null) {
+        if(bundle != null)
+        {
             intent.putExtras(bundle);
         }
 
         context.startActivity(intent);
     }
+
     public void goSettingActivity(Context context, Bundle bundle)
     {
         Intent intent = new Intent(context, SettingActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-        if(bundle != null) {
+        if(bundle != null)
+        {
             intent.putExtras(bundle);
         }
 
         context.startActivity(intent);
     }
+
     public void goSearchSettingActivity(Context context, Bundle bundle)
     {
         Intent intent = new Intent(context, SearchSettingActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-        if(bundle != null) {
+        if(bundle != null)
+        {
             intent.putExtras(bundle);
         }
 

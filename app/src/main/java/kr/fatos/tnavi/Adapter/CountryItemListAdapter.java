@@ -18,7 +18,8 @@ import kr.fatos.tnavi.Unit.CountryItemList;
 /**
  * fatos country manager
  */
-public class CountryItemListAdapter extends BaseAdapter {
+public class CountryItemListAdapter extends BaseAdapter
+{
     private ArrayList<CountryItemList> CountryItemList;
     private LayoutInflater l_Inflater;
 
@@ -26,45 +27,54 @@ public class CountryItemListAdapter extends BaseAdapter {
     private ANaviApplication m_gApp;
 
     private int m_nSavedIdx = -1;
-    public CountryItemListAdapter(Context context, ArrayList<CountryItemList> results) {
+
+    public CountryItemListAdapter(Context context, ArrayList<CountryItemList> results)
+    {
         m_Context = context;
         CountryItemList = results;
         l_Inflater = LayoutInflater.from(context);
-        m_gApp = (ANaviApplication) m_Context.getApplicationContext();
+        m_gApp = (ANaviApplication)m_Context.getApplicationContext();
     }
 
     public void setSavedItem(int nItemIdx)
     {
-        m_nSavedIdx =nItemIdx;
+        m_nSavedIdx = nItemIdx;
     }
 
 
-    public int getCount() {
+    public int getCount()
+    {
         return CountryItemList.size();
     }
 
-    public Object getItem(int position) {
+    public Object getItem(int position)
+    {
         return CountryItemList.get(position);
     }
 
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         return position;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
         ViewHolder holder;
-        if (convertView == null) {
+        if(convertView == null)
+        {
             convertView = l_Inflater.inflate(R.layout.country_row, null);
             holder = new ViewHolder();
-            holder.txt_counturyName = (TextView) convertView.findViewById(R.id.name);
+            holder.txt_counturyName = (TextView)convertView.findViewById(R.id.name);
             //holder.img_counturyFlag = (ImageView) convertView.findViewById(R.id.flag);
-            holder.img_checkItem = (ImageView) convertView.findViewById(R.id.rb_Choice);
+            holder.img_checkItem = (ImageView)convertView.findViewById(R.id.rb_Choice);
             holder.img_checkItem.setVisibility(View.INVISIBLE);
 
 
             convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+        }
+        else
+        {
+            holder = (ViewHolder)convertView.getTag();
         }
 
         holder.txt_counturyName.setText(CountryItemList.get(position).getName());
@@ -85,7 +95,8 @@ public class CountryItemListAdapter extends BaseAdapter {
     /**
      * 향후 작업 중 필요한 항목 추가 한다.
      */
-    static class ViewHolder {
+    static class ViewHolder
+    {
         TextView txt_counturyName;
         //ImageView img_counturyFlag;
         ImageView img_checkItem;

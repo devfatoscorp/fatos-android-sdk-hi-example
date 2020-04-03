@@ -17,7 +17,8 @@ import kr.fatos.tnavi.Code.SettingsCode;
 import kr.fatos.tnavi.Lib.GUnitLib;
 import kr.fatos.tnavi.R;
 
-public class CategoryActivity extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity
+{
     Button button_back;
     RecyclerView recyclerView_CateList;
     RecyclerView.LayoutManager mLayoutManager;
@@ -25,10 +26,12 @@ public class CategoryActivity extends AppCompatActivity {
     CategoryAdapter categoryAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-        prefs = getSharedPreferences(getResources().getString(R.string.app_registerId), MODE_PRIVATE);
+        prefs = getSharedPreferences(getResources().getString(R.string.app_registerId),
+                                     MODE_PRIVATE);
         button_back = findViewById(R.id.button_back);
         recyclerView_CateList = findViewById(R.id.recyclerView_CateList);
 
@@ -36,9 +39,11 @@ public class CategoryActivity extends AppCompatActivity {
 
         NTCategoryService();
 
-        button_back.setOnClickListener(new View.OnClickListener() {
+        button_back.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 finish();
             }
         });
@@ -50,7 +55,8 @@ public class CategoryActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         recyclerView_CateList.setLayoutManager(mLayoutManager);
 
-        categoryAdapter = new CategoryAdapter(this, R.layout.recyclerview_category, new ArrayList<String>());
+        categoryAdapter = new CategoryAdapter(this, R.layout.recyclerview_category,
+                                              new ArrayList<String>());
         recyclerView_CateList.setAdapter(categoryAdapter);
     }
 
@@ -69,7 +75,7 @@ public class CategoryActivity extends AppCompatActivity {
 
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(SettingsCode.getKeyCategory(), i_str);
-        editor.putInt(SettingsCode.getKeyCategoryindex(),index);
+        editor.putInt(SettingsCode.getKeyCategoryindex(), index);
 
         SettingsCode.setValueCategory(i_str);
         SettingsCode.setValueCategoryIndex(index);

@@ -29,16 +29,18 @@ import kr.fatos.tnavi.Unit.settingItemListAdapter;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class Setting_SearchCategoryFragment extends AMapBaseFragment {
+public class Setting_SearchCategoryFragment extends AMapBaseFragment
+{
 
 
-
-    static final int[] SETTING_MENU_NAME = new int[]{R.string.string_nostrasetting_country,R.string.string_nostrasetting_category};
+    static final int[] SETTING_MENU_NAME = new int[]{R.string.string_nostrasetting_country,
+                                                     R.string.string_nostrasetting_category};
 
 
     static boolean[] SETTING_MENU_NAME_ENABLE = new boolean[]{true, true};
 
-    static int[] SETTING_MENU_NAME_TYPE = new int[]{settingItemDetailList.SETTING_TYPE_TEXT, settingItemDetailList.SETTING_TYPE_NEXTPAGE};
+    static int[] SETTING_MENU_NAME_TYPE = new int[]{settingItemDetailList.SETTING_TYPE_TEXT,
+                                                    settingItemDetailList.SETTING_TYPE_NEXTPAGE};
 
     Button button_back;
     RecyclerView recyclerView_CateList;
@@ -61,11 +63,14 @@ public class Setting_SearchCategoryFragment extends AMapBaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             Bundle savedInstanceState)
+    {
         View v = inflater.inflate(R.layout.fragment_category, container, false);
 
         m_Context = getActivity();
-        prefs = m_Context.getSharedPreferences(getResources().getString(R.string.app_registerId), MODE_PRIVATE);
+        prefs = m_Context.getSharedPreferences(getResources().getString(R.string.app_registerId),
+                                               MODE_PRIVATE);
 
         final IntentFilter filter = new IntentFilter();
         filter.addAction("RELOAD_ACTIVITY");
@@ -78,14 +83,11 @@ public class Setting_SearchCategoryFragment extends AMapBaseFragment {
     }
 
 
-
-
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
     }
-
-
 
     private void setRecyclerView()
     {
@@ -93,7 +95,8 @@ public class Setting_SearchCategoryFragment extends AMapBaseFragment {
         mLayoutManager = new LinearLayoutManager(m_Context);
         recyclerView_CateList.setLayoutManager(mLayoutManager);
 
-        categoryAdapter = new CategoryAdapterForSetting(this,R.layout.recyclerview_category, new ArrayList<String>());
+        categoryAdapter = new CategoryAdapterForSetting(this, R.layout.recyclerview_category,
+                                                        new ArrayList<String>());
         recyclerView_CateList.setAdapter(categoryAdapter);
 
         arrayList = new ArrayList<String>();
@@ -108,18 +111,16 @@ public class Setting_SearchCategoryFragment extends AMapBaseFragment {
 
         categoryAdapter.addItemList(GUnitLib.getInstance().getG_ALCate());
         progressBar.setVisibility(View.GONE);
-
     }
 
     public void returnIntentResult(String i_str, int index)
     {
-
         Intent toSearch = new Intent();
         toSearch.setAction("RELOAD_CATEGORY"); // Action name
 
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(SettingsCode.getKeyCategory(), i_str);
-        editor.putInt(SettingsCode.getKeyCategoryindex(),index);
+        editor.putInt(SettingsCode.getKeyCategoryindex(), index);
 
         SettingsCode.setValueCategory(i_str);
         SettingsCode.setValueCategoryIndex(index);
@@ -128,13 +129,11 @@ public class Setting_SearchCategoryFragment extends AMapBaseFragment {
 
         m_Context.sendBroadcast(toSearch);
         ((SearchSettingActivity)getActivity()).onBackPressed();
-
-
-
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
     }
 

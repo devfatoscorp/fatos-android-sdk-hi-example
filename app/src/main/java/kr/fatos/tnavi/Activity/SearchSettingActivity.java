@@ -65,7 +65,15 @@ public class SearchSettingActivity extends FMBaseActivity
 
         //m_gApp.updateLanguage();
 
-        adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(), FragmentPagerItems.with(this).add(getString(R.string.string_wegeneral), Setting_SearchCategoryFragment.class).add(getString(R.string.string_nostrasetting_country), CountrySelectFragment.class).create());
+        adapter = new FragmentPagerItemAdapter(getSupportFragmentManager(),
+                                               FragmentPagerItems.with(this)
+                                                                 .add(getString(
+                                                                         R.string.string_wegeneral),
+                                                                      Setting_SearchCategoryFragment.class)
+                                                                 .add(getString(
+                                                                         R.string.string_nostrasetting_country),
+                                                                      CountrySelectFragment.class)
+                                                                 .create());
         //int title, float width, Class<? extends Fragment> clazz,
         //        Bundle args)
         viewPager = (ViewPager)findViewById(R.id.viewpager);
@@ -178,7 +186,9 @@ public class SearchSettingActivity extends FMBaseActivity
         Configuration config = new Configuration();
         config.locale = locale;
         getApplicationContext().getResources().updateConfiguration(config, null);
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        getBaseContext().getResources()
+                        .updateConfiguration(config,
+                                             getBaseContext().getResources().getDisplayMetrics());
 
         if(TTSEngine.getInstance() != null)
         {
@@ -197,7 +207,9 @@ public class SearchSettingActivity extends FMBaseActivity
         Configuration config = new Configuration();
         config.locale = locale;
         getApplicationContext().getResources().updateConfiguration(config, null);
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        getBaseContext().getResources()
+                        .updateConfiguration(config,
+                                             getBaseContext().getResources().getDisplayMetrics());
 
         if(TTSEngine.getInstance() != null)
         {

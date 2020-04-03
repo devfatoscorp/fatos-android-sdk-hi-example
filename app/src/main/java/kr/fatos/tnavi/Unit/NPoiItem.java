@@ -4,7 +4,8 @@ import androidx.annotation.NonNull;
 
 
 @org.parceler.Parcel
-public class NPoiItem implements Comparable<NPoiItem> {
+public class NPoiItem implements Comparable<NPoiItem>
+{
     public String LocalName;
     public String CategoryCode;
     public String Country;
@@ -43,20 +44,20 @@ public class NPoiItem implements Comparable<NPoiItem> {
     public String strName;
 
     // poi data items
-    public int m_nSectionGubun  = 0; // 0 : item , 1 : section , 2 : expand item, 3 : expand back
-    public int m_nSearchGubun  = 0; // 0 : 어디야? ,1 : Google , 2 : Naver , 3 : T map
+    public int m_nSectionGubun = 0; // 0 : item , 1 : section , 2 : expand item, 3 : expand back
+    public int m_nSearchGubun = 0; // 0 : 어디야? ,1 : Google , 2 : Naver , 3 : T map
     public int m_nSearchItemCount = 0;
     public boolean m_bShowSubMenu = false;
 
-//    public String id; //NostraId
-//    public String name; //EnglishName
-//    public String telNo; //TelephoneNumber
-//    public String frontLat; //LocationPointX
-//    public String frontLon; //LocationPointY
-//    public String upperAddrName; //AdminLevel1EnglishName
-//    public String middleAddrName; //AdminLevel2EnglishName
-//    public String lowerAddrName; //AdminLevel3EnglishName
-//    public String detailAddrName; //AdminLevel4EnglishName
+    //    public String id; //NostraId
+    //    public String name; //EnglishName
+    //    public String telNo; //TelephoneNumber
+    //    public String frontLat; //LocationPointX
+    //    public String frontLon; //LocationPointY
+    //    public String upperAddrName; //AdminLevel1EnglishName
+    //    public String middleAddrName; //AdminLevel2EnglishName
+    //    public String lowerAddrName; //AdminLevel3EnglishName
+    //    public String detailAddrName; //AdminLevel4EnglishName
     public String noorLat;
     public String noorLon;
     public String firstNo;
@@ -91,7 +92,7 @@ public class NPoiItem implements Comparable<NPoiItem> {
         NostraId = "";
         Postcode = "";
         TelephoneNumber = "";
-        LocationPointX  = 0;
+        LocationPointX = 0;
         LocationPointY = 0;
         Route1X = 0;
         Route1Y = 0;
@@ -138,283 +139,353 @@ public class NPoiItem implements Comparable<NPoiItem> {
         desc = "";
     }
 
-    public String getLocalName() {
+    public String getLocalName()
+    {
         return LocalName;
     }
 
-    public void setLocalName(String localName) {
+    public void setLocalName(String localName)
+    {
         LocalName = localName;
     }
 
-    public String getCategoryCode() {
+    public String getCategoryCode()
+    {
         return CategoryCode;
     }
 
-    public void setCategoryCode(String categoryCode) {
+    public void setCategoryCode(String categoryCode)
+    {
         CategoryCode = categoryCode;
     }
 
-    public String getCountry() {
+    public String getCountry()
+    {
         return Country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(String country)
+    {
         Country = country;
     }
 
-    public String getEnglishName() {
+    public String getEnglishName()
+    {
         return EnglishName;
     }
 
-    public void setEnglishName(String englishName) {
+    public void setEnglishName(String englishName)
+    {
         EnglishName = englishName;
     }
 
-    public String getHouseNumber() {
+    public String getHouseNumber()
+    {
         return HouseNumber;
     }
 
-    public void setHouseNumber(String houseNumber) {
+    public void setHouseNumber(String houseNumber)
+    {
         HouseNumber = houseNumber;
     }
 
-    public String getLocalCategoryCode() {
+    public String getLocalCategoryCode()
+    {
         return LocalCategoryCode;
     }
 
-    public void setLocalCategoryCode(String localCategoryCode) {
+    public void setLocalCategoryCode(String localCategoryCode)
+    {
         LocalCategoryCode = localCategoryCode;
     }
 
-    public String getNostraId() {
+    public String getNostraId()
+    {
         return NostraId;
     }
 
-    public void setNostraId(String nostraId) {
+    public void setNostraId(String nostraId)
+    {
         NostraId = nostraId;
     }
 
-    public String getPostcode() {
+    public String getPostcode()
+    {
         return Postcode;
     }
 
-    public void setPostcode(String postcode) {
+    public void setPostcode(String postcode)
+    {
         Postcode = postcode;
     }
 
-    public String getTelephoneNumber() {
+    public String getTelephoneNumber()
+    {
         return TelephoneNumber;
     }
 
-    public void setTelephoneNumber(String telephoneNumber) {
+    public void setTelephoneNumber(String telephoneNumber)
+    {
         TelephoneNumber = telephoneNumber;
     }
 
-    public double getLocationPointX() {
+    public double getLocationPointX()
+    {
         return LocationPointX;
     }
 
-    public void setLocationPointX(double locationPointX) {
+    public void setLocationPointX(double locationPointX)
+    {
         LocationPointX = locationPointX;
     }
 
-    public double getLocationPointY() {
+    public double getLocationPointY()
+    {
         return LocationPointY;
     }
 
-    public void setLocationPointY(double locationPointY) {
+    public void setLocationPointY(double locationPointY)
+    {
         LocationPointY = locationPointY;
     }
 
-    public double getRoute1X() {
+    public double getRoute1X()
+    {
         return Route1X;
     }
 
-    public void setRoute1X(double route1X) {
+    public void setRoute1X(double route1X)
+    {
         Route1X = route1X;
     }
 
-    public double getRoute1Y() {
+    public double getRoute1Y()
+    {
         return Route1Y;
     }
 
-    public void setRoute1Y(double route1Y) {
+    public void setRoute1Y(double route1Y)
+    {
         Route1Y = route1Y;
     }
 
-    public double getRoute2X() {
+    public double getRoute2X()
+    {
         return Route2X;
     }
 
-    public void setRoute2X(double route2X) {
+    public void setRoute2X(double route2X)
+    {
         Route2X = route2X;
     }
 
-    public double getRoute2Y() {
+    public double getRoute2Y()
+    {
         return Route2Y;
     }
 
-    public void setRoute2Y(double route2Y) {
+    public void setRoute2Y(double route2Y)
+    {
         Route2Y = route2Y;
     }
 
-    public double getRoute3X() {
+    public double getRoute3X()
+    {
         return Route3X;
     }
 
-    public void setRoute3X(double route3X) {
+    public void setRoute3X(double route3X)
+    {
         Route3X = route3X;
     }
 
-    public double getRoute3Y() {
+    public double getRoute3Y()
+    {
         return Route3Y;
     }
 
-    public void setRoute3Y(double route3Y) {
+    public void setRoute3Y(double route3Y)
+    {
         Route3Y = route3Y;
     }
 
-    public double getRoute4X() {
+    public double getRoute4X()
+    {
         return Route4X;
     }
 
-    public void setRoute4X(double route4X) {
+    public void setRoute4X(double route4X)
+    {
         Route4X = route4X;
     }
 
-    public double getRoute4Y() {
+    public double getRoute4Y()
+    {
         return Route4Y;
     }
 
-    public void setRoute4Y(double route4Y) {
+    public void setRoute4Y(double route4Y)
+    {
         Route4Y = route4Y;
     }
 
-    public String getAdminLevel1Code() {
+    public String getAdminLevel1Code()
+    {
         return AdminLevel1Code;
     }
 
-    public void setAdminLevel1Code(String adminLevel1Code) {
+    public void setAdminLevel1Code(String adminLevel1Code)
+    {
         AdminLevel1Code = adminLevel1Code;
     }
 
-    public String getAdminLevel1EnglishName() {
+    public String getAdminLevel1EnglishName()
+    {
         return AdminLevel1EnglishName;
     }
 
-    public void setAdminLevel1EnglishName(String adminLevel1EnglishName) {
+    public void setAdminLevel1EnglishName(String adminLevel1EnglishName)
+    {
         AdminLevel1EnglishName = adminLevel1EnglishName;
     }
 
-    public String getAdminLevel1LocalName() {
+    public String getAdminLevel1LocalName()
+    {
         return AdminLevel1LocalName;
     }
 
-    public void setAdminLevel1LocalName(String adminLevel1LocalName) {
+    public void setAdminLevel1LocalName(String adminLevel1LocalName)
+    {
         AdminLevel1LocalName = adminLevel1LocalName;
     }
 
-    public String getAdminLevel2Code() {
+    public String getAdminLevel2Code()
+    {
         return AdminLevel2Code;
     }
 
-    public void setAdminLevel2Code(String adminLevel2Code) {
+    public void setAdminLevel2Code(String adminLevel2Code)
+    {
         AdminLevel2Code = adminLevel2Code;
     }
 
-    public String getAdminLevel2EnglishName() {
+    public String getAdminLevel2EnglishName()
+    {
         return AdminLevel2EnglishName;
     }
 
-    public void setAdminLevel2EnglishName(String adminLevel2EnglishName) {
+    public void setAdminLevel2EnglishName(String adminLevel2EnglishName)
+    {
         AdminLevel2EnglishName = adminLevel2EnglishName;
     }
 
-    public String getAdminLevel2LocalName() {
+    public String getAdminLevel2LocalName()
+    {
         return AdminLevel2LocalName;
     }
 
-    public void setAdminLevel2LocalName(String adminLevel2LocalName) {
+    public void setAdminLevel2LocalName(String adminLevel2LocalName)
+    {
         AdminLevel2LocalName = adminLevel2LocalName;
     }
 
-    public String getAdminLevel3Code() {
+    public String getAdminLevel3Code()
+    {
         return AdminLevel3Code;
     }
 
-    public void setAdminLevel3Code(String adminLevel3Code) {
+    public void setAdminLevel3Code(String adminLevel3Code)
+    {
         AdminLevel3Code = adminLevel3Code;
     }
 
-    public String getAdminLevel3EnglishName() {
+    public String getAdminLevel3EnglishName()
+    {
         return AdminLevel3EnglishName;
     }
 
-    public void setAdminLevel3EnglishName(String adminLevel3EnglishName) {
+    public void setAdminLevel3EnglishName(String adminLevel3EnglishName)
+    {
         AdminLevel3EnglishName = adminLevel3EnglishName;
     }
 
-    public String getAdminLevel3LocalName() {
+    public String getAdminLevel3LocalName()
+    {
         return AdminLevel3LocalName;
     }
 
-    public void setAdminLevel3LocalName(String adminLevel3LocalName) {
+    public void setAdminLevel3LocalName(String adminLevel3LocalName)
+    {
         AdminLevel3LocalName = adminLevel3LocalName;
     }
 
-    public String getAdminLevel4Code() {
+    public String getAdminLevel4Code()
+    {
         return AdminLevel4Code;
     }
 
-    public void setAdminLevel4Code(String adminLevel4Code) {
+    public void setAdminLevel4Code(String adminLevel4Code)
+    {
         AdminLevel4Code = adminLevel4Code;
     }
 
-    public String getAdminLevel4Englishname() {
+    public String getAdminLevel4Englishname()
+    {
         return AdminLevel4Englishname;
     }
 
-    public void setAdminLevel4Englishname(String adminLevel4Englishname) {
+    public void setAdminLevel4Englishname(String adminLevel4Englishname)
+    {
         AdminLevel4Englishname = adminLevel4Englishname;
     }
 
-    public String getAdminLevel4LocalName() {
+    public String getAdminLevel4LocalName()
+    {
         return AdminLevel4LocalName;
     }
 
-    public void setAdminLevel4LocalName(String adminLevel4LocalName) {
+    public void setAdminLevel4LocalName(String adminLevel4LocalName)
+    {
         AdminLevel4LocalName = adminLevel4LocalName;
     }
 
-    public String getBranchEnglishName() {
+    public String getBranchEnglishName()
+    {
         return BranchEnglishName;
     }
 
-    public void setBranchEnglishName(String branchEnglishName) {
+    public void setBranchEnglishName(String branchEnglishName)
+    {
         BranchEnglishName = branchEnglishName;
     }
 
-    public String getBranchLocalName() {
+    public String getBranchLocalName()
+    {
         return BranchLocalName;
     }
 
-    public void setBranchLocalName(String branchLocalName) {
+    public void setBranchLocalName(String branchLocalName)
+    {
         BranchLocalName = branchLocalName;
     }
 
-    public double getDistance() {
+    public double getDistance()
+    {
         return Distance;
     }
 
-    public void setDistance(double distance) {
+    public void setDistance(double distance)
+    {
         Distance = distance;
     }
 
-    public int getOrder() {
+    public int getOrder()
+    {
         return Order;
     }
 
-    public void setOrder(int order) {
+    public void setOrder(int order)
+    {
         Order = order;
     }
 
@@ -423,184 +494,229 @@ public class NPoiItem implements Comparable<NPoiItem> {
         return AdminLevel1EnglishName + " " + AdminLevel2EnglishName + " " + AdminLevel3EnglishName + " " + AdminLevel4Englishname;
     }
 
-    public String getStrName() {
+    public String getStrName()
+    {
         return strName;
     }
 
-    public void setStrName(String strName) {
+    public void setStrName(String strName)
+    {
         this.strName = strName;
     }
 
-    public int getM_nSectionGubun() {
+    public int getM_nSectionGubun()
+    {
         return m_nSectionGubun;
     }
 
-    public void setM_nSectionGubun(int m_nSectionGubun) {
+    public void setM_nSectionGubun(int m_nSectionGubun)
+    {
         this.m_nSectionGubun = m_nSectionGubun;
     }
 
-    public int getM_nSearchGubun() {
+    public int getM_nSearchGubun()
+    {
         return m_nSearchGubun;
     }
 
-    public void setM_nSearchGubun(int m_nSearchGubun) {
+    public void setM_nSearchGubun(int m_nSearchGubun)
+    {
         this.m_nSearchGubun = m_nSearchGubun;
     }
 
-    public int getM_nSearchItemCount() {
+    public int getM_nSearchItemCount()
+    {
         return m_nSearchItemCount;
     }
 
-    public void setM_nSearchItemCount(int m_nSearchItemCount) {
+    public void setM_nSearchItemCount(int m_nSearchItemCount)
+    {
         this.m_nSearchItemCount = m_nSearchItemCount;
     }
 
-    public boolean isM_bShowSubMenu() {
+    public boolean isM_bShowSubMenu()
+    {
         return m_bShowSubMenu;
     }
 
-    public void setM_bShowSubMenu(boolean m_bShowSubMenu) {
+    public void setM_bShowSubMenu(boolean m_bShowSubMenu)
+    {
         this.m_bShowSubMenu = m_bShowSubMenu;
     }
 
-    public String getNoorLat() {
+    public String getNoorLat()
+    {
         return noorLat;
     }
 
-    public void setNoorLat(String noorLat) {
+    public void setNoorLat(String noorLat)
+    {
         this.noorLat = noorLat;
     }
 
-    public String getNoorLon() {
+    public String getNoorLon()
+    {
         return noorLon;
     }
 
-    public void setNoorLon(String noorLon) {
+    public void setNoorLon(String noorLon)
+    {
         this.noorLon = noorLon;
     }
 
-    public String getFirstNo() {
+    public String getFirstNo()
+    {
         return firstNo;
     }
 
-    public void setFirstNo(String firstNo) {
+    public void setFirstNo(String firstNo)
+    {
         this.firstNo = firstNo;
     }
 
-    public String getSecondNo() {
+    public String getSecondNo()
+    {
         return secondNo;
     }
 
-    public void setSecondNo(String secondNo) {
+    public void setSecondNo(String secondNo)
+    {
         this.secondNo = secondNo;
     }
 
-    public String getRoadName() {
+    public String getRoadName()
+    {
         return roadName;
     }
 
-    public void setRoadName(String roadName) {
+    public void setRoadName(String roadName)
+    {
         this.roadName = roadName;
     }
 
-    public String getFirstBuildNo() {
+    public String getFirstBuildNo()
+    {
         return firstBuildNo;
     }
 
-    public void setFirstBuildNo(String firstBuildNo) {
+    public void setFirstBuildNo(String firstBuildNo)
+    {
         this.firstBuildNo = firstBuildNo;
     }
 
-    public String getSecondBuildNo() {
+    public String getSecondBuildNo()
+    {
         return secondBuildNo;
     }
 
-    public void setSecondBuildNo(String secondBuildNo) {
+    public void setSecondBuildNo(String secondBuildNo)
+    {
         this.secondBuildNo = secondBuildNo;
     }
 
-    public String getRadius() {
+    public String getRadius()
+    {
         return radius;
     }
 
-    public void setRadius(String radius) {
+    public void setRadius(String radius)
+    {
         this.radius = radius;
     }
 
-    public String getBizName() {
+    public String getBizName()
+    {
         return bizName;
     }
 
-    public void setBizName(String bizName) {
+    public void setBizName(String bizName)
+    {
         this.bizName = bizName;
     }
 
-    public String getUpperBizName() {
+    public String getUpperBizName()
+    {
         return upperBizName;
     }
 
-    public void setUpperBizName(String upperBizName) {
+    public void setUpperBizName(String upperBizName)
+    {
         this.upperBizName = upperBizName;
     }
 
-    public String getMiddleBizName() {
+    public String getMiddleBizName()
+    {
         return middleBizName;
     }
 
-    public void setMiddleBizName(String middleBizName) {
+    public void setMiddleBizName(String middleBizName)
+    {
         this.middleBizName = middleBizName;
     }
 
-    public String getLowerBizName() {
+    public String getLowerBizName()
+    {
         return lowerBizName;
     }
 
-    public void setLowerBizName(String lowerBizName) {
+    public void setLowerBizName(String lowerBizName)
+    {
         this.lowerBizName = lowerBizName;
     }
 
-    public String getDetailBizName() {
+    public String getDetailBizName()
+    {
         return detailBizName;
     }
 
-    public void setDetailBizName(String detailBizName) {
+    public void setDetailBizName(String detailBizName)
+    {
         this.detailBizName = detailBizName;
     }
 
-    public String getRpFlag() {
+    public String getRpFlag()
+    {
         return rpFlag;
     }
 
-    public void setRpFlag(String rpFlag) {
+    public void setRpFlag(String rpFlag)
+    {
         this.rpFlag = rpFlag;
     }
 
-    public String getParkFlag() {
+    public String getParkFlag()
+    {
         return parkFlag;
     }
 
-    public void setParkFlag(String parkFlag) {
+    public void setParkFlag(String parkFlag)
+    {
         this.parkFlag = parkFlag;
     }
 
-    public String getDetailInfoFlag() {
+    public String getDetailInfoFlag()
+    {
         return detailInfoFlag;
     }
 
-    public void setDetailInfoFlag(String detailInfoFlag) {
+    public void setDetailInfoFlag(String detailInfoFlag)
+    {
         this.detailInfoFlag = detailInfoFlag;
     }
 
-    public String getDesc() {
+    public String getDesc()
+    {
         return desc;
     }
 
-    public void setDesc(String desc) {
+    public void setDesc(String desc)
+    {
         this.desc = desc;
     }
 
     @Override
-    public int compareTo(@NonNull NPoiItem nPoiItem) {
+    public int compareTo(@NonNull NPoiItem nPoiItem)
+    {
         if(this.getDistance() < nPoiItem.getDistance())
         {
             return -1;

@@ -16,36 +16,46 @@ import kr.fatos.tnavi.R;
  * Created by kyungilwoo on 2017. 2. 9..
  */
 
-public class CopyrightActivity extends AMapBaseActivity {
+public class CopyrightActivity extends AMapBaseActivity
+{
     public static final String TAG = "AMAP";
     private ANaviApplication m_gApp;
     private Context m_Context = null;
     private Button m_btnBack, m_btnHome;
     private WebView m_WebView;
-    public CopyrightActivity() {
+
+    public CopyrightActivity()
+    {
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState){
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_copyright);
         m_Context = this;
-        m_gApp = (ANaviApplication) m_Context.getApplicationContext();
-//        WebView wb = new WebView(this);
-//        wb.loadUrl("file:///android_asset/setting/termsofuse_fatos.html");
-//        setContentView(wb);
+        m_gApp = (ANaviApplication)m_Context.getApplicationContext();
+        //        WebView wb = new WebView(this);
+        //        wb.loadUrl("file:///android_asset/setting/termsofuse_fatos.html");
+        //        setContentView(wb);
 
 
-        m_WebView = (WebView) findViewById(R.id.webview);
+        m_WebView = (WebView)findViewById(R.id.webview);
         if(m_gApp.getAppSettingInfo().m_nDefaultLanguage == 0)
+        {
             m_WebView.loadUrl("file:///android_asset/setting_maphi/copyright_fatos.html");
+        }
         else
+        {
             m_WebView.loadUrl("file:///android_asset/setting_maphi/copyright_fatos_eng.html");
+        }
 
-        m_btnBack = (Button) findViewById(R.id.setting_search_back_btn);
-        m_btnBack.setOnClickListener(new View.OnClickListener() {
+        m_btnBack = (Button)findViewById(R.id.setting_search_back_btn);
+        m_btnBack.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 finish();
             }
         });
@@ -65,17 +75,20 @@ public class CopyrightActivity extends AMapBaseActivity {
 
 
     @Override
-    protected void onStart() {
+    protected void onStart()
+    {
         super.onStart();
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         super.onBackPressed();
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
 
     }

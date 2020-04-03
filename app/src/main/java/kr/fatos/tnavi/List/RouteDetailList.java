@@ -1,6 +1,7 @@
 package kr.fatos.tnavi.List;
 
-public class RouteDetailList {
+public class RouteDetailList
+{
     private int m_nSecSumTime = 0;
     // 좌표 관련
     private String m_strCurCoordX, m_strCurCoordY;
@@ -12,61 +13,86 @@ public class RouteDetailList {
 
     // tbt code
     private int m_nTbtCode; // turn code or tbt code 관리
-    public String getCoordX() {
+
+    public String getCoordX()
+    {
         return m_strCurCoordX;
     }
-    public void setCoordX(String strCoordX) {
+
+    public void setCoordX(String strCoordX)
+    {
         this.m_strCurCoordX = strCoordX;
     }
-    public String getCoordY() {
+
+    public String getCoordY()
+    {
         return m_strCurCoordY;
     }
 
-    public void setCoordY(String strCoordY) {
+    public void setCoordY(String strCoordY)
+    {
         this.m_strCurCoordY = strCoordY;
     }
 
-    public String getSubInfo() {
+    public String getSubInfo()
+    {
         return m_strSubInfo;
     }
-    public void setSubInfo(String strSubInfo) {
+
+    public void setSubInfo(String strSubInfo)
+    {
         this.m_strSubInfo = strSubInfo;
     }
 
-    public int getSecSumTime() {
+    public int getSecSumTime()
+    {
         return m_nSecSumTime;
     }
 
-    public String getTime() {
+    public String getTime()
+    {
         return m_strTime;
     }
-    public String getDist() {
+
+    public String getDist()
+    {
         return m_strDist;
     }
-    public void setTimeDistInfo(String strTime, String strDist, int nSecTime) {
+
+    public void setTimeDistInfo(String strTime, String strDist, int nSecTime)
+    {
         this.m_strTime = strTime;
         this.m_strDist = strDist;
         this.m_nSecSumTime = nSecTime;
     }
 
-    public String getDongName() {
+    public String getDongName()
+    {
         return m_strDongName;
     }
-    public void setDongName(String strDongName) {
+
+    public void setDongName(String strDongName)
+    {
         this.m_strDongName = strDongName;
     }
 
-    public String getTxtInfoName() {
+    public String getTxtInfoName()
+    {
         return m_strTextInfoName;
     }
-    public void setTxtInfoName(String strCrossName) {
+
+    public void setTxtInfoName(String strCrossName)
+    {
         this.m_strTextInfoName = strCrossName;
     }
 
-    public int getTbtCode() {
+    public int getTbtCode()
+    {
         return m_nTbtCode;
     }
-    public void setTbtCode(int tbtcode) {
+
+    public void setTbtCode(int tbtcode)
+    {
         this.m_nTbtCode = tbtcode;
     }
 }

@@ -4,7 +4,8 @@ import android.content.Context;
 import android.widget.Toast;
 
 //글로벌 토스트 클래스
-public class GToastLib {
+public class GToastLib
+{
     public static void s(Context context, int id)
     {
         Toast.makeText(context, id, Toast.LENGTH_SHORT).show();

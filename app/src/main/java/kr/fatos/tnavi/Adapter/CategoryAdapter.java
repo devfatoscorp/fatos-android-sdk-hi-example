@@ -15,12 +15,14 @@ import kr.fatos.tnavi.Activity.CategoryActivity;
 import kr.fatos.tnavi.Code.SettingsCode;
 import kr.fatos.tnavi.R;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>
+{
     private int resource;
     private ArrayList<String> list;
     private CategoryActivity categoryActivity;
 
-    public CategoryAdapter(CategoryActivity activity, int resource, ArrayList<String> list) {
+    public CategoryAdapter(CategoryActivity activity, int resource, ArrayList<String> list)
+    {
         this.categoryActivity = activity;
         this.resource = resource;
         this.list = list;
@@ -28,29 +30,37 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i)
+    {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(resource, viewGroup, false);
 
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i)
+    {
         final String str = list.get(i);
         final int index = list.indexOf(str);
 
         viewHolder.textView_Name.setText(str);
 
-        if(i == SettingsCode.getValueCategoryIndex()){
+        if(i == SettingsCode.getValueCategoryIndex())
+        {
             viewHolder.image_cheked.setVisibility(View.VISIBLE);
-        }else{
+        }
+        else
+        {
             viewHolder.image_cheked.setVisibility(View.INVISIBLE);
         }
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if(index != SettingsCode.getValueCategoryIndex()) {
+            public void onClick(View v)
+            {
+                if(index != SettingsCode.getValueCategoryIndex())
+                {
                     categoryActivity.returnIntentResult(str, index);
                 }
             }
@@ -58,7 +68,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return list.size();
     }
 
@@ -84,7 +95,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         TextView textView_Name;
         ImageView image_cheked;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView)
+        {
             super(itemView);
 
             textView_Name = itemView.findViewById(R.id.textView_Name);
