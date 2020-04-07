@@ -18,9 +18,9 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 
     //fatos 배포용
-//    flatDir{
-//        dirs 'libs'
-//    }
+    flatDir{
+        dirs 'libs'
+    }
 }
 
 android {
@@ -94,8 +94,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-perf:16.2.4'
 
     //fatos 배포용
-//    implementation fileTree(dir: 'libs', include: ['*.jar'])
-//    implementation(name:'fatos-android-sdk', ext:'aar')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation(name:'fatos-android-sdk', ext:'aar')
 
     api 'com.android.support:support-annotations:28.0.0'
     api 'com.android.support:support-v4:28.0.0'
@@ -114,11 +114,11 @@ dependencies {
     implementation('org.apache.httpcomponents:httpmime:4.3') {
         exclude module: "httpclient"
     }
-    implementation 'com.github.zzz40500:AndroidSweetSheet:1.1.0'
+    //implementation 'com.github.zzz40500:AndroidSweetSheet:1.1.0'
     //
 
     //fatos - 소스배포시 삭제
     //implementation project(':fatos_sdk')
     //
-    implementation 'com.github.devfatoscorp:fatos_sdk_jitpack:1.1.8'
+    //implementation 'com.github.devfatoscorp:fatos_sdk_jitpack:1.1.8'
 }

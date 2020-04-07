@@ -16,12 +16,7 @@ public class TNaviApplication extends ANaviApplication
     public void onCreate()
     {
         m_Context = this;
-        //fatostest - 소스 배포시 주석 제거
-        //        "1fff532753643a73f364286b8f362eaa" //tmap
-        //        "edfdfggfdhhfdhfdhhh4286b8f362eaa" //cdg
-        //        "k2354326sdadfasdfczvxcvfdhgfdhsd" //onemap
-        //        "3246fdsgfdg32523dsgavgfdsadg4356" // 해양
-        FMInterface.initKey(m_Context, "edfdfggfdhhfdhfdhhh4286b8f362eaa");
+        FMInterface.initKey(m_Context, "fatos-sdk-key");
 
         super.onCreate();
 
