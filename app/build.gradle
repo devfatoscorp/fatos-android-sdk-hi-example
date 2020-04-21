@@ -18,9 +18,9 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 
     //fatos 배포용
-    flatDir{
-        dirs 'libs'
-    }
+//    flatDir{
+//        dirs 'libs'
+//    }
 }
 
 android {
@@ -64,11 +64,11 @@ android {
     buildToolsVersion '28.0.3'
 }
 
-//repositories {
-//    flatDir {
-//        dirs 'libs'
-//    }
-//}
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 
 
 dependencies {
@@ -114,11 +114,11 @@ dependencies {
     implementation('org.apache.httpcomponents:httpmime:4.3') {
         exclude module: "httpclient"
     }
-    //implementation 'com.github.zzz40500:AndroidSweetSheet:1.1.0'
+    implementation 'com.github.zzz40500:AndroidSweetSheet:1.1.0'
     //
 
     //fatos - 소스배포시 삭제
     //implementation project(':fatos_sdk')
     //
-    //implementation 'com.github.devfatoscorp:fatos_sdk_jitpack:1.1.8'
+
 }
