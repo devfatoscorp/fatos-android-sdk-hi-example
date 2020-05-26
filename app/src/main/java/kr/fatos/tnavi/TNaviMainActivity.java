@@ -33,8 +33,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.io.IOException;
@@ -55,7 +53,6 @@ import biz.fatossdk.fminterface.FMSortOption;
 import biz.fatossdk.fminterface.RouteSummaryData;
 import biz.fatossdk.map.FMPMapConst;
 import biz.fatossdk.nativeMap.MapAnimation;
-import biz.fatossdk.navi.NativeNavi;
 import biz.fatossdk.navi.RoutePosition;
 import biz.fatossdk.navi.rgdata.RouteData;
 import biz.fatossdk.newanavi.ANaviApplication;
@@ -1636,7 +1633,7 @@ public class TNaviMainActivity extends FMBaseActivity
                 break;
         }
 
-        m_FMInterface.FM_RouteVol2_Via(new HttpResultHandler(TNaviMainActivity.this), positionList);
+        m_FMInterface.FM_RouteVol3_Via(new HttpResultHandler(TNaviMainActivity.this), positionList, FMInterface.ROUTE_OPTION6_Recommend_Free+FMInterface.ROUTE_OPTION5_Short+FMInterface.ROUTE_OPTION7_Short_Free);
     }
 
     //==============================================================================================

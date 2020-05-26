@@ -89,11 +89,14 @@ public class RouteCardData implements Parcelable
             case RouteType.ROUTE_GENERAL: //일반
                 this.nOptionColor = mContext.getResources().getDrawable(R.drawable.info_bg_general);
                 break;
-            case RouteType.ROUTE_SHORT: //최단
+            case RouteType.ROUTE_Short: //최단
                 this.nOptionColor = mContext.getResources().getDrawable(R.drawable.info_bg_short);
                 break;
-            case RouteType.ROUTE_FREE: //무료
+            case RouteType.ROUTE_Recommend_Free: //무료
                 this.nOptionColor = mContext.getResources().getDrawable(R.drawable.info_bg_free);
+                break;
+            case RouteType.ROUTE_Short_Free: // 최단거리 무료
+                this.nOptionColor = mContext.getResources().getDrawable(R.drawable.info_bg_general);
                 break;
         }
 

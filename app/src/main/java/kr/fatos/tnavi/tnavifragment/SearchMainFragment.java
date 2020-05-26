@@ -416,21 +416,39 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
             case R.id.imageButton_MainMenu:
             case R.id.imageButton_MainMenuOnemap:
 /*
+                String strSample = String.format("{\"polygons\":[{\"id\":10,\"color\":[255,0,0,64],\"type\":1,\"points\":[126.9889109,37.565798,126.9904988,37.5669206,126.9928806,37.5688595,126.9999831,37.5676009,126.9979972,37.5586666,126.9889109,37.565798]}]}");
+                m_FMInterface.FM_AddPolygon(strSample);
+
+                String strSample2 = String.format("{\"polygons\":[{\"type\":1, \"visible\":true}]}");
+                m_FMInterface.FM_VisiblePolygon(strSample2);
+                double dLonX = 127.877723;
+                double dLatY = 35.419287;
+                dLonX = 126.9999831;
+                dLatY = 37.5676009;
+                m_FMInterface.FM_SetMapPosition(0,dLonX, dLatY,16.f);
+*/
+/*
                 boolean[] getPathInfo = new boolean[FMInterface.GetInstance().FM_GetTripInfoSize(0)];
                 FMInterface.GetInstance().FM_GetTripPassInfo(0,getPathInfo);
 
                 boolean[] getPathInfo2 = new boolean[FMInterface.GetInstance().FM_GetTripInfoSize(2)];
                 FMInterface.GetInstance().FM_GetTripPassInfo(2,getPathInfo2);
 
-                String[] strLearningPath = new String[3];
-                String[] PathColor = new String[3];
-                strLearningPath[0] = "/sdcard/fatos/user/learningpath1.db";
-                strLearningPath[2] = "/sdcard/fatos/user/learningpath2.db";
-                strLearningPath[1] = "/sdcard/fatos/user/learningpath3.db";
+                String[] strLearningPath = new String[4];
+                String[] PathColor = new String[4];
+//                strLearningPath[0] = "/sdcard/fatos/user/learningpath1.db";
+//                strLearningPath[2] = "/sdcard/fatos/user/learningpath2.db";
+//                strLearningPath[1] = "/sdcard/fatos/user/learningpath3.db";
+
+                strLearningPath[0] = "/sdcard/fatos/user/20191_20200220143325.db";
+                strLearningPath[1] = "/sdcard/fatos/user/20191_20200220150826.db";
+                strLearningPath[2] = "/sdcard/fatos/user/20191_20200220153834.db";
+                strLearningPath[3] = "/sdcard/fatos/user/20191_20200429115438.db";
 
                 PathColor[0] = "#ff0000";
                 PathColor[1] = "#00ff00";
                 PathColor[2] = "#0000ff";
+                PathColor[3] = "#ff00ff";
 
                 FMInterface.GetInstance().FM_DrawLearningPath(strLearningPath, PathColor);
 
@@ -451,8 +469,8 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
                 a[5] = 7;
 
                 FMInterface.GetInstance().FM_SetPoiView(a,null);
-
 */
+
                 ActivityManager activityManager = (ActivityManager)m_Context.getSystemService(
                         Context.ACTIVITY_SERVICE);
                 List<ActivityManager.RunningTaskInfo> info = activityManager.getRunningTasks(1);

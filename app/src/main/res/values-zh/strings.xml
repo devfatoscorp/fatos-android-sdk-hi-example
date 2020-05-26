@@ -167,6 +167,7 @@
     <string name="onemap_route_type3">短</string>
     <string name="onemap_route_type4">表示</string>
     <string name="onemap_route_type5">自由</string>
+    <string name="onemap_route_type6">推荐_自由</string>
 
     <string name="route_cancel_msg">重新扫描时无法取消路径搜索.</string>
 

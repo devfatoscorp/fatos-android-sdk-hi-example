@@ -3,11 +3,6 @@ package kr.fatos.tnavi.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -229,7 +228,7 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.Rout
                 textView_Kind.setText(R.string.onemap_route_type2);
                 break;
 
-            case RouteType.ROUTE_SHORT:
+            case RouteType.ROUTE_Short:
                 textView_Kind.setText(R.string.onemap_route_type3);
                 break;
 
@@ -237,9 +236,13 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.Rout
                 textView_Kind.setText(R.string.onemap_route_type4);
                 break;
 
-            case RouteType.ROUTE_FREE:
+            case RouteType.ROUTE_Recommend_Free:
                 textView_Kind.setText(R.string.onemap_route_type5);
                 break;
+            case RouteType.ROUTE_Short_Free:
+                textView_Kind.setText(R.string.onemap_route_type6);
+                break;
+
         }
 
         relativeLayout_DetailRoute.setOnClickListener(new View.OnClickListener()

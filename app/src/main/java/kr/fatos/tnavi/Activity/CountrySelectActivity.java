@@ -279,8 +279,8 @@ public class CountrySelectActivity extends FMBaseActivity
             countryList.add(new CountryItemList(countrynames[i], countrycodes[i]));
         }
 
-        NaviInterface.SetLanguage(m_gApp.getAppSettingInfo().m_nDefaultLanguage);
         Locale locale = new Locale(LOCALE_NAME_LIST[m_gApp.getAppSettingInfo().m_nDefaultLanguage]);
+        NaviInterface.SetLanguage(m_gApp.getAppSettingInfo().m_nDefaultLanguage, locale.getLanguage(), m_gApp.getRoutePathInfo().m_nServiceType);
         m_gApp.setFatosLocale(locale);
         Locale.setDefault(locale);
 

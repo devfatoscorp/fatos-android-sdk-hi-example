@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -45,7 +44,6 @@ import biz.fatossdk.navi.RouteParam;
 import biz.fatossdk.navi.rgdata.RouteData;
 import biz.fatossdk.navi.rgdata.SERVICE_LINK;
 import biz.fatossdk.navi.rgdata.SERVICE_LINK_INFO;
-import biz.fatossdk.newanavi.AMapMainActivity;
 import biz.fatossdk.newanavi.ANaviApplication;
 import kr.fatos.tnavi.Adapter.RouteDetailListAdapter;
 import kr.fatos.tnavi.Adapter.RouteListAdapter;
@@ -848,7 +846,7 @@ public class SummaryFragment extends Fragment
 
                     break;
 
-                case (RouteType.ROUTE_SHORT):
+                case (RouteType.ROUTE_Short):
                     ImageView imageView_3 = new ImageView(mView.getContext());
                     ImageView imageView2_3 = new ImageView(mView.getContext());
                     ImageView imageView2_3_1 = new ImageView(mView.getContext());
@@ -972,7 +970,7 @@ public class SummaryFragment extends Fragment
                     area_4.setOnClickListener(this);
                     break;
 
-                case (RouteType.ROUTE_FREE):
+                case (RouteType.ROUTE_Recommend_Free):
                     ImageView imageView_5 = new ImageView(mView.getContext());
                     ImageView imageView2_5 = new ImageView(mView.getContext());
                     ImageView imageView2_5_1 = new ImageView(mView.getContext());
@@ -1030,6 +1028,66 @@ public class SummaryFragment extends Fragment
                     lm.addView(area_5);
 
                     area_5.setOnClickListener(this);
+                    break;
+
+                case (RouteType.ROUTE_Short_Free):
+                    ImageView imageView_6 = new ImageView(mView.getContext());
+                    ImageView imageView2_6 = new ImageView(mView.getContext());
+                    ImageView imageView2_6_1 = new ImageView(mView.getContext());
+
+                    TextView textView_6 = new TextView(mView.getContext());
+                    textView_6.setLayoutParams(Tv_params);
+                    textView_6.setGravity(Gravity.CENTER);
+
+                    LinearLayout area_6 = new LinearLayout(mView.getContext());
+                    area_6.setOrientation(LinearLayout.VERTICAL);
+                    area_6.setLayoutParams(area_params);
+
+                    RelativeLayout area2_6 = new RelativeLayout(mView.getContext());
+                    area2_6.setLayoutParams(Rl_params);
+
+                    textView_6.setTextColor(
+                            (getResources().getColor(R.color.cardview_onemap_textcolor)));
+                    textView_6.setId(R.id.summary_tv_text);
+                    textView_6.measure(Tv_params.width, Tv_params.height);
+
+                    itemColor[itemIndex] = (getResources().getColor(
+                            R.color.cardview_onemap_textcolor));
+                    itemIndex += 1;
+
+                    imageView_6.setBackground(
+                            getResources().getDrawable(R.drawable.tab_btn_bar_one));
+                    imageView_6.setId(R.id.btn_general_bar);
+
+                    imageView2_6.setId(R.id.btn_general_icon);
+                    imageView2_6.setLayoutParams(Imageview_params_2);
+
+                    imageView2_6.setImageResource(R.drawable.tab_btn_icon_recom_2_one_s);
+                    imageView2_6.setTag(Integer.valueOf(R.drawable.tab_btn_icon_recom_2_one_s));
+
+                    imageView2_6_1.setLayoutParams(Imageview_params_2);
+                    imageView2_6_1.setImageResource(R.drawable.tab_btn_icon_recom_2_one_n);
+                    imageView2_6_1.setTag(Integer.valueOf(R.drawable.tab_btn_icon_recom_2_one_n));
+
+                    //상단바 크기 정의
+                    RelativeLayout.LayoutParams Imageview_params_i6 = new RelativeLayout.LayoutParams(
+                            (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22,
+                                    getResources().getDisplayMetrics()),
+                            (int)getResources().getDimension(R.dimen.bottom_iv_1_height));
+
+                    Imageview_params_i6.addRule(
+                            RelativeLayout.ALIGN_PARENT_TOP | RelativeLayout.CENTER_HORIZONTAL);
+                    imageView_6.setLayoutParams(Imageview_params_i6);
+
+                    area2_6.addView(imageView_6);
+                    area2_6.addView(imageView2_6);
+                    area2_6.addView(imageView2_6_1);
+                    area2_6.addView(textView_6);
+                    area_6.addView(area2_6);
+                    area_6.setId(R.id.btn_general);
+                    lm.addView(area_6);
+
+                    area_6.setOnClickListener(this);
                     break;
             }
         }

@@ -170,6 +170,7 @@ public class RouteOptionPopupActivity extends FMBaseActivity
                 m_gApp.getAppSettingInfo().m_nCurSelectRouteOption--;
             }
             else if(!m_gApp.getAppSettingInfo().m_arRouteOptionEnable[i])
+
             {
                 m_gApp.getAppSettingInfo().m_arRouteOptionEnable[i] = true;
                 m_gApp.getAppSettingInfo().m_nCurSelectRouteOption++;
