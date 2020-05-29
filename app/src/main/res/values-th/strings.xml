@@ -162,12 +162,12 @@
         <item>한국어</item>
     </string-array>
 
-    <string name="onemap_route_type1">Recomm</string>
-    <string name="onemap_route_type2">Fastest</string>
-    <string name="onemap_route_type3">Short</string>
+    <string name="onemap_route_type1">Fastest</string>
+    <string name="onemap_route_type2">Fastest2</string>
+    <string name="onemap_route_type3">Shortest</string>
     <string name="onemap_route_type4">Express</string>
-    <string name="onemap_route_type5">Recomm_Free</string>
-    <string name="onemap_route_type6">Short_Free</string>
+    <string name="onemap_route_type5">Fastest noToll</string>
+    <string name="onemap_route_type6">Shortest noToll</string>
 
     <string name="route_cancel_msg">ไม่สามารถยกเลิกการค้นหาเส้นทางขณะสแกนซ้ำ.</string>
 

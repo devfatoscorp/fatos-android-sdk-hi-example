@@ -1633,7 +1633,7 @@ public class TNaviMainActivity extends FMBaseActivity
                 break;
         }
 
-        m_FMInterface.FM_RouteVol3_Via(new HttpResultHandler(TNaviMainActivity.this), positionList, FMInterface.ROUTE_OPTION6_Recommend_Free+FMInterface.ROUTE_OPTION5_Short+FMInterface.ROUTE_OPTION7_Short_Free);
+        m_FMInterface.FM_RouteVol3_Via(new HttpResultHandler(TNaviMainActivity.this), positionList, FMInterface.ROUTE_OPTION1_Recommend+FMInterface.ROUTE_OPTION6_Recommend_Free+FMInterface.ROUTE_OPTION5_Short);
     }
 
     //==============================================================================================
