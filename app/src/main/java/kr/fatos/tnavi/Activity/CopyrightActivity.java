@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 
+import biz.fatossdk.config.FatosBuildConfig;
 import biz.fatossdk.newanavi.ANaviApplication;
 import biz.fatossdk.newanavi.base.AMapBaseActivity;
 import kr.fatos.tnavi.R;
@@ -41,13 +42,30 @@ public class CopyrightActivity extends AMapBaseActivity
 
 
         m_WebView = (WebView)findViewById(R.id.webview);
+
         if(m_gApp.getAppSettingInfo().m_nDefaultLanguage == 0)
         {
-            m_WebView.loadUrl("file:///android_asset/setting_maphi/copyright_fatos.html");
+            if(m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.FATOS_SITE_IS_NOSTRA ||
+                    m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.FATOS_SITE_IS_SLA)
+            {
+                m_WebView.loadUrl("file:///android_asset/setting_maphi/maphi_copyright_fatos_kor.htm");
+            }
+            else
+            {
+                m_WebView.loadUrl("file:///android_asset/setting_maphi/copyright_fatos.htm");
+            }
         }
         else
         {
-            m_WebView.loadUrl("file:///android_asset/setting_maphi/copyright_fatos_eng.html");
+            if(m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.FATOS_SITE_IS_NOSTRA ||
+                    m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.FATOS_SITE_IS_SLA)
+            {
+                m_WebView.loadUrl("file:///android_asset/setting_maphi/maphi_copyright_fatos_eng.htm");
+            }
+            else
+            {
+                m_WebView.loadUrl("file:///android_asset/setting_maphi/copyright_fatos_eng.htm");
+            }
         }
 
         m_btnBack = (Button)findViewById(R.id.setting_search_back_btn);

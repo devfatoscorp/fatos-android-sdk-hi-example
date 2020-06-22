@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,12 +23,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
-import biz.fatossdk.config.FatosBuildConfig;
-import biz.fatossdk.config.FatosLogLib;
 import biz.fatossdk.newanavi.ANaviApplication;
-import biz.fatossdk.newanavi.manager.AMapDataTransferCode;
 import biz.fatossdk.newanavi.manager.AMapUtil;
 import kr.fatos.tnavi.Activity.CategoryActivity;
 import kr.fatos.tnavi.Activity.CopyrightActivity;
@@ -193,9 +188,9 @@ public class NostraSettingFragment extends Fragment
 
                 case SETTING_UUID:
                 {
-                    if(!TextUtils.isEmpty(m_gApp.m_strUUID))
+                    if(!TextUtils.isEmpty(m_gApp.getM_strSerialKey()))
                     {
-                        settingList.m_strSettingDataName = m_gApp.m_strUUID;
+                        settingList.m_strSettingDataName = m_gApp.getM_strSerialKey();
                     }
 
                     break;

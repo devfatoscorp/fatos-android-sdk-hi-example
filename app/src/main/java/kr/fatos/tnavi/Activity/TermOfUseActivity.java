@@ -43,11 +43,11 @@ public class TermOfUseActivity extends AMapBaseActivity
         m_WebView = (WebView)findViewById(R.id.webview);
         if(m_gApp.getAppSettingInfo().m_nDefaultLanguage == 0)
         {
-            m_WebView.loadUrl("file:///android_asset/setting_maphi/termsofuse_fatos.html");
+            m_WebView.loadUrl("file:///android_asset/setting_maphi/termsofuse_fatos.htm");
         }
         else
         {
-            m_WebView.loadUrl("file:///android_asset/setting_maphi/termsofuse_fatos_eng.html");
+            m_WebView.loadUrl("file:///android_asset/setting_maphi/termsofuse_fatos_eng.htm");
         }
 
         m_btnBack = (Button)findViewById(R.id.setting_search_back_btn);

@@ -20,11 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import java.util.UUID;
-
-import biz.fatossdk.navi.NativeNavi;
 import biz.fatossdk.newanavi.ANaviApplication;
-import biz.fatossdk.newanavi.manager.AMapUtil;
 import kr.fatos.tnavi.Code.TNaviActionCode;
 import kr.fatos.tnavi.R;
 import kr.fatos.tnavi.TNaviMainActivity;
@@ -72,18 +68,19 @@ public class TNaviSplashActivity extends Activity
 
         m_gApp.setM_nExternalCallMode(-1);
 
-        String strUUID = NativeNavi.nativeSdkKey2Encode(AMapUtil.getUniqueID(m_Context));
-        StringBuffer stringBuffer = new StringBuffer(strUUID);
-
-        // 안드로이드 24(8.0) 이상만 구분자 추가
-        if(Build.VERSION.SDK_INT > 24)
-        {
-            stringBuffer.insert(8, "-");
-            stringBuffer.insert(stringBuffer.length() - 8, "-");
-        }
-
-        String strUUIDs = stringBuffer.toString();
-        m_gApp.m_strUUID = strUUIDs;
+//        String strUUID = NativeNavi.nativeSdkKey2Encode(AMapUtil.getUniqueID(m_Context));
+//        StringBuffer stringBuffer = new StringBuffer(strUUID);
+//
+//        // 안드로이드 24(8.0) 이상만 구분자 추가
+//        if(strUUID.length() > 16){
+//            stringBuffer.insert(8, "-");
+//            stringBuffer.insert(stringBuffer.length() - 8, "-");
+//        }else if(strUUID.length() > 8){
+//            stringBuffer.insert(8, "-");
+//        }
+//
+//        String strUUIDs = stringBuffer.toString();
+//        m_gApp.m_strUUID = strUUIDs;
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
