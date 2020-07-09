@@ -116,6 +116,8 @@ public class TNaviMainActivity extends FMBaseActivity
     private int m_iEngineInit = 0;
     private boolean isChangeViaWithGoalFlag = false;
 
+    private boolean isBackgroundstate = false;
+    private static Message lastMessage = null;
     public static savedData saved_data;
 
     private double[] m_dMapTouchScreenWGS84 = new double[2];
@@ -416,7 +418,9 @@ public class TNaviMainActivity extends FMBaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        Log.e(TAG,"onCreate!");
         m_Context = this;
+        lastMessage = new Message();
 
         setContentView(R.layout.activity_splash);
 
@@ -549,6 +553,13 @@ public class TNaviMainActivity extends FMBaseActivity
     @Override
     protected void onResume()
     {
+        isBackgroundstate = false;
+
+//        if(m_Context!=null){
+//            if(lastMessage.getData() != null){
+//                ((TNaviMainActivity)m_Context).handleMessage(lastMessage);
+//            }
+//        }
         super.onResume();
         //행정동명 스레드 시작
         setDriveInfoThreadFlag(true);
@@ -858,6 +869,7 @@ public class TNaviMainActivity extends FMBaseActivity
         {
             setContentView(R.layout.activity_tnavi_main);
 
+            ((FMBaseActivity)m_Context).setMainMapMode();
 
             if(bFirstRun)
             {
@@ -1713,8 +1725,7 @@ public class TNaviMainActivity extends FMBaseActivity
             SummaryFragment summaryFragment = new SummaryFragment();
             summaryFragment.setArguments(args);
 
-            GoLib.getInstance()
-                 .goFragment(getSupportFragmentManager(), R.id.container, summaryFragment, tag_summary_fragment, args);
+            GoLib.getInstance().goFragment(getSupportFragmentManager(), R.id.container, summaryFragment, tag_summary_fragment, args);
         }
     }
 
@@ -1743,6 +1754,11 @@ public class TNaviMainActivity extends FMBaseActivity
     private void handleMessage(Message msg)
     {
         String result = msg.getData().getString(AMapGoogleSearchUtil.RESULT);
+
+        if(isBackgroundstate){
+            return;
+        }
+
         ArrayList<String> searchList = new ArrayList<String>();
 
         if(result.equals(FMError.FME_SUCCESS_SEARCH_SUCCESS) || result.equals(ErrorMessage.SUCCESS_NOSTRA_RESULT))
@@ -2605,9 +2621,32 @@ public class TNaviMainActivity extends FMBaseActivity
 
     public void routeResultTNavi()
     {
+        Log.e(TAG,"routeResultTnavi!");
         bLastRouteFlag = false;
         m_gApp.ArriveGoalVol2(m_Context);
 
         routeCancel();
+    }
+
+
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+//        Log.e(TAG,"onSaveInstanceState called!");
+        isBackgroundstate = true;
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+//        Log.e(TAG,"onSaveInstanceState called!");
+        super.onRestoreInstanceState(savedInstanceState);
     }
 }

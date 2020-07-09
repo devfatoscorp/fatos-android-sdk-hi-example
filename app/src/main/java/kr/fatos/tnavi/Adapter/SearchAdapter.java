@@ -89,6 +89,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
             viewHolder.text_dist.setText(String.valueOf(strTempDist));
 
+//            if((i+1)%2==0){
+//                viewHolder.tv_second_list_icon.setVisibility(View.VISIBLE);
+//            }else{
+//                viewHolder.tv_second_list_icon.setVisibility(View.GONE);
+//            }
+
             if(m_bVisibleFlag)
             {
                 viewHolder.text_dist.setVisibility(View.VISIBLE);
@@ -188,7 +194,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        TextView textView_Name, textView_Address, text_dist;
+        TextView textView_Name, textView_Address, text_dist,tv_second_list_icon;
         Button button_MapView;
 
         public ViewHolder(@NonNull View itemView)
@@ -199,6 +205,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             textView_Address = itemView.findViewById(R.id.textView_Address);
             text_dist = itemView.findViewById(R.id.text_dist);
             button_MapView = itemView.findViewById(R.id.button_MapView);
+            tv_second_list_icon = itemView.findViewById(R.id.tv_second_list_icon);
         }
     }
 }

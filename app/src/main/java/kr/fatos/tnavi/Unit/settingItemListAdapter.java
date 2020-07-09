@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import biz.fatossdk.anavi.R;
 import biz.fatossdk.newanavi.ANaviApplication;
+import kr.fatos.tnavi.R;
 
 
 /**

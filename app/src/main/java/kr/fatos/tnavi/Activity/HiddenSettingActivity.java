@@ -27,6 +27,7 @@ public class HiddenSettingActivity extends AMapBaseActivity
     public static final int SETTING_SERVER = 1;
     public static final int SETTING_MOBILIZER = 2;
     public static final int SETTING_VOICEMODE = 3;
+    public static final int SETTING_DEMMODE = 4;
 
     public static final String TAG = "AMAP";
     private Context m_Context = null;
@@ -42,9 +43,9 @@ public class HiddenSettingActivity extends AMapBaseActivity
     static final int[] SETTING_MENU_NAME = new int[]{R.string.string_simul_gps,
                                                      R.string.string_server,
                                                      R.string.string_mobilizer,
-    R.string.string_voice_noti};
-    static boolean[] SETTING_MENU_NAME_ENABLE = new boolean[]{true, true, true, true};
-    static final String[] SETTING_MENU_DATA_NAME = new String[]{"Off", "Commercial", "Off", "TTS"};
+    R.string.string_voice_noti,R.string.string_dem_mode};
+    static boolean[] SETTING_MENU_NAME_ENABLE = new boolean[]{true, true, true, true,true};
+    static final String[] SETTING_MENU_DATA_NAME = new String[]{"Off", "Commercial", "Off", "TTS","Off"};
 
     public HiddenSettingActivity()
     {
@@ -121,6 +122,18 @@ public class HiddenSettingActivity extends AMapBaseActivity
                     else
                     {
                         settingList.m_strSettingDataName = "WAVE";
+                    }
+                    break;
+                }
+
+                case SETTING_DEMMODE:{
+                    if(m_gApp.getAppSettingInfo().m_bDEMMode)
+                    {
+                        settingList.m_strSettingDataName = "On";
+                    }
+                    else
+                    {
+                        settingList.m_strSettingDataName = "Off";
                     }
                     break;
                 }
@@ -209,6 +222,24 @@ public class HiddenSettingActivity extends AMapBaseActivity
                         else
                         {
                             arSettingDessert.get(position).m_strSettingDataName = "TTS";
+                        }
+
+                        settingAdapter.notifyDataSetChanged();
+                    }
+                    else if(arSettingDessert.get(position).m_strSettingName.equals(
+                            getResources().getString(R.string.string_dem_mode))){
+
+                        m_gApp.getAppSettingInfo().m_bDEMMode = !m_gApp.getAppSettingInfo().m_bDEMMode;
+                        m_gApp.saveSettingInfo(m_Context, m_gApp.getAppSettingInfo());
+
+
+                        if(m_gApp.getAppSettingInfo().m_bDEMMode)
+                        {
+                            arSettingDessert.get(position).m_strSettingDataName = "On";
+                        }
+                        else
+                        {
+                            arSettingDessert.get(position).m_strSettingDataName = "Off";
                         }
 
                         settingAdapter.notifyDataSetChanged();

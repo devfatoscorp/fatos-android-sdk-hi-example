@@ -174,4 +174,5 @@
     <string name="string_server">Server</string>
     <string name="string_mobilizer">Mobilizer Info</string>
     <string name="string_voice_noti">Voice Guidance</string>
+    <string name="string_dem_mode">DEM mode</string>
 </resources>
