@@ -377,6 +377,7 @@ public class TNaviMainActivity extends FMBaseActivity
         }
 
         if(m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.eSite_truck_oceanenergy)
+       // if(m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.FATOS_SITE_IS_OceanEnergy)
         {
             m_gApp.getAppSettingInfo().m_nDefaultLanguage = 0;
         }

@@ -32,7 +32,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.firebase.perf.FirebasePerformance;
 import com.google.firebase.perf.metrics.AddTrace;
 import com.google.firebase.perf.metrics.Trace;
@@ -110,8 +109,6 @@ public class SearchMainFragment extends Fragment implements View.OnClickListener
         }
         catch(NullPointerException e)
         {
-            Crashlytics.log(Log.ERROR, "SearchMainFragment",
-                            "oncreateView onCreate Error:: " + e.toString());
         }
 
         mActivity = (TNaviMainActivity)getActivity();

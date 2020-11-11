@@ -88,10 +88,10 @@ public class NostraSettingFragment extends Fragment
                                                     settingItemDetailList.SETTING_TYPE_TEXT,
                                                     settingItemDetailList.SETTING_TYPE_TEXT};
 
-    static final int[] SETTING_SPEED_UNIT_NAME = new int[]{kr.fatos.tnavi.R.string.string_speed_km,
-            kr.fatos.tnavi.R.string.string_speed_mi};
-    static final int[] SETTING_DISTANCE_UNIT_NAME = new int[]{kr.fatos.tnavi.R.string.string_km,
-            kr.fatos.tnavi.R.string.string_mi};
+    static final int[] SETTING_SPEED_UNIT_NAME = new int[]{R.string.string_speed_km,
+                                                           R.string.string_speed_mi};
+    static final int[] SETTING_DISTANCE_UNIT_NAME = new int[]{R.string.string_km,
+                                                              R.string.string_mi};
 
     public String[] countrynames;
 
@@ -286,10 +286,9 @@ public class NostraSettingFragment extends Fragment
 
                         m_nClickCount++;
 
-                        m_bIsLongPress = true;
-
                         if(m_nClickCount == 5)
                         {
+                            m_bIsLongPress = true;
                             someHandler.postDelayed(someCall, duration);
                         }
                     }
@@ -304,7 +303,7 @@ public class NostraSettingFragment extends Fragment
                     someHandler.removeCallbacks(someCall);
                 }
 
-                return false;
+                return true;
             }
         });
 

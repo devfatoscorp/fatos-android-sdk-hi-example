@@ -45,10 +45,10 @@ public class CopyrightActivity extends AMapBaseActivity
 
         if(m_gApp.getAppSettingInfo().m_nDefaultLanguage == 0)
         {
-            if(m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.eSite_truck_cdg ||
-                    m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.eSite_auto_cdg ||
-                    m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.eSite_hi_cdg ||
-                    m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.eSite_auto_sla)
+            if(m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.eSite_hi_cdg ||
+                    m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.eSite_hi_sla)
+//            if(m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.FATOS_SITE_IS_NOSTRA ||
+//                    m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.FATOS_SITE_IS_SLA)
             {
                 m_WebView.loadUrl("file:///android_asset/setting_maphi/maphi_copyright_fatos_kor.htm");
             }
@@ -59,10 +59,10 @@ public class CopyrightActivity extends AMapBaseActivity
         }
         else
         {
-            if(m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.eSite_truck_cdg ||
-                    m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.eSite_auto_cdg ||
-                    m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.eSite_hi_cdg ||
-                    m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.eSite_auto_sla)
+            if(m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.eSite_hi_cdg ||
+                    m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.eSite_hi_sla)
+//            if(m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.FATOS_SITE_IS_NOSTRA ||
+//                    m_gApp.getRoutePathInfo().m_nServiceType == FatosBuildConfig.FATOS_SITE_IS_SLA)
             {
                 m_WebView.loadUrl("file:///android_asset/setting_maphi/maphi_copyright_fatos_eng.htm");
             }

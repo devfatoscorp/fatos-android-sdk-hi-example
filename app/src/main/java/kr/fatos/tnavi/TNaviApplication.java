@@ -4,24 +4,26 @@ import android.content.Context;
 
 import androidx.multidex.MultiDex;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import biz.fatossdk.fminterface.FMInterface;
 import biz.fatossdk.newanavi.ANaviApplication;
 
 public class TNaviApplication extends ANaviApplication
 {
     private Context m_Context;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     //==============================================================================================
     @Override
     public void onCreate()
     {
         m_Context = this;
-        FMInterface.initKey(m_Context, "fatos-sdk-key");
 
+        FMInterface.initKey(m_Context, "tjQAbwvioXOQdeFZD8HVJQjnyLkl5LlWTZbYH5uNDcA");
         super.onCreate();
 
-        //debug모드 일때는 Crashlytics 사용 안함 - 패브릭
-        //        Fabric.with(this, new Crashlytics());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     //==============================================================================================
